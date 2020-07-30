@@ -57,7 +57,7 @@
         </div>
         <div>
             <h2>Game mode</h2>
-            <form class="gmode">
+            <fieldset class="gmode">
                 <label>
                     Classic
                     <input name="diff" value="classic" type="radio" checked />
@@ -70,7 +70,7 @@
                     Knightmare
                     <input name="diff" value="knightmare" type="radio" />
                 </label>
-            </form>
+            </fieldset>
         </div>
     </div>
 </div>
@@ -380,7 +380,6 @@
             }
             //add extra pieces
             let diffScore = pieces.reduce((p, i) => p + protopieces[i.type].value, 0);
-            if (gameMode == "pacifist") playerScore += diffScore;
             if (diffScore < targetDiffScore) {
                 let spawnArr = [];
                 for (let i of protoArr) {
@@ -398,7 +397,8 @@
                 }
             }
             pieces.map(p => p.draw());
-
+            
+            if (gameMode == "pacifist") playerScore += pieces.reduce((p,i)=>p+(!i.deploymentCounter)?protopieces[i.type].value:0,0)/4;
             targetDiffScore+=(gameMode=="knightmare")?1:0.5;
             playerScore++;
             drawPlayer();
@@ -426,9 +426,9 @@
             case "pacifist":
                 document.querySelector(".rules").innerHTML = `
                     <p>Only get points for staying alive</p>
-                    <p>+2 points for every king on the board</p>
-                    <p>+3 points for every knight, bishop, rook on the board</p>
-                    <p>+5 points for every queen on the board</p>
+                    <p>+0.5 points for every (big)king on the board</p>
+                    <p>+0.7 points for every (big) knight, bishop, rook on the board</p>
+                    <p>+1.25 points for every (big) queen on the board</p>
                     `;
                 break;
             case "knightmare":
