@@ -2,13 +2,15 @@
 
 <head>
     <title>FortKnight</title>
+    <link rel="icon" href="images/knight.svg">
+    </link>
 </head>
 <h1>FortKight: Chess Battle Royale</h1>
 <div style="display:flex">
     <div class="board">
         <!-- generate board here -->
         <div class="boardModal"
-            style="position:absolute; display:grid; place-items: center center; width:100%;height:100%;z-index:1000">
+            style="position:absolute; display:grid; place-items: center center; width:100%;height:70vh;z-index:1000">
             <button onclick="resetGame()">Begin</button>
         </div>
     </div>
@@ -38,32 +40,35 @@
             <p>Click on a square to move.</p>
             <p>Pieces start small for 3 turns. Small pieces are harmless. Land on pieces to take them, but don't let
                 them land on you!</p>
-            <!--<p>To skip a turn, press space.</p>-->
+            <p>To skip a turn, click your knight.</p>
             <p>Pieces will move to take your knight if they can; or randomly otherwise</p>
+            <p>Small pieces block the movement of other pieces, but big pieces don't. However, you can land on small
+                pieces and if a big piece can't move, it dies. </p>
             <p>Pawns move in direction indicated and can take on forward diagonals.</p>
             <h3>Scoring:</h3>
-            <p>+1 point for every turn on the field</p>
-            <p>+2 points for every king taken</p>
-            <p>+3 points for every knight, bishop, rook taken</p>
-            <p>+5 points for every queen taken</p>
+            <div class="rules">
+                <p>+1 point for every turn on the field</p>
+                <p>+2 points for every king taken</p>
+                <p>+3 points for every knight, bishop, rook taken</p>
+                <p>+5 points for every queen taken</p>
+            </div>
             <h3>FAQ</h3>
             <p>yes, i know the chessboard only has 7 squares, not 8, but i wanted a centre square</p>
         </div>
-        <div style="display:none">
-            <h2>Game options</h2>
-            <form>
-                <p>Difficulty</p>
+        <div>
+            <h2>Game mode</h2>
+            <form class="gmode">
                 <label>
-                    Easy
-                    <input name="diff" value="easy" type="radio" />
+                    Classic
+                    <input name="diff" value="classic" type="radio" checked />
                 </label>
                 <label>
-                    Medium
-                    <input name="diff" value="easy" type="radio" />
+                    Pacifist
+                    <input name="diff" value="pacifist" type="radio" />
                 </label>
                 <label>
-                    Hard
-                    <input name="diff" value="easy" type="radio" />
+                    Knightmare
+                    <input name="diff" value="knightmare" type="radio" />
                 </label>
             </form>
         </div>
@@ -109,7 +114,7 @@
     }
     let playerScore = 0;
     let playerIndex = 24;
-
+    let gameMode = "classic";
     let playerImage = document.querySelector("#wknight").cloneNode();
     playerImage.style.position = "absolute";
     playerImage.style.transform = "translate(-50%,-50%)";
@@ -138,6 +143,7 @@
 
         document.querySelector(".boardModal").style.display = "none";
         drawPlayer();
+        document.querySelector(".gmode").disabled = true;
     }
 
     function Piece(type, index) {
@@ -150,8 +156,10 @@
         this.icon.style.position = "absolute";
         this.icon.style.transform = "translate(-50%,-50%)";
         this.deploymentCounter = 3;
+        this.checkAlive = () => {
+            return (playerIndex != this.index);
+        }
         this.move = () => {
-            if (playerIndex == this.index) return false;
             if (this.deploymentCounter == 0) {
                 // check if player is on me
                 // if so, return false
@@ -181,7 +189,7 @@
         }
         this.cleanup = () => {
             this.icon.remove();
-            this.moved = this.deploymentCounter!=0;
+            this.moved = this.deploymentCounter != 0;
         }
         this.draw = () => {
             drawToIndex(this.icon, this.index);
@@ -233,11 +241,27 @@
             spawnTries: 2,
             generateMoves: (index) => {
                 let possibleMoves = [];
-                for (let i = 0; i < 7; i++) {
-                    possibleMoves.push(index % 7 + i * 7);
-                    possibleMoves.push(index - index % 7 + i);
+                let left = index % 7, top = Math.floor(index / 7);
+                for (let i = 0; i < top; i++) {
+                    let d = index % 7 + (top - i - 1) * 7;
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
                 }
-                possibleMoves.filter(i => i != index);
+                for (let i = 0; i < left; i++) {
+                    let d = index - (i + 1);
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
+                }
+                for (let i = 0; i < 6 - left; i++) {
+                    d = index + (i + 1);
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
+                }
+                for (let i = 0; i < 6 - top; i++) {
+                    d = index % 7 + (top + i + 1) * 7;
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
+                }
                 return possibleMoves;
             }
         },
@@ -249,22 +273,30 @@
                 let left = index % 7, top = Math.floor(index / 7);
                 let idash = index;
                 for (let i = 0; i < top && i < left; i++) {
-                    possibleMoves.push(idash -= 8);
+                    d = idash -= 8;
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
                 }
                 idash = index;
 
                 for (let i = 0; i < 6 - top && i < 6 - left; i++) {
-                    possibleMoves.push(idash += 8);
+                    d = idash += 8;
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
                 }
                 idash = index;
 
                 for (let i = 0; i < top && i < 6 - left; i++) {
-                    possibleMoves.push(idash -= 6);
+                    d = idash -= 6;
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
                 }
                 idash = index;
 
                 for (let i = 0; i < 6 - top && i < left; i++) {
-                    possibleMoves.push(idash += 6);
+                    d = idash += 6;
+                    if (!isOccupied(d)) possibleMoves.push(d);
+                    else break;
                 }
                 return possibleMoves;
             }
@@ -274,11 +306,7 @@
             spawnTries: 1,
             generateMoves: (index) => {
                 let possibleMoves = protopieces.bishop.generateMoves(index);
-                for (let i = 0; i < 7; i++) {
-                    possibleMoves.push(index % 7 + i * 7);
-                    possibleMoves.push(index - index % 7 + i);
-                }
-                possibleMoves.filter(i => i != index);
+                possibleMoves.push(...protopieces.rook.generateMoves(index));
                 return possibleMoves;
             }
         },
@@ -303,12 +331,12 @@
     });
 
     document.querySelector(".board").addEventListener("click", (e) => {
-        console.log(e);
         let squareIndex;
         if (e.path[0].matches(".board")) return;
         for (let p of e.path) {
             if (p.matches(".board>img")) {
-                if (p == playerImage) return;
+                if (p == playerImage) squareIndex = playerIndex;
+                break;
             }
             if (p.matches(".board>div")) {
                 squareIndex = Array.from(document.querySelector(".board").children).indexOf(p);
@@ -325,7 +353,7 @@
             }
         }
         //figure out which square we're on
-        if ((squareIndex - playerIndex == -15 && playerIndex % 7 > 0 && Math.floor(playerIndex / 7) > 1) ||
+        if (squareIndex == playerIndex || (squareIndex - playerIndex == -15 && playerIndex % 7 > 0 && Math.floor(playerIndex / 7) > 1) ||
             (squareIndex - playerIndex == -13 && playerIndex % 7 < 6 && Math.floor(playerIndex / 7) > 1) ||
             (squareIndex - playerIndex == -9 && playerIndex % 7 > 1 && Math.floor(playerIndex / 7) > 0) ||
             (squareIndex - playerIndex == -5 && playerIndex % 7 < 5 && Math.floor(playerIndex / 7) > 0) ||
@@ -337,11 +365,13 @@
             playerIndex = squareIndex;
             //move pieces
             pieces.map(p => p.cleanup());
-            pieces = pieces.filter((p) => { let ok = p.move(); if (!ok) playerScore += protopieces[p.type].value; return ok });
+            pieces = pieces.filter((p) => { let ok = p.checkAlive(); if (!ok && gameMode != "pacifist") playerScore += protopieces[p.type].value; return ok });
+            pieces.map(p => p.move());
             let dead = pieces.reduce((d, pp) => d || pp.index == playerIndex && !pp.deploymentCounter, false);
             if (dead) {
                 pieces.map(p => p.draw());
                 document.querySelector("#score").innerText = playerScore;
+                document.querySelector(".gmode").disabled = false;
                 setTimeout(() => alert("You lose! Your score was " + playerScore), 200);
                 playerImage.remove();
                 document.querySelector(".boardModal").style.display = "grid";
@@ -350,6 +380,7 @@
             }
             //add extra pieces
             let diffScore = pieces.reduce((p, i) => p + protopieces[i.type].value, 0);
+            if (gameMode == "pacifist") playerScore += diffScore;
             if (diffScore < targetDiffScore) {
                 let spawnArr = [];
                 for (let i of protoArr) {
@@ -358,11 +389,17 @@
                     }
                 }
                 let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
-                pieces.push(new Piece(randomPiece, Math.floor(Math.random() * 49)));
+                if (gameMode == "knightmare") randomPiece = "knight";
+                let allowSpawnLocations = [];
+                for (let i = 0; i < 49; i++)if (!isOccupied(i)) allowSpawnLocations.push(i);
+                if (allowSpawnLocations.length) {
+                    let randomPosition = allowSpawnLocations[Math.floor(Math.random() * allowSpawnLocations.length)];
+                    pieces.push(new Piece(randomPiece, randomPosition));
+                }
             }
             pieces.map(p => p.draw());
 
-            targetDiffScore++;
+            targetDiffScore+=(gameMode=="knightmare")?1:0.5;
             playerScore++;
             drawPlayer();
         } else {
@@ -374,8 +411,33 @@
     })
 
 
-
-        //bind inputs
+    //bind inputs
+    document.querySelector(".gmode").addEventListener("input", (e) => {
+        gameMode = e.target.value;
+        switch (e.target.value) {
+            case "classic":
+                document.querySelector(".rules").innerHTML = `
+                    <p>+1 point for every turn on the field</p>
+                    <p>+2 points for every king taken</p>
+                    <p>+3 points for every knight, bishop, rook taken</p>
+                    <p>+5 points for every queen taken</p>
+                    `;
+                break;
+            case "pacifist":
+                document.querySelector(".rules").innerHTML = `
+                    <p>Only get points for staying alive</p>
+                    <p>+2 points for every king on the board</p>
+                    <p>+3 points for every knight, bishop, rook on the board</p>
+                    <p>+5 points for every queen on the board</p>
+                    `;
+                break;
+            case "knightmare":
+                document.querySelector(".rules").innerHTML = `
+                    <p>+1 point for every turn on the field</p>
+                    <p>+3 points for every knight taken</p>
+                    `;
+        }
+    })
 </script>
 
 </html>
