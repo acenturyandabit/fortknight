@@ -518,10 +518,11 @@
                 return;
             }
             Array.from(document.querySelectorAll(`.board>div`)).forEach(i => i.style.background = "");
-            if (e.path[0].matches(".board>div>img")) {
+            let path = e.path || e.composedPath();
+            if (path[0].matches(".board>div>img")) {
                 let thePiece;
                 for (let i of pieces) {
-                    if (i.icon == e.path[1]) {
+                    if (i.icon == path[1]) {
                         thePiece = i;
                         break;
                     }
@@ -536,8 +537,9 @@
         let nope = {}; // intervals for red squares
         document.querySelector(".board").addEventListener("click", (e) => {
             let squareIndex;
-            if (e.path[0].matches(".board")) return;
-            for (let p of e.path) {
+            let path = e.path || e.composedPath();
+            if (path[0].matches(".board")) return;
+            for (let p of path) {
                 if (p.matches(".board>img")) {
                     if (p == playerImage) squareIndex = playerIndex;
                     break;
@@ -673,7 +675,8 @@
             }
         })
         document.querySelector(".sidebar").addEventListener("click", (e) => {
-            for (let i of (e.path)) {
+            let path = e.path || e.composedPath();
+            for (let i of (path)) {
                 if (i.matches(".sidebar>div>p")) {
                     document.querySelectorAll(".sidebar>div").forEach(i => i.classList.remove("selected"));
                     i.parentElement.classList.add("selected");
