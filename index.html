@@ -115,6 +115,9 @@
                 </div>
             </div>
             <div>
+                <button onclick="resetGame()">Forfeit</button>
+            </div>
+            <div>
                 <!--<p>Scores and achievements</p>-->
                 <div>
                     <h2>High scores</h2>
@@ -187,6 +190,14 @@
             background-color: rgba(0, 0, 0, 0.1);
         }
 
+        .sidebar>div>button {
+            border: 1px solid black;
+            border-radius: 4px 4px 0 0;
+            padding: 2px;
+            margin: 0;
+            cursor: pointer;
+        }
+
         .sidebar>div>div {
             display: none;
             position: absolute;
@@ -214,6 +225,11 @@
 
             .sidebar>div>p {
                 padding: 4px 2px;
+            }
+
+            .sidebar>div>button {
+                padding: 4px 2px;
+                font: 16px Times New Roman;
             }
 
             .sidebar>div>div {
