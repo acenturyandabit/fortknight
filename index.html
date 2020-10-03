@@ -115,7 +115,7 @@
                 </div>
             </div>
             <div>
-                <p onclick="resetGame()">Forfeit</p>
+                <p onclick="forfeitGame()">Forfeit</p>
             </div>
             <div>
                 <!--<p>Scores and achievements</p>-->
@@ -333,6 +333,8 @@
         }
         let targetDiffScore = 3;
 
+        let gameIsPlayed = false;
+
         function resetGame() {
             //spawn the knight
             playerIndex = 24;
@@ -344,6 +346,21 @@
             document.querySelector(".boardModal").style.display = "none";
             drawPlayer();
             document.querySelector(".gmode").disabled = true;
+            gameIsPlayed = true;
+        }
+
+        function forfeitGame()
+        {
+            if(gameIsPlayed)
+            {
+                document.querySelector(".boardModal").style.display = "grid";
+                document.querySelector(".loss_modal").style.display = "block";
+                document.querySelector(".loss_modal span").innerText = playerScore + " You have forfeited the game!" ;
+                updateHighscores(playerScore, gameMode);
+                document.querySelector(".gmode").disabled = false;
+                gameIsPlayed = false;
+            }
+
         }
 
         let occupiedSquares = [];
@@ -607,6 +624,7 @@
                     updateHighscores(playerScore, gameMode);
                     playerImage.remove();
                     document.querySelector(".boardModal").style.display = "grid";
+                    gameIsPlayed = false;
                     return;
                     // show the button
                 }
