@@ -84,6 +84,7 @@
                 <p>Game mode</p>
                 <div>
                     <h2>Game mode</h2>
+                    <span id="gmode-help" class="hidden">You must forfeit in order to change the game mode</span>
                     <fieldset class="gmode">
                         <label>
                             <input name="diff" value="classic" type="radio" checked />
@@ -207,6 +208,10 @@
 
         .sidebar>div.selected>div {
             display: block;
+        }
+
+        .hidden {
+            visibility: hidden;
         }
 
         @media screen and (max-aspect-ratio: 4/3) {
@@ -347,6 +352,7 @@
             drawPlayer();
             document.querySelector(".gmode").disabled = true;
             gameIsPlayed = true;
+            document.querySelector("#gmode-help").classList = "";
         }
 
         function forfeitGame()
@@ -359,6 +365,7 @@
                 //updateHighscores(playerScore, gameMode);
                 document.querySelector(".gmode").disabled = false;
                 gameIsPlayed = false;
+                document.querySelector("#gmode-help").classList = "hidden";
             }
 
         }
@@ -625,6 +632,7 @@
                     playerImage.remove();
                     document.querySelector(".boardModal").style.display = "grid";
                     gameIsPlayed = false;
+                    document.querySelector("#gmode-help").classList = "hidden";
                     return;
                     // show the button
                 }
