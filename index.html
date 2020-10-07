@@ -119,13 +119,13 @@
                 <p onclick="forfeitGame()">Forfeit</p>
             </div>
             <div>
-                <!--<p>Scores and achievements</p>-->
+                <p>Scores and achievements</p>
                 <div>
                     <h2>High scores</h2>
                     <div class="allhscores">
                         <!--
 
-
+                            
                         -->
                     </div>
                     <h2>High scores, by game mode</h2>
@@ -278,19 +278,19 @@
         }
         highscoreDict = highscoreDict || {
             allScores: [
-                /*{gameMode: "mode", score: 1111}*/
+                //{gameMode: "mode", score: 1111}
             ],
             modeHighest: {
                 // auto populated below
-                // "gamemode":score
+                //"gamemode":score
             },
             achievementProgress: [
                 {
                     achievementName: "",
                     achievementDescrption: "",
                     achievementStatus: ""
-                }
-                //"achievementname": "achievementprogress"
+                },
+                //{"achievementname": "achievementprogress"}
             ]
         };
         for (let i of Array.from(document.querySelectorAll("input[name='diff']"))) {
