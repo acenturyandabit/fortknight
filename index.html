@@ -424,7 +424,7 @@
             pieces.forEach(i => { i.cleanup(); i.icon.remove(); });
             pieces = [];
             targetDiffScore = 3;
-
+            playerLazyMoves = 0;
             document.querySelector(".boardModal").style.display = "none";
             drawPlayer();
             document.querySelector(".gmode").disabled = true;
@@ -684,7 +684,7 @@
                 (squareIndex - playerIndex == 15 && playerIndex % 7 < 6 && Math.floor(playerIndex / 7) < 5)) {
                 //its a valid move
                 //check if the player actually moved
-                if (playerIndex === squareIndex) playerLazyMoves++;
+                (playerIndex === squareIndex) ? playerLazyMoves++ : playerLazyMoves = 0;
 
                 playerIndex = squareIndex;
                 //move pieces
