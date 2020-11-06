@@ -8,11 +8,42 @@ const achievementList = {
         achievementName: 'Crowded',
         achievementDescrption: 'Have 10 pieces on the board at the same time',
         achievementStatus: 'Locked'
+    },
+    "10slay": {
+        achievementName: '10 Slayer',
+        achievementDescrption: 'Kill 10 opposing pieces ',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 10
+    },
+    "100slay": {
+        achievementName: '100 Slayer',
+        achievementDescrption: 'Kill 100 opposing pieces',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 100
+    },
+    "500slay": {
+        achievementName: '500 Slayer',
+        achievementDescrption: 'Kill 500 opposing pieces',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 500
+    },
+    "1000steps": {
+        achievementName: '1000 Steps',
+        achievementDescrption: 'Walk a 1000 steps',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 1000
     }
+
 }
 
 let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
+let totalKills = 0;
+let playerTotalSteps = 0;
 
 function clearAchievementProgressAfterReset() {
     // When the game resets, this function is called
@@ -41,13 +72,60 @@ function checkAchievements() {
         achievementUnlock(highscoreDict.achievementProgress['crowded'].achievementName,
             highscoreDict.achievementProgress['crowded'].achievementDescrption);
     }
+
+    //slayer achievementStatus
+    if (totalKills === 10 && highscoreDict.achievementProgress['10slay'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['10slay'].achievementStatus = 'Unlocked';
+        highscoreDict.achievementProgress['10slay'].achievementProgress = totalKills;
+        achievementUnlock(highscoreDict.achievementProgress['10slay'].achievementName,
+            highscoreDict.achievementProgress['10slay'].achievementDescrption);
+    }
+
+    if (highscoreDict.achievementProgress['10slay'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['10slay'].achievementProgress = totalKills;
+    }
+
+    if (totalKills === 100 && highscoreDict.achievementProgress['100slay'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['100slay'].achievementStatus = 'Unlocked';
+        highscoreDict.achievementProgress['100slay'].achievementProgress = totalKills;
+        achievementUnlock(highscoreDict.achievementProgress['100slay'].achievementName,
+            highscoreDict.achievementProgress['100slay'].achievementDescrption);
+    }
+
+    if (highscoreDict.achievementProgress['100slay'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['100slay'].achievementProgress = totalKills;
+    }
+
+    if (totalKills === 500 && highscoreDict.achievementProgress['500slay'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['500slay'].achievementStatus = 'Unlocked';
+        highscoreDict.achievementProgress['500slay'].achievementProgress = totalKills;
+        achievementUnlock(highscoreDict.achievementProgress['500slay'].achievementName,
+            highscoreDict.achievementProgress['500slay'].achievementDescrption);
+    }
+
+    if (highscoreDict.achievementProgress['500slay'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['500slay'].achievementProgress = totalKills;
+    }
+
+    if (playerTotalSteps === 1000 && highscoreDict.achievementProgress['1000steps'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['1000steps'].achievementStatus = 'Unlocked';
+        highscoreDict.achievementProgress['1000steps'].achievementProgress = playerTotalSteps;
+        achievementUnlock(highscoreDict.achievementProgress['1000steps'].achievementName,
+            highscoreDict.achievementProgress['1000steps'].achievementDescrption);
+    }
+
+    if (highscoreDict.achievementProgress['1000steps'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['1000steps'].achievementProgress = playerTotalSteps;
+    }
+
+    updateAchievements();
 }
 
 function achievementUnlock(name, descr) {
     document.querySelector(".ach_modal").style.display = "grid";
     document.querySelector("#ach_modal_name").innerText = name;
     document.querySelector("#ach_modal_descr").innerText = descr;
-    renderHighscores();
+    updateAchievements();
 }
 
 function dismissModal() {
