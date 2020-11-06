@@ -28,8 +28,4 @@ credits to wikimedia commons for chess pieces
     - knight moved into way of tower
 - own high score
     - add new highscore message when highscore is reached
-- add to homepage
-- ~~make forfeit button~~
-
-- promote?
-- ads?
+    - global highscore
