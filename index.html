@@ -21,6 +21,18 @@
     <h1 style="text-align: center;">FortKight: Chess Battle Royale</h1>
     <div class="body-container">
         <div class="board">
+
+            <div class="ach_modal"
+                style="position:absolute; display:none; place-items: center center; width:100%;height:100%;z-index:1000">
+                <div style="text-align: center; display:block; padding: 20px 80px; background: rgba(0,0,0,0.7); color:white"
+                    class="ach_modal_inner">
+                    <h3>Achievement Unlocked!</h3>
+                    <p id="ach_modal_name"><span></span></p>
+                    <p id="ach_modal_descr"><span></span></p>
+                </div>
+                <button onclick="dismissModal()">Dismiss</button>
+            </div>
+
             <!-- generate board here -->
             <div class="boardModal"
                 style="position:absolute; display:grid; place-items: center center; width:100%;height:100%;z-index:1000">
@@ -116,10 +128,7 @@
                 </div>
             </div>
             <div>
-                <p onclick="forfeitGame()">Forfeit</p>
-            </div>
-            <div>
-                <!--<p>Scores and achievements</p>-->
+                <p>Scores and achievements</p>
                 <div>
                     <h2>High scores</h2>
                     <div class="allhscores">
@@ -142,6 +151,18 @@
 
                         -->
                     </div>
+                </div>
+            </div>
+            <div>
+                <p onclick="forfeitGame()">Forfeit</p>
+            </div>
+            <div class='debugTab'>
+                <p onclick="showDebug()">DEBUG</p>
+                <div>
+                    <h2>Debug Informations</h2>
+                    <button id="reset-button">ResetLocalStorage</button>
+                    <button id="test-button">TestAch</button>
+                    <pre class="debug"></pre>
                 </div>
             </div>
         </div>
@@ -254,11 +275,26 @@
     <script>
         let gameMode = "classic";
 
+        const achievementList = [
+            {
+                achievementName: 'Lazy',
+                achievementDescrption: "Don't move for 5 consecutive turns",
+                achievementStatus: 'Locked'
+            },
+            {
+                achievementName: 'Crowded',
+                achievementDescrption: 'Have 10 pieces on the board at the same time',
+                achievementStatus: 'Locked'
+            },
+        ]
+
+        console.log(achievementList);
+
         function renderHighscores() {
             document.querySelector("#hiscore").innerText = highscoreDict.modeHighest[gameMode];
             document.querySelector(".ghscores").innerHTML = Object.entries(highscoreDict.modeHighest).map(i => `<p>${i[0]}:${i[1]}</p>`).join("");
             document.querySelector(".allhscores").innerHTML = highscoreDict.allScores.map(i => `<p>${i.gameMode}:${i.score}, on ${(new Date(i.date)).toLocaleDateString()}</p>`).join("");
-            document.querySelector(".achv").innerHTML = highscoreDict.achievementProgress.map(i => `<p>${i.achievementName}<br>${i.achievementDescrption}<br>${i.achievementStatus}<br></p>`).join("");
+            document.querySelector(".achv").innerHTML = highscoreDict.achievementProgress.map(i => `<p><b>${i.achievementName}</b><br>${i.achievementDescrption}<br>${i.achievementStatus}<br></p>`).join("");
 
         }
         function updateHighscores(playerscore, gamemode) {
@@ -268,8 +304,32 @@
         }
 
         function checkAchievements() {
+            //lazy achievement
+            if (playerLazyMoves >= 5 && highscoreDict.achievementProgress[0].achievementStatus === 'Locked') {
+                highscoreDict.achievementProgress[0].achievementStatus = 'Unlocked';
+                achievementUnlock(highscoreDict.achievementProgress[0].achievementName,
+                    highscoreDict.achievementProgress[0].achievementDescrption);
+            }
 
+            //crowded achievement
+            if (pieces.length >= 10 && highscoreDict.achievementProgress[1].achievementStatus === 'Locked') {
+                highscoreDict.achievementProgress[1].achievementStatus = 'Unlocked';
+                achievementUnlock(highscoreDict.achievementProgress[1].achievementName,
+                    highscoreDict.achievementProgress[1].achievementDescrption);
+            }
         }
+
+        function achievementUnlock(name, descr) {
+            document.querySelector(".ach_modal").style.display = "grid";
+            document.querySelector("#ach_modal_name").innerText = name;
+            document.querySelector("#ach_modal_descr").innerText = descr;
+            renderHighscores();
+        }
+
+        function dismissModal() {
+            document.querySelector(".ach_modal").style.display = "none";
+        }
+
         let highscoreDict;
         try {
             highscoreDict = JSON.parse(localStorage.getItem("fortknightHS"));
@@ -284,21 +344,37 @@
                 // auto populated below
                 // "gamemode":score
             },
-            achievementProgress: [
-                {
-                    achievementName: "",
-                    achievementDescrption: "",
-                    achievementStatus: ""
-                }
-                //"achievementname": "achievementprogress"
-            ]
+            achievementProgress: achievementList
         };
         for (let i of Array.from(document.querySelectorAll("input[name='diff']"))) {
             if (!highscoreDict.modeHighest[i.value]) highscoreDict.modeHighest[i.value] = 0;
         }
+
+        function showDebug() {
+            document.querySelector(".debug").textContent = JSON.stringify(JSON.parse(localStorage.getItem("fortknightHS")), undefined, 2)
+        }
+
+        const resetButton = document.querySelector('#reset-button')
+
+        resetButton.addEventListener('click', () => {
+            localStorage.removeItem("fortknightHS");
+            location.reload();
+        })
+
+        const testAchButton = document.querySelector('#test-button')
+
+        testAchButton.addEventListener('click', () => {
+            achievementUnlock(highscoreDict.achievementProgress[0].achievementName,
+                highscoreDict.achievementProgress[0].achievementDescrption);
+        })
+
         renderHighscores();
     </script>
     <script>
+        const debug = new URL(window.location.href).searchParams.get("p");
+        if (debug !== 'debug') {
+            document.querySelector('.debugTab').style.display = 'none';
+        }
 
         let style = document.createElement("style");
         document.body.appendChild(style);
@@ -321,6 +397,7 @@
         let playerScore = 0;
         let playerIndex = 24;
         let playerImage = document.querySelector("#wknight").cloneNode();
+        let playerLazyMoves = 0;
         playerImage.style.position = "absolute";
         playerImage.style.transform = "translate(-50%,-50%)";
 
@@ -347,7 +424,7 @@
             pieces.forEach(i => { i.cleanup(); i.icon.remove(); });
             pieces = [];
             targetDiffScore = 3;
-
+            playerLazyMoves = 0;
             document.querySelector(".boardModal").style.display = "none";
             drawPlayer();
             document.querySelector(".gmode").disabled = true;
@@ -355,13 +432,11 @@
             document.querySelector("#gmode-help").classList = "";
         }
 
-        function forfeitGame()
-        {
-            if(gameIsPlayed)
-            {
+        function forfeitGame() {
+            if (gameIsPlayed) {
                 document.querySelector(".boardModal").style.display = "grid";
                 document.querySelector(".loss_modal").style.display = "block";
-                document.querySelector(".loss_modal span").innerText = playerScore + " You have forfeited the game!" ;
+                document.querySelector(".loss_modal span").innerText = playerScore + " You have forfeited the game!";
                 //updateHighscores(playerScore, gameMode);
                 document.querySelector(".gmode").disabled = false;
                 gameIsPlayed = false;
@@ -608,6 +683,9 @@
                 (squareIndex - playerIndex == 13 && playerIndex % 7 > 0 && Math.floor(playerIndex / 7) < 5) ||
                 (squareIndex - playerIndex == 15 && playerIndex % 7 < 6 && Math.floor(playerIndex / 7) < 5)) {
                 //its a valid move
+                //check if the player actually moved
+                (playerIndex === squareIndex) ? playerLazyMoves++ : playerLazyMoves = 0;
+
                 playerIndex = squareIndex;
                 //move pieces
                 pieces.map(p => p.cleanup());
@@ -671,11 +749,13 @@
                 checkAchievements();
                 drawPlayer();
             } else {
-                //flash the attempted square
-                let element = document.querySelector(`.board>div:nth-child(${squareIndex + 1})`);
-                element.style.background = "red";
-                if (nope[squareIndex]) clearTimeout(nope[squareIndex]);
-                nope[squareIndex] = setTimeout(() => { element.style.background = "" }, 1000);
+                if (gameIsPlayed) {
+                    //flash the attempted square
+                    let element = document.querySelector(`.board>div:nth-child(${squareIndex + 1})`);
+                    element.style.background = "red";
+                    if (nope[squareIndex]) clearTimeout(nope[squareIndex]);
+                    nope[squareIndex] = setTimeout(() => { element.style.background = "" }, 1000);
+                }
             }
         })
 
@@ -719,7 +799,7 @@
         document.querySelector(".sidebar").addEventListener("click", (e) => {
             let path = e.path || e.composedPath();
             for (let i of (path)) {
-                if (i.matches(".sidebar>div>p") && i.innerText!="Forfeit") {
+                if (i.matches(".sidebar>div>p") && i.innerText != "Forfeit") {
                     document.querySelectorAll(".sidebar>div").forEach(i => i.classList.remove("selected"));
                     i.parentElement.classList.add("selected");
                 }
