@@ -11,8 +11,8 @@ Try and beat my high score of 50! Then, pick an achievement to TODO below!
 ## todo
 - achievements
     - progress achievements
-        - journey of 1000 steps [issued]
-        - x-slayer [issued]
+        - journey of 1000 steps [DONE]
+        - x-slayer [DONE]
     - board achievements
         - n of a type on board at same time
     - boxed-in achievements
@@ -21,8 +21,9 @@ Try and beat my high score of 50! Then, pick an achievement to TODO below!
     - "they're watching": knight is endangered n consecutive times
     - "sniped": get killed by a piece from 7 squares away
     - "cradle to grave": kill n pieces immediately after they become big 
-- own high score
+- UX shenanigans
     - add new highscore message when highscore is reached
+- requires external server (I'm happy to provide a nodejs server - just give me code)
     - global highscore
     - global 'achievement get' counts
 
