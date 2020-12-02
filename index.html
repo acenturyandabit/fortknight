@@ -119,6 +119,11 @@
                             Strategist (pieces have move order)
                         </label>
                         <br>
+                        <label>
+                            <input name="diff" value="drunk" type="radio" />
+                            Drunk pieces (pieces always move randomly)
+                        </label>
+                        <br>
                     </fieldset>
                     <div class="rules">
                         <p>+1 point for every turn on the field</p>
@@ -480,8 +485,8 @@
                     let possibleMoves = protopieces[this.type].generateMoves(this.index);
                     possibleMoves = possibleMoves.filter(i => !isOccupied(i));
                     if (!possibleMoves.length) return false; // die
-                    // check if I can hit player
-                    if (possibleMoves.includes(playerIndex)) {
+                    // check if I can hit player and not drunk
+                    if (possibleMoves.includes(playerIndex) && gameMode != "drunk") {
                         this.index = playerIndex;
                         // if i can hit player, hit player
                     } else {
