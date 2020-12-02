@@ -25,6 +25,8 @@ Try and beat my high score of 50! Then, pick an achievement to TODO below!
     - add new highscore message when highscore is reached
     - global highscore
     - global 'achievement get' counts
+- promotion and advertisment
+    - talk to rebus squad about becoming step 2
 
 
 ## Build tools
