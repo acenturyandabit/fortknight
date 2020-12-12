@@ -36,6 +36,13 @@ const achievementList = {
         achievementStatus: 'Locked',
         achievementProgress: 0,
         achievementGoal: 1000
+    },
+    "threatened": {
+        achievementName: 'Living Dangerously',
+        achievementDescrption: "End your turn on a threatened square 5 times in a row.",
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 5
     }
 
 }
@@ -44,6 +51,7 @@ let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
 let totalKills = 0;
 let playerTotalSteps = 0;
+let playerThreatenedMoves = 0;
 
 function clearAchievementProgressAfterReset() {
     // When the game resets, this function is called
@@ -118,6 +126,24 @@ function checkAchievements() {
         highscoreDict.achievementProgress['1000steps'].achievementProgress = playerTotalSteps;
     }
 
+    //test for is square safe
+    if (isSquareSafe(playerIndex, pieces) == false) {
+        playerThreatenedMoves++;
+    } else {
+        playerThreatenedMoves = 0;
+    };
+
+    if (highscoreDict.achievementProgress['threatened'].achievementStatus == 'Locked') {
+        highscoreDict.achievementProgress['threatened'].achievementProgress = playerThreatenedMoves;
+    }
+
+    if (playerThreatenedMoves === 5 && highscoreDict.achievementProgress['threatened'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['threatened'].achievementStatus = 'Unlocked';
+        highscoreDict.achievementProgress['threatened'].achievementProgress = totalKills;
+        achievementUnlock(highscoreDict.achievementProgress['threatened'].achievementName,
+            highscoreDict.achievementProgress['threatened'].achievementDescrption);
+    }
+
     updateAchievements();
 }
 
@@ -125,23 +151,23 @@ function achievementUnlock(name, descr) {
     document.querySelector(".ach_modal").style.visibility = "visible";
     document.querySelector("#ach_modal_name").innerText = name;
     document.querySelector("#ach_modal_descr").innerText = descr;
-   
+
     updateAchievements();
     fade(document.querySelector(".ach_modal"));
-    setTimeout(function(){ document.querySelector(".ach_modal").style.visibility = "hidden"; }, 2100);
-    
+    setTimeout(function() { document.querySelector(".ach_modal").style.visibility = "hidden"; }, 2100);
+
 }
 
 function fade(element) {
-    var op = 1;  // initial opacity
-    var timer = setInterval(function () {
-        if (op <= 0.1){
+    var op = 1; // initial opacity
+    var timer = setInterval(function() {
+        if (op <= 0.1) {
             clearInterval(timer);
         }
         element.style.opacity = op;
         element.style.filter = 'alpha(opacity=' + op * 100 + ")";
         op -= op * 0.05;
-        
+
     }, 200);
 }
 
