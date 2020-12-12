@@ -44,7 +44,7 @@
                     <h1>You lost :(</h1>
                     <p>Your score: <span></span></p>
                 </div>
-                <button onclick="resetGame()">Begin</button>
+                <button onclick="resetGame(); arcadeModeCall();">Begin</button>
             </div>
         </div>
         <div style="display:none">
@@ -124,6 +124,10 @@
                             Drunk pieces (pieces always move randomly)
                         </label>
                         <br>
+                        <label>
+                            <input name="diff" value="arcade" type="radio" />
+                            Arcade (pieces move based on a timer)
+                        </label>
                     </fieldset>
                     <div class="rules">
                         <p>+1 point for every turn on the field</p>
@@ -788,10 +792,18 @@
                 (squareIndex - playerIndex == 13 && playerIndex % 7 > 0 && Math.floor(playerIndex / 7) < 5) ||
                 (squareIndex - playerIndex == 15 && playerIndex % 7 < 6 && Math.floor(playerIndex / 7) < 5)) {
                 //its a valid move
+
+                // is square safe? 
+                console.log(pieces);
+                //console.log(pieces.map((p) => p.canHitPlayer()));
+
+
                 let killed = false;
                 playerIndex = squareIndex;
                 //move pieces
-                pieces.map(p => p.cleanup());
+                if (gameMode != "arcade") {
+                    pieces.map(p => p.cleanup());
+                }
                 occupiedSquares = []; // reset so that pieces can take you if you take pieces
                 pieces = pieces.filter((p) => {
                     let ok = p.checkAlive();
@@ -807,9 +819,11 @@
 
                 //test for is square safe
                 checkNextMoveSafety(pieces, playerIndex);
-                
-                
-                pieces.map((p) => p.move());
+                if (gameMode != "arcade") {
+                    pieces.map((p) => p.move());
+                }
+
+
                 let playerIsDead = pieces.reduce((d, pp) => d || pp.index == playerIndex && !pp.deploymentCounter, false);
                 if (playerIsDead) {
                     pieces.map(p => p.draw());
@@ -839,6 +853,7 @@
                             spawnArr.push(i[0]);
                         }
                     }
+                    if (gameMode != "arcade") {
                     let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
                     if (gameMode == "knightmare") randomPiece = "knight";
                     let allowSpawnLocations = [];
@@ -849,6 +864,7 @@
                         pieces.push(new Piece(randomPiece, randomPosition));
                     }
                 }
+            }
                 occupiedSquares = [];
                 pieces.map(p => p.checkAlive()); // repopulate occupied squares
                 if (gameMode == "strategist") {
@@ -875,7 +891,84 @@
                 }
             }
         })
+        function arcadeModeExec() {
 
+            //figure out which square we're on
+            
+               let killed = false;
+               
+                //move pieces
+                
+                pieces.map(p => p.cleanup());
+                
+                occupiedSquares = []; // reset so that pieces can take you if you take pieces
+                pieces = pieces.filter((p) => {
+                    let ok = p.checkAlive();
+                    if (!ok) {
+                        totalKills++;
+                        killed = true;
+                        if (gameMode != "pacifist") playerScore += protopieces[p.type].value;
+                        p.icon.remove();
+                    }
+                    return ok
+                });
+                pieces.map((p) => p.move());
+            // repopulate occupied squares so we dont spawn on occupied squares
+                //add extra pieces
+                let playerIsDead = pieces.reduce((d, pp) => d || pp.index == playerIndex && !pp.deploymentCounter, false);
+                if (playerIsDead) {
+                    pieces.map(p => p.draw());
+                    //i deduct a kill when i get killed myself to not have both loss and achievements pop
+                    if (killed) totalKills--
+                    document.querySelector("#score").innerText = playerScore;
+                    document.querySelector(".gmode").disabled = false;
+                    document.querySelector(".loss_modal").style.display = "block";
+                    document.querySelector(".loss_modal span").innerText = playerScore;
+                    updateHighscores(playerScore, gameMode);
+                    playerImage.remove();
+                    document.querySelector(".boardModal").style.display = "grid";
+                    gameIsPlayed = false;
+                    document.querySelector("#gmode-help").classList = "hidden";
+                    return;
+                    // show the button
+                }
+                pieces.map(p => p.checkAlive()); 
+                let diffScore = pieces.reduce((p, i) => p + protopieces[i.type].value, 0);
+                if (diffScore < targetDiffScore) {
+                    let spawnArr = [];
+                    for (let i of protoArr) {
+                        for (let j = 0; j < i[1].spawnTries; j++) {
+                            spawnArr.push(i[0]);
+                        }
+                    }
+                    
+                    let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
+                    let allowSpawnLocations = [];
+                    for (let i = 0; i < 49; i++)
+                        if (!isOccupied(i)) allowSpawnLocations.push(i);
+                    if (allowSpawnLocations.length) {
+                        let randomPosition = allowSpawnLocations[Math.floor(Math.random() * allowSpawnLocations.length)];
+                        pieces.push(new Piece(randomPiece, randomPosition));
+                    }
+                }
+            
+             // repopulate occupied squares
+                pieces.map(p => p.draw());
+                
+
+                targetDiffScore += 0.5;
+                playerScore++;
+                checkAchievements();
+                drawPlayer();
+            
+            
+            setTimeout(arcadeModeExec, 2500);
+}
+        function arcadeModeCall() {
+            if (gameMode == "arcade") {
+            arcadeModeExec();
+        }
+        }
         //bind inputs
         document.querySelector(".gmode").addEventListener("input", (e) => {
             gameMode = e.target.value;
@@ -911,6 +1004,14 @@
                         <p>+1 point for every turn on the field</p>
                         <p>+3 points for every knight taken</p>
                         `);
+                case "arcade":
+                    document.querySelectorAll(".rules").forEach(i => i.innerHTML = `
+                    <p>+1 point for every 2.5 seconds on the field (the timer for the pieces moving)</p>
+                    <p>+2 points for every king taken</p>
+                    <p>+3 points for every knight, bishop, rook taken</p>
+                    <p>+5 points for every queen taken</p>
+                    `);
+                    break;
             }
         })
         document.querySelector(".sidebar").addEventListener("click", (e) => {
@@ -922,8 +1023,8 @@
                 }
             }
         })
-
-        
+    
+    
     </script>
 </body>
 
