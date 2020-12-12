@@ -302,11 +302,35 @@
             document.querySelector("#hiscore").innerText = highscoreDict.modeHighest[gameMode];
             document.querySelector(".ghscores").innerHTML = Object.entries(highscoreDict.modeHighest).map(i => `<p>${i[0]}:${i[1]}</p>`).join("");
             document.querySelector(".allhscores").innerHTML = highscoreDict.allScores.map(i => `<p>${i.gameMode}:${i.score}, on ${(new Date(i.date)).toLocaleDateString()}</p>`).join("");
-            document.querySelector(".achv").innerHTML = Object.values(highscoreDict.achievementProgress).map(i =>
-                `<p><b>${i.achievementName}</b><br>` +
+            //sort the achievements by percentage
+            let achSortable = [];
+            for (achievement in highscoreDict.achievementProgress) {
+                let ach = highscoreDict.achievementProgress[achievement];
+                let achievementPercent;
+                if (ach.hasOwnProperty('achievementProgress') && ach.hasOwnProperty('achievementGoal')) {
+                    achievementPercent= ach.achievementProgress / ach.achievementGoal;
+                }
+                else {
+                    /*if just an achievement that needs to be unlocked, set the default to 100% 
+                    to make it stay at the top of the achievement list*/
+                    achievementPercent = 100;
+                }
+                highscoreDict.achievementProgress[achievement].completionPercent = achievementPercent;
+                highscoreDict.achievementProgress[achievement].achName = achievement;
+                achSortable.push(highscoreDict.achievementProgress[achievement]);
+            }
+
+            achSortable.sort(function(ach1, ach2) {
+                return ach2.completionPercent-ach1.completionPercent;
+            });
+            console.log(achSortable);
+
+
+            document.querySelector(".achv").innerHTML = (achSortable).map(i =>
+                `<p><b>${i.achName}</b><br>` +
                 `${i.achievementDescrption}<br>` +
                 `${i.achievementStatus}<br>` +
-                `${i.achievementProgress !== undefined ? `<div class="progressbar"><div style = "width: ${(i.achievementProgress / i.achievementGoal) * 100}%" !important"> ` +
+                `${i.achievementProgress !== undefined ? `<div class="progressbar"><div style = "width: ${(i.completionPercent) * 100}%" !important"> ` +
                     `</div></div></p>` : ''}`
             ).join("");
 
