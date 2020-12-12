@@ -17,21 +17,21 @@ const achievementList = {
         achievementGoal: 10
     },
     "100slay": {
-        achievementName: '100 Slayer',
+        achievementName: 'Centurion',
         achievementDescrption: 'Kill 100 opposing pieces',
         achievementStatus: 'Locked',
         achievementProgress: 0,
         achievementGoal: 100
     },
     "500slay": {
-        achievementName: '500 Slayer',
+        achievementName: 'Mountains of Ivory',
         achievementDescrption: 'Kill 500 opposing pieces',
         achievementStatus: 'Locked',
         achievementProgress: 0,
         achievementGoal: 500
     },
     "1000steps": {
-        achievementName: '1000 Steps',
+        achievementName: 'Journey of 1000 Steps',
         achievementDescrption: 'Walk a 1000 steps',
         achievementStatus: 'Locked',
         achievementProgress: 0,
