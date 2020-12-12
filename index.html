@@ -480,6 +480,31 @@
             }
 
         }
+        
+        function getPlayerNextMoves(playerIndex1)  {
+            let playerNextMoves = protopieces["knight"].generateMoves(playerIndex1);
+            return playerNextMoves;
+        }
+
+        function isSquareSafe(move, allPieces) {
+           for (p of allPieces) {
+               if (p.canHitSquare(move)) {
+                   return false;
+               }
+           }
+           return true;
+        }
+        //a testing function for isSquareSafe
+        function checkNextMoveSafety(allPieces, playerIndex2) {
+            moves = getPlayerNextMoves(playerIndex2);
+            //Add the move that the player might stay in current place
+            moves.push(playerIndex2);
+            for (move of moves) {
+                let safety = isSquareSafe(move, allPieces);
+            }
+        }
+
+        
 
         let occupiedSquares = [];
 
@@ -527,6 +552,29 @@
                     return true;
                 }
             }
+            
+            // Part of is square safe
+            this.canHitSquare = (SquareIndex) => {
+                console.log("piece deployment counter", this.deploymentCounter);
+                if (this.deploymentCounter <= 1) {
+                    // check if player is on me
+                    // if so, return false because square is safe as can continue moving
+                    // else
+                    // generate possible moves
+                    let possibleMoves = protopieces[this.type].generateMoves(this.index);
+                    possibleMoves = possibleMoves.filter(i => !isOccupied(i));
+                    if (!possibleMoves.length) return false; // die
+                    // check if I can hit the specified square
+                    if (possibleMoves.includes(SquareIndex) && gameMode != "drunk") {
+                        return true; 
+                    } else {
+                        return false; 
+                    }
+                    }
+                else {
+                    return false; 
+                }
+            }
             this.cleanup = () => {
                 //this.icon.remove();
                 this.moved = this.deploymentCounter != 0;
@@ -553,13 +601,23 @@
                 spawnTries: 5,
                 generateMoves: (index) => {
                     let possibleMoves = [];
+                    /*Up two over one left*/
                     if (index % 7 > 0 && Math.floor(index / 7) > 1) possibleMoves.push(-15);
+                    /*Up two over one right */
                     if (index % 7 < 6 && Math.floor(index / 7) > 1) possibleMoves.push(-13);
+
+                    /*Left two up one*/
                     if (index % 7 > 1 && Math.floor(index / 7) > 0) possibleMoves.push(-9);
+                    /*Right two up one*/
                     if (index % 7 < 5 && Math.floor(index / 7) > 0) possibleMoves.push(-5);
+
+                    /*Right two down one*/
                     if (index % 7 > 1 && Math.floor(index / 7) < 6) possibleMoves.push(5);
+                    /*Left two down one*/
                     if (index % 7 < 5 && Math.floor(index / 7) < 6) possibleMoves.push(9);
+                    /*Down two over one right */
                     if (index % 7 > 0 && Math.floor(index / 7) < 5) possibleMoves.push(13);
+                    /*Down two over one left*/
                     if (index % 7 < 6 && Math.floor(index / 7) < 5) possibleMoves.push(15);
                     possibleMoves = possibleMoves.map(i => i + index);
                     return possibleMoves;
@@ -691,8 +749,15 @@
         document.querySelector(".board").addEventListener("click", (e) => {
             let squareIndex;
             let path = e.path || e.composedPath();
+            
+            //console.log(path); 
+
             if (path[0].matches(".board")) return;
             for (let p of path) {
+
+                //console.log(p);
+
+
                 if (p.matches(".board>img")) {
                     if (p == playerImage) squareIndex = playerIndex;
                     break;
@@ -711,6 +776,8 @@
                     break;
                 }
             }
+
+            
             //figure out which square we're on
             if (squareIndex == playerIndex || (squareIndex - playerIndex == -15 && playerIndex % 7 > 0 && Math.floor(playerIndex / 7) > 1) ||
                 (squareIndex - playerIndex == -13 && playerIndex % 7 < 6 && Math.floor(playerIndex / 7) > 1) ||
@@ -736,6 +803,12 @@
                     }
                     return ok
                 });
+                
+
+                //test for is square safe
+                checkNextMoveSafety(pieces, playerIndex);
+                
+                
                 pieces.map((p) => p.move());
                 let playerIsDead = pieces.reduce((d, pp) => d || pp.index == playerIndex && !pp.deploymentCounter, false);
                 if (playerIsDead) {
@@ -849,6 +922,8 @@
                 }
             }
         })
+
+        
     </script>
 </body>
 
