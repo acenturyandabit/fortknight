@@ -122,12 +122,29 @@ function checkAchievements() {
 }
 
 function achievementUnlock(name, descr) {
-    document.querySelector(".ach_modal").style.display = "grid";
+    document.querySelector(".ach_modal").style.visibility = "visible";
     document.querySelector("#ach_modal_name").innerText = name;
     document.querySelector("#ach_modal_descr").innerText = descr;
+   
     updateAchievements();
+    fade(document.querySelector(".ach_modal"));
+    setTimeout(function(){ document.querySelector(".ach_modal").style.visibility = "hidden"; }, 2100);
+    
 }
 
-function dismissModal() {
-    document.querySelector(".ach_modal").style.display = "none";
+function fade(element) {
+    var op = 1;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.05;
+        
+    }, 200);
 }
+
+/*function dismissModal() {
+    document.querySelector(".ach_modal").style.display = "none";
+}*/
