@@ -38,6 +38,13 @@ const achievementList = {
         achievementStatus: 'Locked',
         achievementProgress: 0,
         achievementGoal: 1000
+    },
+    "threatened": {
+        achievementName: 'Living Dangerously',
+        achievementDescrption: "End your turn on a threatened square 5 times in a row.",
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 5
     }
 
 }
@@ -46,6 +53,7 @@ let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
 let totalKills = 0;
 let playerTotalSteps = 0;
+let playerThreatenedMoves = 0;
 
 function clearAchievementProgressAfterReset() {
     // When the game resets, this function is called
@@ -124,6 +132,24 @@ function checkAchievements() {
 
     if (highscoreDict.achievementProgress['1000steps'].achievementStatus === 'Locked') {
         highscoreDict.achievementProgress['1000steps'].achievementProgress = playerTotalSteps;
+    }
+
+    //test for is square safe
+    if (isSquareSafe(playerIndex, pieces) == false) {
+        playerThreatenedMoves++;
+    } else {
+        playerThreatenedMoves = 0;
+    };
+
+    if (highscoreDict.achievementProgress['threatened'].achievementStatus == 'Locked') {
+        highscoreDict.achievementProgress['threatened'].achievementProgress = playerThreatenedMoves;
+    }
+
+    if (playerThreatenedMoves === 5 && highscoreDict.achievementProgress['threatened'].achievementStatus === 'Locked') {
+        highscoreDict.achievementProgress['threatened'].achievementStatus = 'Unlocked';
+        highscoreDict.achievementProgress['threatened'].achievementProgress = totalKills;
+        achievementUnlock(highscoreDict.achievementProgress['threatened'].achievementName,
+            highscoreDict.achievementProgress['threatened'].achievementDescrption);
     }
 
     updateAchievements();
