@@ -774,12 +774,7 @@
                 (squareIndex - playerIndex == 9 && playerIndex % 7 < 5 && Math.floor(playerIndex / 7) < 6) ||
                 (squareIndex - playerIndex == 13 && playerIndex % 7 > 0 && Math.floor(playerIndex / 7) < 5) ||
                 (squareIndex - playerIndex == 15 && playerIndex % 7 < 6 && Math.floor(playerIndex / 7) < 5)) {
-                //its a valid move
-
-                // is square safe? 
-                console.log(pieces);
-                //console.log(pieces.map((p) => p.canHitPlayer()));
-
+                //its a valid move, execute it
 
                 let killed = false;
                 playerIndex = squareIndex;
@@ -799,7 +794,6 @@
                     return ok
                 });
 
-                //test for is square safe
                 if (gameMode != "arcade") {
                     pieces.map((p) => p.move());
                 }
@@ -998,20 +992,14 @@
             }
         })
         document.querySelector(".sidebar").addEventListener("click", (e) => {
-                let path = e.path || e.composedPath();
-                for (let i of path) {
-                    if (i.matches && i.matches(".sidebar>div>p") && i.innerText != "Forfeit") {
-                        document.querySelectorAll(".sidebar>div").forEach(i => i.classList.remove("selected"));
-                        i.parentElement.classList.add("selected");
-                    }
+            let path = e.path || e.composedPath();
+            for (let i of path) {
+                if (i.matches && i.matches(".sidebar>div>p") && i.innerText != "Forfeit") {
+                    document.querySelectorAll(".sidebar>div").forEach(i => i.classList.remove("selected"));
+                    i.parentElement.classList.add("selected");
                 }
-            }) <<
-            << << < HEAD ===
-            === =
-
-
-            >>>
-            >>> > 23 dd80e2885bc335a98013e5ae239fe8c76416ea
+            }
+        });
     </script>
 </body>
 
