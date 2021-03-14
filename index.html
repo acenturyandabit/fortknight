@@ -333,6 +333,11 @@
                 padding-left: 0;
                 width: auto;
             }
+
+            .dark-mode{
+                color: white;
+                background-color: black;
+            }
         }
     </style>
     <script src="achievements.js">
@@ -449,6 +454,34 @@
         renderHighscores();
     </script>
     <script>
+        function checkMode() {
+            darkMode = document.querySelector(".dark-mode-switch input").checked;
+            newColor = "black";
+            oldColor="white";
+            if (darkMode) {
+                newColor = "white";
+                oldColor="black";
+            }
+            ["p", "h1", "h2", "h3", "h4", "h5", "h6", "label","span"].forEach((selector) => {
+                document.querySelectorAll(selector).forEach((element) => {
+                    element.style.color = newColor;
+                });
+            });
+            [".sidebar>div>p"].forEach((selector) => {
+                document.querySelectorAll(selector).forEach((element) => {
+                    element.style.borderColor = newColor;
+                });
+            });
+            ["body",".sidebar>div"].forEach((selector) => {
+                document.querySelectorAll(selector).forEach((element) => {
+                    element.style.backgroundColor = oldColor;
+                });
+            });
+        }
+        document.querySelector(".dark-mode-switch input").onclick = () => {
+            checkMode();
+        };
+
         const debug = new URL(window.location.href).searchParams.get("p");
         if (debug !== 'debug') {
             document.querySelector('.debugTab').style.display = 'none';
@@ -1049,6 +1082,7 @@
                     `);
                     break;
             }
+            checkMode();
         })
         document.querySelector(".sidebar").addEventListener("click", (e) => {
             let path = e.path || e.composedPath();
