@@ -371,12 +371,11 @@
             });
             console.log(achSortable);
 
-
             document.querySelector(".achv").innerHTML = (achSortable).map(i =>
                     `<p><b>${i.achName}</b><br>` +
                     `${i.achievementDescrption}<br>` +
                     `${i.achievementStatus}<br>` +
-                    `${i.achievementProgress !== undefined ? `<div class="progressbar"><div style = "width: ${(i.completionPercent) * 100}%"> ` +
+                    `${i.achievementProgress !== undefined ? `<div class="progressbar"><div style = "width: ${(i.completionPercent >= 1 ? 1 : i.completionPercent) * 100}%"> ` +
                     `</div></div></p>` : ''}`
             ).join("");
 
