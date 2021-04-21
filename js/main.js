@@ -1,4 +1,5 @@
 let gameMode = 'classic';
+let isForfeited = false;
 
 function renderHighscores() {
   document.querySelector('#hiscore').innerText =
@@ -239,6 +240,7 @@ function resetGame() {
 
 function forfeitGame() {
   if (gameIsPlayed) {
+    isForfeited = true;
     document.querySelector('.boardModal').style.display = 'grid';
     document.querySelector('.loss_modal').style.display = 'block';
     document.querySelector('.loss_modal span').innerText =
@@ -761,7 +763,8 @@ function arcadeModeExec() {
   checkAchievements();
   drawPlayer();
 
-  setTimeout(arcadeModeExec, 2500);
+  if(!isForfeited)
+    setTimeout(arcadeModeExec, 2500);  
 }
 
 function arcadeModeCall() {
