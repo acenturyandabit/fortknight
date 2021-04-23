@@ -2,56 +2,56 @@ let gameMode = 'classic';
 let isForfeited = false;
 
 function renderHighscores() {
-  document.querySelector('#hiscore').innerText =
-    highscoreDict.modeHighest[gameMode];
-  document.querySelector('.ghscores').innerHTML = Object.entries(
-    highscoreDict.modeHighest
-  )
-    .map((i) => `<p>${i[0]}:${i[1]}</p>`)
-    .join('');
-  document.querySelector('.allhscores').innerHTML = highscoreDict.allScores
-    .map(
-      (i) =>
-        `<p>${i.gameMode}:${i.score}, on ${new Date(
+    document.querySelector('#hiscore').innerText =
+        highscoreDict.modeHighest[gameMode];
+    document.querySelector('.ghscores').innerHTML = Object.entries(
+            highscoreDict.modeHighest
+        )
+        .map((i) => `<p>${i[0]}:${i[1]}</p>`)
+        .join('');
+    document.querySelector('.allhscores').innerHTML = highscoreDict.allScores
+        .map(
+            (i) =>
+            `<p>${i.gameMode}:${i.score}, on ${new Date(
           i.date
         ).toLocaleDateString()}</p>`
-    )
-    .join('');
-  //sort the achievements by percentage
-  let achSortable = [];
-  for (achievement in highscoreDict.achievementProgress) {
-    let ach = highscoreDict.achievementProgress[achievement];
-    let achievementPercent;
-    if (
-      ach.hasOwnProperty('achievementProgress') &&
-      ach.hasOwnProperty('achievementGoal')
-    ) {
-      achievementPercent = ach.achievementProgress / ach.achievementGoal;
-    } else {
-      /*if just an achievement that needs to be unlocked, set the default to 100% 
-                    to make it stay at the top of the achievement list*/
-      achievementPercent = 100;
+        )
+        .join('');
+    //sort the achievements by percentage
+    let achSortable = [];
+    for (achievement in highscoreDict.achievementProgress) {
+        let ach = highscoreDict.achievementProgress[achievement];
+        let achievementPercent;
+        if (
+            ach.hasOwnProperty('achievementProgress') &&
+            ach.hasOwnProperty('achievementGoal')
+        ) {
+            achievementPercent = ach.achievementProgress / ach.achievementGoal;
+        } else {
+            /*if just an achievement that needs to be unlocked, set the default to 100% 
+                          to make it stay at the top of the achievement list*/
+            achievementPercent = 100;
+        }
+        highscoreDict.achievementProgress[
+            achievement
+        ].completionPercent = achievementPercent;
+        highscoreDict.achievementProgress[achievement].achName =
+            ach.achievementName;
+        achSortable.push(highscoreDict.achievementProgress[achievement]);
     }
-    highscoreDict.achievementProgress[
-      achievement
-    ].completionPercent = achievementPercent;
-    highscoreDict.achievementProgress[achievement].achName =
-      ach.achievementName;
-    achSortable.push(highscoreDict.achievementProgress[achievement]);
-  }
 
-  achSortable.sort(function (ach1, ach2) {
-    return ach2.completionPercent - ach1.completionPercent;
-  });
-  console.log(achSortable);
+    achSortable.sort(function(ach1, ach2) {
+        return ach2.completionPercent - ach1.completionPercent;
+    });
+    console.log(achSortable);
 
-  document.querySelector('.achv').innerHTML = achSortable
-    .map(
-      (i) =>
-        `<p><b>${i.achName}</b><br>` +
-        `${i.achievementDescrption}<br>` +
-        `${i.achievementStatus}<br>` +
-        `${
+    document.querySelector('.achv').innerHTML = achSortable
+        .map(
+            (i) =>
+            `<p><b>${i.achName}</b><br>` +
+            `${i.achievementDescrption}<br>` +
+            `${i.achievementStatus}<br>` +
+            `${
           i.achievementProgress !== undefined
             ? `<div class="progressbar"><div style = "width: ${
                 (i.completionPercent >= 1 ? 1 : i.completionPercent) * 100
@@ -154,7 +154,7 @@ function checkMode() {
   }
   ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label', 'span'].forEach(
     (selector) => {
-      document.querySelectorAll(selector).forEach((element) => {
+      document.querySelectorAll(selector+":not(.fixed-color)").forEach((element) => {
         element.style.color = newColor;
       });
     }
