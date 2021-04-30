@@ -221,6 +221,8 @@ let targetDiffScore = 3;
 let gameIsPlayed = false;
 
 function resetGame() {
+  //clear the Timer if present from arcade mode
+  document.getElementById("timer-box").style.display = 'none';
   //spawn the knight
   playerIndex = 24;
   playerScore = 0;
@@ -248,7 +250,7 @@ function forfeitGame() {
     //updateHighscores(playerScore, gameMode);
     document.querySelector('.gmode').disabled = false;
     gameIsPlayed = false;
-    document.querySelector('#gmode-help').classList = 'hidden';
+
   }
 }
 
@@ -291,7 +293,7 @@ function Piece(type, index) {
   this.icon.children[0].style.height = '2vh';
   this.icon.style.position = 'absolute';
   this.icon.style.transform = 'translate(-50%,-50%)';
-  this.deploymentCounter = type == 'queen' ? 5 : 3;
+  this.deploymentCounter = type == 'queen' ? 5 : 3; //PC changed this line 5:3 is original, 3 is time between spawns
   this.checkAlive = () => {
     if (playerIndex != this.index) occupiedSquares.push(this.index);
     return playerIndex != this.index;
@@ -690,12 +692,10 @@ document.querySelector('.board').addEventListener('click', (e) => {
 });
 
 function arcadeModeExec() {
+
   //figure out which square we're on
-
   let killed = false;
-
   //move pieces
-
   pieces.map((p) => p.cleanup());
 
   occupiedSquares = []; // reset so that pieces can take you if you take pieces
@@ -729,6 +729,7 @@ function arcadeModeExec() {
     document.querySelector('.boardModal').style.display = 'grid';
     gameIsPlayed = false;
     document.querySelector('#gmode-help').classList = 'hidden';
+
     return;
     // show the button
   }
@@ -751,7 +752,9 @@ function arcadeModeExec() {
         allowSpawnLocations[
           Math.floor(Math.random() * allowSpawnLocations.length)
         ];
-      pieces.push(new Piece(randomPiece, randomPosition));
+      let newPiece = new Piece(randomPiece, randomPosition);
+      newPiece.deploymentCounter = 1; //time until new piece spawns
+      pieces.push(newPiece);
     }
   }
 
@@ -763,12 +766,15 @@ function arcadeModeExec() {
   checkAchievements();
   drawPlayer();
 
-  if(!isForfeited)
+  if(!isForfeited) {
+    startArcadeMoveTimerBox();
     setTimeout(arcadeModeExec, 2500);  
+  }
 }
 
 function arcadeModeCall() {
   if (gameMode == 'arcade') {
+    document.getElementById("timer-box").style.display = 'block';
     arcadeModeExec();
   }
 }
@@ -844,3 +850,18 @@ document.querySelector('.sidebar').addEventListener('click', (e) => {
     }
   }
 });
+
+//state 1 for start state 0 for stop
+function startArcadeMoveTimerBox(){
+  var timeleft = 2.5;
+  var downloadTimer = setInterval(
+    function(){
+      if(timeleft <= 0){
+        clearInterval(downloadTimer);
+        document.getElementById("progressBar").value = 0;
+        timeleft = 2.5;
+      }
+      document.getElementById("progressBar").value = 2.5 - timeleft;
+      timeleft -= .045;
+    }, 45);
+}
