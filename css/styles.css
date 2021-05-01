@@ -78,6 +78,13 @@
   height: 5px;
 }
 
+.arcadeMoveTimerBox {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  display: none;
+}
+
 .dark-mode {
   position: fixed;
   top: 5px;
