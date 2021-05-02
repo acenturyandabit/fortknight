@@ -221,6 +221,8 @@ let targetDiffScore = 3;
 let gameIsPlayed = false;
 
 function resetGame() {
+  // reset forfeit status for arcade time to run
+  isForfeited = false
   //clear the Timer if present from arcade mode
   document.getElementById("timer-box").style.display = 'none';
   //spawn the knight
