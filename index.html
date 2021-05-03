@@ -40,7 +40,7 @@
                     <h1 class="fixed-color" style="color:white">You lost :(</h1>
                     <p class="fixed-color" style="color:white">Your score: <span class="fixed-color" style="color:white"></span></p>
                 </div>
-                <button onclick="resetGame(); arcadeModeCall();">Begin</button>
+                <button onclick="resetGame();">Begin</button>
             </div>
         </div>
         <div style="display:none">
@@ -165,9 +165,9 @@
         </div>
     </div>
     <div class="arcadeMoveTimerBox" id="timer-box">
-      <span class="days"></span>
-      <div class="text">Move Timer</div>
-      <progress value="0" max="2.5" id="progressBar"></progress>
+        <span class="days"></span>
+        <div class="text">Move Timer</div>
+        <progress value="0" max="2.5" id="progressBar"></progress>
 
     </div>
     <div class="dark-mode">
@@ -176,8 +176,14 @@
             <span class="slider"></span>
         </label>
     </div>
-    <script src="js/achievements.js"></script>
+    <script src="js/arcade.js"></script>
+    <script src="js/piece_object.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/achievements_highscores.js"></script>
+
+    <script src="js/dom_events.js"></script>
+    <script src="js/debug.js"></script>
+    <script src="js/dark_mode.js"></script>
 </body>
 
 </html>
