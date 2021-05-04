@@ -65,20 +65,20 @@
   visibility: hidden;
 }
 
-.progressbar {
+.timer-bar {
   background-color: white;
   border: 1px black solid;
   padding: 1px;
 }
 
-.progressbar > div {
+.timer-bar > div {
   background-color: black;
   width: 40%;
   /* Adjust with JavaScript */
   height: 5px;
 }
 
-.arcadeMoveTimerBox {
+.moveTimerBox {
   position: fixed;
   top: 5px;
   left: 5px;
