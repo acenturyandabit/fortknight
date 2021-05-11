@@ -155,7 +155,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
     let squareIndex;
     let path = e.path || e.composedPath();
 
-    //console.log(e.path);
+    //console.log(path);
 
     if (path[0].matches('.board')) return;
     for (let p of path) {
