@@ -155,7 +155,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
     let squareIndex;
     let path = e.path || e.composedPath();
 
-    //console.log(path);
+    //console.log(e.path);
 
     if (path[0].matches('.board')) return;
     for (let p of path) {
@@ -251,6 +251,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
             document.querySelector('.boardModal').style.display = 'grid';
             gameIsPlayed = false;
             document.querySelector('#gmode-help').classList = 'hidden';
+            playerIndex = -1;
             return;
             // show the button
         }
@@ -316,6 +317,44 @@ document.querySelector('.board').addEventListener('click', (e) => {
         }
     }
 });
+/*using only keydown means if you hold down an option
+you will keep moving in that direction as long as you can*/
+document.addEventListener('keydown', e => {
+  let destIndex;
+  if(e.keyCode == 81){
+    //Q pressed, move 2 left and 1 up
+    destIndex = playerIndex - 9;
+  }else if(e.keyCode == 87){
+    //W pressed, move 1 left and 2 up
+    destIndex = playerIndex - 15;
+  }else if(e.keyCode == 69){
+    //E pressed, move 1 right and 2 up
+    destIndex = playerIndex - 13;
+  }else if(e.keyCode == 82){
+    //R pressed, move 2 right and 1 up
+    destIndex = playerIndex - 5;
+  }else if(e.keyCode == 65){
+    //A pressed, move 2 left and 1 down
+    destIndex = playerIndex + 5;
+  }else if(e.keyCode == 83){
+    //S pressed, move 1 left and 2 down
+    destIndex = playerIndex + 13;
+  }else if(e.keyCode == 68){
+    //D pressed, move 1 right and 2 down
+    destIndex = playerIndex + 15;
+  }else if(e.keyCode == 70){
+    //F pressed, move 2 right and 1 down
+    destIndex = playerIndex + 9;
+  }
+  /*destIndex now holds the destination index
+    check if destination will be a square on the board and gaem is not over
+    playerIndex == -1 signifies end of game*/
+  if(destIndex >= 0 && destIndex <= 48 && playerIndex != -1){
+    let board = document.querySelector('.board').children;
+    //we go to the equivalent square and simulate a click which triggers same event as a mouse click
+    board[destIndex].click();
+  }
+});
 
 function arcadeModeExec() {
 
@@ -355,7 +394,6 @@ function arcadeModeExec() {
         document.querySelector('.boardModal').style.display = 'grid';
         gameIsPlayed = false;
         document.querySelector('#gmode-help').classList = 'hidden';
-
         return;
         // show the button
     }
