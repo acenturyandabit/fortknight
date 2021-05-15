@@ -51,14 +51,7 @@ let gameIsPlayed = false;
 
 function resetGame() {
     // reset forfeit status for arcade time to run
-    isForfeited = false
-    if (gameMode == 'arcade') {
-        document.getElementById("timer-box").style.display = 'block';
-        arcadeModeExec();
-    } else {
-        //clear the Timer if present from arcade mode
-        document.getElementById("timer-box").style.display = 'none';
-    }
+    isForfeited = false;
     //spawn the knight
     playerIndex = 24;
     playerScore = 0;
@@ -73,6 +66,13 @@ function resetGame() {
     document.querySelector('.gmode').disabled = true;
     gameIsPlayed = true;
     document.querySelector('#gmode-help').classList = '';
+    if (gameMode == 'arcade') {
+        document.getElementById("timer-box").style.display = 'block';
+        arcadeModeExec();
+    } else {
+        //clear the Timer if present from arcade mode
+        document.getElementById("timer-box").style.display = 'none';
+    }
     clearAchievementProgressAfterReset();
 }
 
