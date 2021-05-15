@@ -393,7 +393,7 @@ function arcadeModeExec() {
     drawPlayer();
 
     if (!isForfeited) {
-        startArcadeMoveTimerBox();
+        startMoveTimer();
         setTimeout(arcadeModeExec, 2500);
     }
 }

@@ -1,14 +1,13 @@
-//state 1 for start state 0 for stop
-function startArcadeMoveTimerBox() {
-    var timeleft = 2.5;
-    var downloadTimer = setInterval(
+function startMoveTimer() {
+    var timeLeft = 2.5;
+    var moveTimer = setInterval(
         function() {
-            if (timeleft <= 0) {
-                clearInterval(downloadTimer);
-                document.getElementById("progressBar").value = 0;
+            if (timeLeft <= 0) {
+                clearInterval(moveTimer);
+                document.getElementById("timer-bar").value = 0;
                 timeleft = 2.5;
             }
-            document.getElementById("progressBar").value = 2.5 - timeleft;
-            timeleft -= .045;
+            document.getElementById("timer-bar").value = 2.5 - timeLeft;
+            timeLeft -= .045;
         }, 45);
 }
