@@ -324,3 +324,5 @@ if (!highscoreDict.modeHighest[i.value])
 }
 
 renderHighscores();
+
+
