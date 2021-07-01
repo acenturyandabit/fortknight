@@ -65,13 +65,13 @@
   visibility: hidden;
 }
 
-.timer-bar {
+.timer-bar,.progressbar {
   background-color: white;
   border: 1px black solid;
   padding: 1px;
 }
 
-.timer-bar > div {
+.timer-bar > div,.progressbar > div {
   background-color: black;
   width: 40%;
   /* Adjust with JavaScript */

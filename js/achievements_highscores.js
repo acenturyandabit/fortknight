@@ -148,7 +148,7 @@ function checkAchievements() {
 
 function checkAndProgress(ach, variable, limit) {
     if (
-        variable === limit &&
+        variable >= limit &&
         highscoreDict.achievementProgress[ach].achievementStatus === 'Locked'
     ) {
         highscoreDict.achievementProgress[ach].achievementStatus = 'Unlocked';
@@ -228,13 +228,17 @@ function renderHighscores() {
         let achievementPercent;
         if (
             ach.hasOwnProperty('achievementProgress') &&
-            ach.hasOwnProperty('achievementGoal')
+            ach.hasOwnProperty('achievementGoal') &&
+            ach.achievementProgress && 
+            ach.achievementGoal // We've been having some problems with undefined 
         ) {
             achievementPercent = ach.achievementProgress / ach.achievementGoal;
-        } else {
-            /*if just an achievement that needs to be unlocked, set the default to 100% 
-                          to make it stay at the top of the achievement list*/
-            achievementPercent = 100;
+        } else if (ach.achievementStatus=="Locked"){
+            /*if just an achievement that needs to be unlocked, set the default to 0% 
+                to send it to the bottom of the achievement list*/
+            achievementPercent = 0;
+        }else{
+            achievementPercent=1;
         }
         highscoreDict.achievementProgress[
             achievement
