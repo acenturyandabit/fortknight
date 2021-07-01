@@ -11,6 +11,51 @@ const achievementList = {
         achievementDescrption: 'Have 10 pieces on the board at the same time',
         achievementStatus: 'Locked',
     },
+    coronation: {
+        achievementName: 'Coronation',
+        achievementDescrption: 'Have 5 kings on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    parapets: {
+        achievementName: 'Parapets',
+        achievementDescrption: 'Have 5 rooks on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    cathedral: {
+        achievementName: 'Cathedral',
+        achievementDescrption: 'Have 5 bishops on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    bar_fight: {
+        achievementName: 'Bar Fight',
+        achievementDescrption: 'Have 5 pawns on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    barracks: {
+        achievementName: 'Barracks',
+        achievementDescrption: 'Have 3 pawns on the board at the same time (non-drunk mode)',
+        achievementStatus: 'Locked',
+    },
+    stables: {
+        achievementName: 'Stables',
+        achievementDescrption: 'Have 5 knights on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    endgame: {
+        achievementName: 'Endgame',
+        achievementDescrption: 'Have 3 queens on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    no_place_to_hide: {
+        achievementName: 'No Place to Hide',
+        achievementDescrption: 'Have 4 queens on the board at the same time',
+        achievementStatus: 'Locked',
+    },
+    helltaker: {
+        achievementName: 'Helltaker',
+        achievementDescrption: 'Have 5 queens on the board at the same time',
+        achievementStatus: 'Locked',
+    },
     '10slay': {
         achievementName: '10 Slayer',
         achievementDescrption: 'Kill 10 opposing pieces ',
@@ -72,6 +117,19 @@ function checkAchievements() {
 
     checkAndUnlock('crowded', pieces.length, 10);
 
+    //specific piece achievements
+    checkAndUnlock('coronation', pieces.filter((obj) => obj.type === 'king').length, 5);
+    checkAndUnlock('parapets', pieces.filter((obj) => obj.type === 'rook').length, 5);
+    checkAndUnlock('cathedral', pieces.filter((obj) => obj.type === 'bishop').length, 5);
+    checkAndUnlock('bar_fight', pieces.filter((obj) => obj.type === 'pawn').length, 5);
+    if(gameMode != 'drunk') {
+        checkAndUnlock('barracks', pieces.filter((obj) => obj.type === 'pawn').length, 3);
+    }
+    checkAndUnlock('stables', pieces.filter((obj) => obj.type === 'knight').length, 5);
+    checkAndUnlock('endgame', pieces.filter((obj) => obj.type === 'queen').length, 3);
+    checkAndUnlock('no_place_to_hide', pieces.filter((obj) => obj.type === 'queen').length, 4);
+    checkAndUnlock('helltaker', pieces.filter((obj) => obj.type === 'queen').length, 5);    
+    
     //slayer achievementStatus
     checkAndProgress('10slay', totalKills, 10);
     checkAndProgress('100slay', totalKills, 100);
