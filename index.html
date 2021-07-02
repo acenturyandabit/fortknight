@@ -42,6 +42,7 @@
                 </div>
                 <button onclick="resetGame();">Begin</button>
             </div>
+
         </div>
         <div style="display:none">
             <!--insert images here -->
@@ -69,23 +70,11 @@
                     <p>Pieces will move to take your knight if they can; or randomly otherwise</p>
                     <p>Small pieces block the movement of other pieces, but big pieces don't. However, you can land on small pieces and if a big piece can't move, it dies. </p>
                     <p>Pawns move in direction indicated and can take on forward diagonals.</p>
-                    <h3>Scoring:</h3>
-                    <div class="rules">
-                        <p>+1 point for every turn on the field</p>
-                        <p>+2 points for every king taken</p>
-                        <p>+3 points for every knight, bishop, rook taken</p>
-                        <p>+5 points for every queen taken</p>
-                    </div>
-                    <h3>FAQ</h3>
-                    <p>yes, i know the chessboard only has 7 squares, not 8, but i wanted a centre square</p>
-                </div>
-            </div>
-            <div>
-                <p>Game mode</p>
-                <div>
-                    <h2>Game mode</h2>
-                    <span id="gmode-help" class="hidden">You must forfeit in order to change the game mode</span>
+
+                    <span id="gmode-help" class="hidden">You must <button class="button" onclick="forfeitGame()">Forfeit</button> in order to change the game mode</span>
                     <fieldset class="gmode">
+                      <legend><h3>Game Mode Choice</h3></legend>
+                      <div id = "wrap">
                         <label>
                             <input name="diff" value="classic" type="radio" checked />
                             Classic
@@ -93,35 +82,39 @@
                         <br>
                         <label>
                             <input name="diff" value="pacifist" type="radio" />
-                            Pacifist (no score for kills)
+                            Pacifist <text style= "color: red">  (No score for kills)</text>
                         </label>
                         <br>
                         <label>
                             <input name="diff" value="knightmare" type="radio" />
-                            Knightmare (knights only)
+                            Knightmare  <text style= "color: red"> (Only knight pieces)</text>
                         </label>
                         <br>
                         <label>
                             <input name="diff" value="strategist" type="radio" />
-                            Strategist (pieces have move order)
+                            Strategist  <text style= "color: red"> (Pieces have move order)</text>
                         </label>
                         <br>
                         <label>
                             <input name="diff" value="drunk" type="radio" />
-                            Drunk pieces (pieces always move randomly)
+                            Drunk pieces  <text style= "color: red"> (Pieces always move randomly)</text>
                         </label>
                         <br>
                         <label>
                             <input name="diff" value="arcade" type="radio" />
-                            Arcade (pieces move based on a timer)
+                            Arcade  <text style= "color: red"> (Pieces move based on a timer)</text>
                         </label>
+                      </div>
                     </fieldset>
+                    <h3>Scoring:</h3>
                     <div class="rules">
-                        <p>+1 point for every turn on the field</p>
-                        <p>+2 points for every king taken</p>
-                        <p>+3 points for every knight, bishop, rook taken</p>
-                        <p>+5 points for every queen taken</p>
+                        <p style= "color: #8CA1C5">+1 point for every turn on the field</p>
+                        <p style= "color: #467AD5">+2 points for every king taken</p>
+                        <p style= "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                        <p style= "color: #30DE0D">+5 points for every queen taken</p>
                     </div>
+                    <h3>FAQ</h3>
+                    <p>yes, i know the chessboard only has 7 squares, not 8, but i wanted a centre square</p>
                 </div>
             </div>
             <div>
@@ -150,9 +143,7 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <p onclick="forfeitGame()">Forfeit</p>
-            </div>
+
             <div class='debugTab'>
                 <p onclick="showDebug()">DEBUG</p>
                 <div>
@@ -164,6 +155,7 @@
             </div>
         </div>
     </div>
+
     <div class="moveTimerBox" id="timer-box"
         <h1> Move Timer: </h1>
         <progress value="0" max="2.5" id="timer-bar"></progress>
