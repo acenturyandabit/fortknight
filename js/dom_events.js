@@ -7,10 +7,10 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
             document.querySelectorAll('.rules').forEach(
                 (i) =>
                 (i.innerHTML = `
-                    <p>+1 point for every turn on the field</p>
-                    <p>+2 points for every king taken</p>
-                    <p>+3 points for every knight, bishop, rook taken</p>
-                    <p>+5 points for every queen taken</p>
+                    <p><innerText style = "color: #8CA1C5">+1 point for every turn on the field</p>
+                    <p><innerText style = "color: #467AD5">+2 points for every king taken</p>
+                    <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                    <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
                     `)
             );
             break;
@@ -18,11 +18,11 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
             document.querySelectorAll('.rules').forEach(
                 (i) =>
                 (i.innerHTML = `
-                    <p><strong>Pieces will move in order rather than simultaneously.</strong></p>
-                    <p>+1 point for every turn on the field</p>
-                    <p>+2 points for every king taken</p>
-                    <p>+3 points for every knight, bishop, rook taken</p>
-                    <p>+5 points for every queen taken</p>
+                    <p><strong><innerText font size = "5" style = "color: red">Pieces will move in order rather than simultaneously.</strong></p>
+                    <p><innerText  style = "color: #8CA1C5">+1 point for every turn on the field</p>
+                    <p><innerText style = "color: #467AD5">+2 points for every king taken</p>
+                    <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                    <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
                     `)
             );
             break;
@@ -30,10 +30,10 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
             document.querySelectorAll('.rules').forEach(
                 (i) =>
                 (i.innerHTML = `
-                    <p>Only get points for staying alive</p>
-                    <p>+0.5 points for every (big)king on the board</p>
-                    <p>+0.7 points for every (big) knight, bishop, rook on the board</p>
-                    <p>+1.25 points for every (big) queen on the board</p>
+                    <p><strong><innerText  style = "color: red">Only get points for staying alive</strong></p>
+                    <p><innerText style = "color: #467AD5">+0.5 points for every (big)king on the board</p>
+                    <p><innerText style = "color: #CF469F">+0.7 points for every (big) knight, bishop, rook on the board</p>
+                    <p><innerText style = "color: #30DE0D">+1.25 points for every (big) queen on the board</p>
                     `)
             );
             break;
@@ -41,18 +41,30 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
             document.querySelectorAll('.rules').forEach(
                 (i) =>
                 (i.innerHTML = `
-                        <p>+1 point for every turn on the field</p>
-                        <p>+3 points for every knight taken</p>
+                        <p><innerText style = "color: #467AD5">+1 point for every turn on the field</p>
+                        <p><innerText style = "color: #EC7063">+3 points for every knight taken</p>
                         `)
             );
+            break;
         case 'arcade':
             document.querySelectorAll('.rules').forEach(
                 (i) =>
                 (i.innerHTML = `
-                    <p>+1 point for every 2.5 seconds on the field (the timer for the pieces moving)</p>
-                    <p>+2 points for every king taken</p>
-                    <p>+3 points for every knight, bishop, rook taken</p>
-                    <p>+5 points for every queen taken</p>
+                    <p><innerText style = "color: #EC7063">+1 point for every 2.5 seconds on the field (the timer for the pieces moving)</p>
+                    <p><innerText style = "color: #467AD5">+2 points for every king taken</p>
+                    <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                    <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
+                    `)
+            );
+            break;
+        case 'drunk':
+            document.querySelectorAll('.rules').forEach(
+                (i) =>
+                (i.innerHTML = `
+                    <p><innerText style = "color: #8CA1C5">+1 point for every turn on the field</p>
+                    <p><innerText style = "color: #467AD5">+2 points for every king taken</p>
+                    <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                    <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
                     `)
             );
             break;

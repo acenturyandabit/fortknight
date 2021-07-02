@@ -18,6 +18,20 @@
   transition: 0.5s all;
 }
 
+.button {
+    background-color: #EC7063;
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
 .body-container {
   display: flex;
 }
@@ -173,4 +187,7 @@
     color: white;
     background-color: black;
   }
+
+
+
 }
