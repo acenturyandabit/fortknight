@@ -321,28 +321,29 @@ document.querySelector('.board').addEventListener('click', (e) => {
 you will keep moving in that direction as long as you can*/
 document.addEventListener('keydown', e => {
   let destIndex;
-  if(e.keyCode == 81){
+  const key = e.key;
+  if(key == "q" || key == "Q"){
     //Q pressed, move 2 left and 1 up
     destIndex = playerIndex - 9;
-  }else if(e.keyCode == 87){
+  }else if(key == "w" || key == "W"){
     //W pressed, move 1 left and 2 up
     destIndex = playerIndex - 15;
-  }else if(e.keyCode == 69){
+  }else if(key == "e" || key == "E"){
     //E pressed, move 1 right and 2 up
     destIndex = playerIndex - 13;
-  }else if(e.keyCode == 82){
+  }else if(key == "r" || key == "R"){
     //R pressed, move 2 right and 1 up
     destIndex = playerIndex - 5;
-  }else if(e.keyCode == 65){
+  }else if(key == "a" || key == "A"){
     //A pressed, move 2 left and 1 down
     destIndex = playerIndex + 5;
-  }else if(e.keyCode == 83){
+  }else if(key == "s" || key == "S"){
     //S pressed, move 1 left and 2 down
     destIndex = playerIndex + 13;
-  }else if(e.keyCode == 68){
+  }else if(key == "d" || key == "D"){
     //D pressed, move 1 right and 2 down
     destIndex = playerIndex + 15;
-  }else if(e.keyCode == 70){
+  }else if(key == "f" || key == "F"){
     //F pressed, move 2 right and 1 down
     destIndex = playerIndex + 9;
   }
