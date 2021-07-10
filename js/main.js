@@ -1,6 +1,6 @@
 let gameMode = 'classic';
 let isForfeited = false;
-
+let didGameStart = false;
 
 
 
@@ -50,6 +50,9 @@ let targetDiffScore = 3;
 let gameIsPlayed = false;
 
 function resetGame() {
+    //Start the game
+    //this will enable keyboard movements only when game starts
+    didGameStart = true;
     // reset forfeit status for arcade time to run
     isForfeited = false;
     //spawn the knight
@@ -78,6 +81,8 @@ function resetGame() {
 
 function forfeitGame() {
     if (gameIsPlayed) {
+        //reset the didGameStart
+        didGameStart = false;
         isForfeited = true;
         document.querySelector('.boardModal').style.display = 'grid';
         document.querySelector('.loss_modal').style.display = 'block';
@@ -239,6 +244,8 @@ document.querySelector('.board').addEventListener('click', (e) => {
             false
         );
         if (playerIsDead) {
+            //reset the didGameStart
+            didGameStart = false;
             pieces.map((p) => p.draw());
             //i deduct a kill when i get killed myself to not have both loss and achievements pop
             if (killed) totalKills--;
@@ -321,6 +328,9 @@ document.querySelector('.board').addEventListener('click', (e) => {
 you will keep moving in that direction as long as you can*/
 document.addEventListener('keydown', e => {
   let destIndex;
+  // Check is the begin button was pressed
+  // If game did not start do nothing
+  if(!didGameStart) return;
   const key = e.key;
   if(key == "q" || key == "Q"){
     //Q pressed, move 2 left and 1 up
