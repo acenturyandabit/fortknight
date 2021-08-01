@@ -1,4 +1,11 @@
 const achievementList = {
+    Ooops: {
+        achievementName: 'Ooops',
+        achievementDescrption: "Accidentally got an achievement",
+        achievementStatus: 'unlocked',
+        achievementProgress: 0,
+        achievementGoal: 0,
+    },
     lazy: {
         achievementName: 'Lazy',
         achievementDescrption: "Don't move for 5 consecutive turns",
