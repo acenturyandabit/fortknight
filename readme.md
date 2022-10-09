@@ -8,7 +8,7 @@
 <a href="https://github.com/acenturyandabit/fortknight/pulse"><img src="https://img.shields.io/github/commit-activity/m/acenturyandabit/fortknight"></a>
 <a href="https://acenturyandabit.github.io/fortknight"><img src="https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Facenturyandabit.github.io%2Ffortknight"></a>
 <a aria-label="license" href="https://github.com/acenturyandabit/fortknight/LICENSE"><img src="https://img.shields.io/github/license/acenturyandabit/fortknight.svg"></a>
-<img src="https://img.shields.io/tokei/lines/github/acenturyandabit/fortknight.svg">
+<img src="https://img.shields.io/tokei/lines/github/acenturyandabit/fortknight">
 </div>
 
 Playing is half the fun; the other half is learning to code by adding to our wide array of achievements and submitting a pull request!
