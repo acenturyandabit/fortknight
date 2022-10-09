@@ -78,6 +78,12 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                         <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
                         `)
                 );
+                document.querySelectorAll('.ex_instr').forEach(
+                    (i) =>
+                    (i.innerHTML = `
+                       <br>
+                       <div class="tornado_instr" >------------------------<< Pieces on the edge rotate By 90 degrees Anti-Clockwise every move >>------------------------</div>
+                        `));
                 break;
     }
     checkMode();
@@ -93,3 +99,4 @@ document.querySelector('.sidebar').addEventListener('click', (e) => {
         }
     }
 });
+
