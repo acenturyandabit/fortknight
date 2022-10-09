@@ -1,6 +1,15 @@
-# Fortknight
+<h1 align="center">Fortknight</h1>
 
-A whimsical battle royale game. Playing is half the fun; the other half is learning to code by adding to our wide array of achievements and submitting a pull request!
+<p align="center">A whimsical battle royale game.</p>
+
+<p align="center">
+	<a aria-label="last commit" href="https://github.com/acenturyandabit/fortknight/commits"><img src="https://img.shields.io/github/last-commit/acenturyandabit/fortknight.svg"></a>
+	<a aria-label="contributors graph" href="https://github.com/acenturyandabit/fortknight/graphs/contributors"><img src="https://img.shields.io/github/contributors/acenturyandabit/fortknight.svg"></a>
+	<a href="https://github.com/acenturyandabit/fortknight/pulse" alt="Activity"><img src="https://img.shields.io/github/commit-activity/m/acenturyandabit/fortknight"></a>
+	<a aria-label="license" href="https://github.com/acenturyandabit/fortknight/LICENSE"><img src="https://img.shields.io/github/license/acenturyandabit/fortknight.svg"></a>
+</p>
+
+Playing is half the fun; the other half is learning to code by adding to our wide array of achievements and submitting a pull request!
 
 To play: https://acenturyandabit.github.io/fortknight
 
