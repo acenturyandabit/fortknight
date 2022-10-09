@@ -1,13 +1,15 @@
-<h1 align="center">Fortknight</h1>
+<div align="center">
+<h1>Fortknight</h1>
+<p>A whimsical battle royale game.</p>
+<img src="https://user-images.githubusercontent.com/69604121/194764716-57497133-4bb9-44f1-b4f4-2279490e587b.png" alt="logo" height="400px" />
 
-<p align="center">A whimsical battle royale game.</p>
-
-<p align="center">
-	<a aria-label="last commit" href="https://github.com/acenturyandabit/fortknight/commits"><img src="https://img.shields.io/github/last-commit/acenturyandabit/fortknight.svg"></a>
-	<a aria-label="contributors graph" href="https://github.com/acenturyandabit/fortknight/graphs/contributors"><img src="https://img.shields.io/github/contributors/acenturyandabit/fortknight.svg"></a>
-	<a href="https://github.com/acenturyandabit/fortknight/pulse" alt="Activity"><img src="https://img.shields.io/github/commit-activity/m/acenturyandabit/fortknight"></a>
-	<a aria-label="license" href="https://github.com/acenturyandabit/fortknight/LICENSE"><img src="https://img.shields.io/github/license/acenturyandabit/fortknight.svg"></a>
-</p>
+<a aria-label="last commit" href="https://github.com/acenturyandabit/fortknight/commits"><img src="https://img.shields.io/github/last-commit/acenturyandabit/fortknight.svg"></a>
+<a aria-label="contributors graph" href="https://github.com/acenturyandabit/fortknight/graphs/contributors"><img src="https://img.shields.io/github/contributors/acenturyandabit/fortknight.svg"></a>
+<a href="https://github.com/acenturyandabit/fortknight/pulse"><img src="https://img.shields.io/github/commit-activity/m/acenturyandabit/fortknight"></a>
+<a href="https://acenturyandabit.github.io/fortknight"><img src="https://img.shields.io/website?down_message=offline&up_message=online&url=https%3A%2F%2Facenturyandabit.github.io%2Ffortknight"></a>
+<a aria-label="license" href="https://github.com/acenturyandabit/fortknight/LICENSE"><img src="https://img.shields.io/github/license/acenturyandabit/fortknight.svg"></a>
+<img src="https://img.shields.io/tokei/lines/github/acenturyandabit/fortknight.svg">
+</div>
 
 Playing is half the fun; the other half is learning to code by adding to our wide array of achievements and submitting a pull request!
 
