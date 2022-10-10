@@ -52,6 +52,8 @@ let gameIsPlayed = false;
 function resetGame() {
     //Start the game
     //this will enable keyboard movements only when game starts
+    Array.from(document.querySelectorAll(`.board>div`)).forEach(
+        (i) => (i.style.background = ''));
     didGameStart = true;
     // reset forfeit status for arcade time to run
     isForfeited = false;
@@ -133,7 +135,7 @@ document.querySelector('.board').addEventListener('mousemove', (e) => {
         return;
     }
     Array.from(document.querySelectorAll(`.board>div`)).forEach(
-        (i) => (i.style.background = '')
+        (i) => (i.style.background !='blue' ? i.style.background = '': i.style.background = 'blue')
     );
     let path = e.path || e.composedPath();
     if (path[0].matches('.board>div>img')) {
@@ -326,6 +328,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
 });
 /*using only keydown means if you hold down an option
 you will keep moving in that direction as long as you can*/
+if(gameMode!="loop"){
 document.addEventListener('keydown', e => {
   let destIndex;
   // Check is the begin button was pressed
@@ -357,6 +360,7 @@ document.addEventListener('keydown', e => {
     //F pressed, move 2 right and 1 down
     destIndex = playerIndex + 9;
   }
+
   /*destIndex now holds the destination index
     check if destination will be a square on the board and gaem is not over
     playerIndex == -1 signifies end of game*/
@@ -366,6 +370,7 @@ document.addEventListener('keydown', e => {
     board[destIndex].click();
   }
 });
+}
 
 function arcadeModeExec() {
 

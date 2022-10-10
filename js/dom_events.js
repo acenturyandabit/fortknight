@@ -68,6 +68,23 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                     `)
             );
             break;
+        case 'loop':
+                document.querySelectorAll('.rules').forEach(
+                    (i) =>
+                    (i.innerHTML = `
+                        <p><innerText style = "color: #8CA1C5">+1 point for every turn on the field</p>
+                        <p><innerText style = "color: #467AD5">+2 points for every king taken</p>
+                        <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                        <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
+                        `)
+                );
+                document.querySelectorAll('.ex_instr').forEach(
+                    (i) =>
+                    (i.innerHTML = `
+                       <br>
+                       <div class="tornado_instr" >------------------------<< Pieces on the edge rotate By 90 degrees Anti-Clockwise every move >>------------------------</div>
+                        `));
+                break;
     }
     checkMode();
 });
@@ -82,3 +99,4 @@ document.querySelector('.sidebar').addEventListener('click', (e) => {
         }
     }
 });
+
