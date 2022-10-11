@@ -13,9 +13,56 @@ function Piece(type, index) {
     this.deploymentCounter = type == 'queen' ? 5 : 3; //PC changed this line 5:3 is original, 3 is time between spawns
     this.checkAlive = () => {
         if (playerIndex != this.index) occupiedSquares.push(this.index);
+        if(!playerIndex != this.index)
+        {   // REMOVE BLUE SQUARE IN CASE OF DEATH
+            if(this.index<7)
+            {
+               let sqr= document.querySelector(  `.board>div:nth-child(${42-(7*this.index)+1})` ) ;
+               sqr.style.background = "";
+            }
+            else if(this.index>41)
+            {
+                let sqr= document.querySelector(`.board>div:nth-child(${342-(7*this.index)+1})`);
+                sqr.style.background = "";
+            }
+            else if (this.index==7 || this.index==14 || this.index==21|| this.index==28|| this.index==35)
+            {
+                let sqr= document.querySelector( `.board>div:nth-child(${Math.round((0.142857*this.index)+42)+1})`);
+                sqr.style.background ="";
+            }
+            else if (this.index==13 || this.index==20 || this.index==27|| this.index==34|| this.index==41|| this.index==48)
+            {
+                let sqr= document.querySelector(`.board>div:nth-child(${Math.round((0.142857*this.index)-0.857143)+1})`);
+                sqr.style.background = ""; 
+        }
+    }
         return playerIndex != this.index;
     };
     this.move = () => {
+
+        
+        if(gameMode == "loop"){
+
+            if(this.index<7)
+            {
+                this.index=42-(7*this.index);
+            }
+            else if(this.index>41)
+            {
+                this.index=342-(7*this.index);
+            }
+            else if (this.index==7 || this.index==14 || this.index==21|| this.index==28|| this.index==35)
+            {
+                this.index=Math.round((0.142857*this.index)+42);
+            }
+            else if (this.index==13 || this.index==20 || this.index==27|| this.index==34|| this.index==41|| this.index==48)
+            {
+                this.index=Math.round((0.142857*this.index)-0.857143);
+            }
+
+            this.removeblue();
+            }  
+
         if (this.deploymentCounter == 0) {
             // check if player is on me
             // if so, return false
@@ -44,6 +91,14 @@ function Piece(type, index) {
         }
     };
 
+    this.removeblue= () =>{
+        let sqr= document.querySelector(  `.board>div:nth-child(${this.index+1}`) ;
+        if (sqr.style.background=="blue")
+        {
+            sqr.style.background='';
+            console.log("none blue");
+        }
+    }
     // Part of is square safe
     this.canHitSquare = (SquareIndex) => {
         console.log('piece deployment counter', this.deploymentCounter);
@@ -77,6 +132,30 @@ function Piece(type, index) {
             turnOrder.innerText = pieces.indexOf(this) + 1;
         }
         drawToIndex(this.icon, this.index);
+
+        if(gameMode == "loop")
+        {
+            if(this.index<7)
+            {
+               let sqr= document.querySelector(  `.board>div:nth-child(${42-(7*this.index)+1})` ) ;
+               sqr.style.background = "blue";
+            }
+            else if(this.index>41)
+            {
+                let sqr= document.querySelector(`.board>div:nth-child(${342-(7*this.index)+1})`);
+                sqr.style.background = "blue";
+            }
+            else if (this.index==7 || this.index==14 || this.index==21|| this.index==28|| this.index==35)
+            {
+                let sqr= document.querySelector( `.board>div:nth-child(${Math.round((0.142857*this.index)+42)+1})`);
+                sqr.style.background ="blue";
+            }
+            else if (this.index==13 || this.index==20 || this.index==27|| this.index==34|| this.index==41|| this.index==48)
+            {
+                let sqr= document.querySelector(`.board>div:nth-child(${Math.round((0.142857*this.index)-0.857143)+1})`);
+                sqr.style.background = "blue";
+            }
+        }
     };
 }
 let isOccupied = (index) => {

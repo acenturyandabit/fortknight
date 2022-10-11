@@ -68,6 +68,17 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                     `)
             );
             break;
+        case 'loop':
+                document.querySelectorAll('.rules').forEach(
+                    (i) =>
+                    (i.innerHTML = `
+                        <p><innerText style = "color: #8CA1C5">+1 point for every turn on the field</p>
+                        <p><innerText style = "color: #467AD5">+2 points for every king taken</p>
+                        <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
+                        <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
+                        `)
+                );
+                break;
     }
     checkMode();
 });
