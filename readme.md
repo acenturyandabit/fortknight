@@ -47,6 +47,13 @@ To enable optional debugging features and to view extended information on scores
 
 To reset your high scores or achievements unlocked, you'll need to clear your browser's cache (which the debug mode provides a button for) or run the game in an incognito tab.
 
+### Please pay attention to
+
+1. Only commit files that you changed in a pull request. Dont commit files, you didn‘t change, because it messes up the complete branch and will not be merged by a maintainer!
+2. Provide a good description for your issues and pull requests!
+3. Dont create a pull request if you want to add a new feature, wich has no issue. First create a issue with a description of your new feature and then create a pull request wich links to it!
+4. Test your code before you create a pull request. Your code needs to be fully working to get merged!
+
 ## LOOKING FOR MAINTAINER
 If you want to be added to the project as a maintainer and help me merge pull requests, please drop a comment on issue #49 :D
 
