@@ -6,7 +6,6 @@ To play: https://acenturyandabit.github.io/fortknight
 
 Try and beat my high score of 50! Then, pick a TODO item from the issues page to make a pull request for!
 
-![Fortknight.jpg](/images/fortknight.jpg)
 
 # Contents
 - [About](#fortknight)
