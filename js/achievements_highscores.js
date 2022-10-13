@@ -268,7 +268,6 @@ function renderHighscores() {
       }`
   )
   .join('');
-  checkMode();
 }
 
 function updateHighscores(playerscore, gamemode) {
