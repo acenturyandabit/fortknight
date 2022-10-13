@@ -13,16 +13,7 @@ document.body.appendChild(style);
 let board = document.querySelector('.board');
 for (let i = 0; i < 7; i++) {
     for (let j = 0; j < 7; j++) {
-        style.innerHTML += `.board>div:nth-child(${i + j * 7 + 1}){
-                background:${i % 2 ^ j % 2 ? 'white' : 'black'};
-                color:${i % 2 ^ j % 2 ? 'black' : 'white'};
-            }
-            .board>div:nth-child(${i + j * 7 + 1})>*{
-                background: ${i % 2 ^ j % 2 ? 'black' : 'white'};
-            }
-            `;
         let d = document.createElement('div');
-        d.style.gridArea = `${i + 1}/${j + 1}/${i + 2}/${j + 2}`;
         board.insertBefore(d, board.children[j + i * 7]);
     }
 }
