@@ -7,15 +7,12 @@ let didGameStart = false;
 
 
 
-
-let style = document.createElement('style');
-document.body.appendChild(style);
 let board = document.querySelector('.board');
-for (let i = 0; i < 7; i++) {
-    for (let j = 0; j < 7; j++) {
-        let d = document.createElement('div');
-        board.insertBefore(d, board.children[j + i * 7]);
-    }
+let boardModal = document.querySelector('.boardModal');
+for (let i = 0; i < 50; i++) {
+	let d = document.createElement('div');
+	console.log(board.innerHTML);
+	board.insertBefore(d, board.children[0]);
 }
 let playerScore = 0;
 let playerIndex = 24;
@@ -24,10 +21,10 @@ playerImage.style.position = 'absolute';
 playerImage.style.transform = 'translate(-50%,-50%)';
 
 function drawToIndex(node, index) {
-    document.querySelector('.board').appendChild(node);
+    board.appendChild(node);
     let shade = document.querySelector(`.board>:nth-child(${index + 1})`);
     shadeRect = shade.getClientRects()[0];
-    boardRect = document.querySelector('.board').getClientRects()[0];
+    boardRect = board.getClientRects()[0];
     node.style.left = shadeRect.x - boardRect.x + shadeRect.width / 2;
     node.style.top = shadeRect.y - boardRect.y + shadeRect.height / 2;
 }
@@ -60,7 +57,7 @@ function resetGame() {
     });
     pieces = [];
     targetDiffScore = 3;
-    document.querySelector('.boardModal').style.display = 'none';
+    boardModal.style.display = 'none';
     drawPlayer();
     document.querySelector('.gmode').disabled = true;
     gameIsPlayed = true;
@@ -80,7 +77,7 @@ function forfeitGame() {
         //reset the didGameStart
         didGameStart = false;
         isForfeited = true;
-        document.querySelector('.boardModal').style.display = 'grid';
+        boardModal.style.display = 'grid';
         document.querySelector('.loss_modal').style.display = 'block';
         document.querySelector('.loss_modal span').innerText =
             playerScore + ' You have forfeited the game!';
@@ -120,10 +117,10 @@ let occupiedSquares = [];
 
 let pieces = [];
 let wasTouch = false;
-document.querySelector('.board').addEventListener('touchstart', (e) => {
+board.addEventListener('touchstart', (e) => {
     wasTouch = true;
 });
-document.querySelector('.board').addEventListener('mousemove', (e) => {
+board.addEventListener('mousemove', (e) => {
     if (wasTouch) {
         wasTouch = false;
         return;
@@ -172,7 +169,7 @@ function isValidPlayerMove(playerIndex, squareIndex) {
     });
 }
 
-document.querySelector('.board').addEventListener('click', (e) => {
+board.addEventListener('click', (e) => {
     let squareIndex;
     let path = e.path || e.composedPath();
 
@@ -188,7 +185,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
         }
         if (p.matches('.board>div')) {
             squareIndex = Array.from(
-                document.querySelector('.board').children
+                board.children
             ).indexOf(p);
             if (squareIndex > 48) {
                 for (let i of pieces) {
@@ -251,7 +248,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
             document.querySelector('.loss_modal span').innerText = playerScore;
             updateHighscores(playerScore, gameMode);
             playerImage.remove();
-            document.querySelector('.boardModal').style.display = 'grid';
+            boardModal.style.display = 'grid';
             gameIsPlayed = false;
             document.querySelector('#gmode-help').classList = 'hidden';
             playerIndex = -1;
@@ -355,9 +352,9 @@ document.addEventListener('keydown', e => {
     check if destination will be a square on the board and gaem is not over
     playerIndex == -1 signifies end of game*/
   if(destIndex >= 0 && destIndex <= 48 && playerIndex != -1){
-    let board = document.querySelector('.board').children;
+    let boardChildren = board.children;
     //we go to the equivalent square and simulate a click which triggers same event as a mouse click
-    board[destIndex].click();
+    boardChildren[destIndex].click();
   }
 });
 }
@@ -397,7 +394,7 @@ function arcadeModeExec() {
         document.querySelector('.loss_modal span').innerText = playerScore;
         updateHighscores(playerScore, gameMode);
         playerImage.remove();
-        document.querySelector('.boardModal').style.display = 'grid';
+        boardModal.style.display = 'grid';
         gameIsPlayed = false;
         document.querySelector('#gmode-help').classList = 'hidden';
         return;
