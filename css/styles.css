@@ -30,6 +30,11 @@ body {
 	transition: 0.4s all;
 }
 
+.movementProjection{
+	opacity: 60%;
+	block-size: 3%;
+}
+
 .board > div:nth-child(odd) {
 	background: #22232A;
 	color: black;
