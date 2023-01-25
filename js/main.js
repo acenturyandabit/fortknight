@@ -24,6 +24,7 @@ playerImage.style.position = 'absolute';
 playerImage.style.transform = 'translate(-50%,-50%)';
 
 //Player Movement Projections-----------------------------------------
+let ProjectMovement = false;
 let playerMovementProjection1 = document.querySelector('#mp1');
 playerMovementProjection1.style.position = 'absolute';
 playerMovementProjection1.style.transform = 'translate(-50%,-50%)';
@@ -62,14 +63,11 @@ function drawToIndex(node, index) {
 function drawPlayer() {
     document.querySelector('#score').innerText = playerScore;
     drawToIndex(playerImage, playerIndex);
-    drawPlayerPossibleMoves();
+    if (ProjectMovement == true)
+        drawPlayerPossibleMoves();
 }
 
 function drawPlayerPossibleMoves() {
-
-    /*if (playerIndex % 7 > 0 && Math.floor(playerIndex / 7) > 1)
-        drawToIndex(playerMovementProjection,playerIndex-15);*/
-
     /*Up two over one left*/
     if (playerIndex % 7 > 0 && Math.floor(playerIndex / 7) > 1) {
         drawToIndex(playerMovementProjection1, playerIndex - 15);

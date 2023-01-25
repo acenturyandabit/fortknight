@@ -35,6 +35,61 @@ body {
 	block-size: 3%;
 }
 
+.toggleMovementProjection{
+	margin-left: 10px;
+	position: relative;
+	display: inline;
+}
+input[type="checkbox"]{
+	position: relative;
+	width: 70px;
+	height: 30px;
+	background: #bdc3c7;
+	-webkit-appearance: none;
+	border-radius: 20px;
+	outline: none;
+	transition: .4s;
+	box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+	cursor: pointer;
+}
+input:checked[type="checkbox"]{
+	background: green;
+}
+input[type="checkbox"]::before{
+	z-index: 2;
+	position: absolute;
+	content: "";
+	left: 0;
+	width: 30px;
+	height: 30px;
+	background: #fff;
+	border-radius: 50%;
+	transform: scale(1.1);
+	box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+	transition: .4s;
+}
+input:checked[type="checkbox"]::before{
+	left: 40px;
+}
+
+.labelMovementProjection{
+	position: absolute;
+	color: white;
+	font-weight: 600;
+	font-size: 14px;
+	font-family: "Arial Narrow";
+	pointer-events: none;
+}
+#onbtn{
+	top: 10px;
+	left: 11px;
+}
+#offbtn{
+	top: 10px;
+	left: 42px;
+	color: #34495e;
+}
+
 .board > div:nth-child(odd) {
 	background: #22232A;
 	color: black;
