@@ -31,6 +31,7 @@ body {
 }
 
 .movementProjection{
+	pointer-events: none;
 	opacity: 60%;
 	block-size: 3%;
 }
