@@ -23,6 +23,34 @@ let playerImage = document.querySelector('#wknight').cloneNode();
 playerImage.style.position = 'absolute';
 playerImage.style.transform = 'translate(-50%,-50%)';
 
+//Player Movement Projections-----------------------------------------
+let ProjectMovement = false;
+let playerMovementProjection1 = document.querySelector('#mp1');
+playerMovementProjection1.style.position = 'absolute';
+playerMovementProjection1.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection2 = document.querySelector('#mp2');
+playerMovementProjection2.style.position = 'absolute';
+playerMovementProjection2.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection3 = document.querySelector('#mp3');
+playerMovementProjection3.style.position = 'absolute';
+playerMovementProjection3.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection4 = document.querySelector('#mp4');
+playerMovementProjection4.style.position = 'absolute';
+playerMovementProjection4.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection5 = document.querySelector('#mp5');
+playerMovementProjection5.style.position = 'absolute';
+playerMovementProjection5.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection6 = document.querySelector('#mp6');
+playerMovementProjection6.style.position = 'absolute';
+playerMovementProjection6.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection7 = document.querySelector('#mp7');
+playerMovementProjection7.style.position = 'absolute';
+playerMovementProjection7.style.transform = 'translate(-50%,-50%)';
+let playerMovementProjection8 = document.querySelector('#mp8');
+playerMovementProjection8.style.position = 'absolute';
+playerMovementProjection8.style.transform = 'translate(-50%,-50%)';
+
+
 function drawToIndex(node, index) {
     document.querySelector('.board').appendChild(node);
     let shade = document.querySelector(`.board>:nth-child(${index + 1})`);
@@ -35,7 +63,74 @@ function drawToIndex(node, index) {
 function drawPlayer() {
     document.querySelector('#score').innerText = playerScore;
     drawToIndex(playerImage, playerIndex);
+    if (ProjectMovement == true)
+        drawPlayerPossibleMoves();
 }
+
+function drawPlayerPossibleMoves() {
+    /*Up two over one left*/
+    if (playerIndex % 7 > 0 && Math.floor(playerIndex / 7) > 1) {
+        drawToIndex(playerMovementProjection1, playerIndex - 15);
+        playerMovementProjection1.style.opacity = '60';
+    } else
+        playerMovementProjection1.style.opacity = '0';
+
+    /*Up two over one right */
+    if (playerIndex % 7 < 6 && Math.floor(playerIndex / 7) > 1) {
+        drawToIndex(playerMovementProjection2, playerIndex - 13);
+        playerMovementProjection2.style.opacity = '60';
+    } else
+        playerMovementProjection2.style.opacity = '0';
+
+    /*Left two up one*/
+    if (playerIndex % 7 > 1 && Math.floor(playerIndex / 7) > 0) {
+        drawToIndex(playerMovementProjection3, playerIndex - 9);
+        playerMovementProjection3.style.opacity = '60';
+    } else
+        playerMovementProjection3.style.opacity = '0';
+
+    /*Right two up one*/
+    if (playerIndex % 7 < 5 && Math.floor(playerIndex / 7) > 0)
+    {
+        drawToIndex(playerMovementProjection4, playerIndex - 5);
+        playerMovementProjection4.style.opacity = '60';
+    }
+    else
+        playerMovementProjection4.style.opacity = '0';
+
+    /*Right two down one*/
+    if (playerIndex % 7 > 1 && Math.floor(playerIndex / 7) < 6) {
+        drawToIndex(playerMovementProjection5, playerIndex + 5);
+        playerMovementProjection5.style.opacity = '60';
+    }
+    else
+        playerMovementProjection5.style.opacity = '0';
+
+    /*Left two down one*/
+    if (playerIndex % 7 < 5 && Math.floor(playerIndex / 7) < 6) {
+        drawToIndex(playerMovementProjection6, playerIndex + 9);
+        playerMovementProjection6.style.opacity = '60';
+    }
+    else
+        playerMovementProjection6.style.opacity = '0';
+
+    /*Down two over one right */
+    if (playerIndex % 7 > 0 && Math.floor(playerIndex / 7) < 5) {
+        drawToIndex(playerMovementProjection7, playerIndex + 13);
+        playerMovementProjection7.style.opacity = '60';
+    }
+    else
+        playerMovementProjection7.style.opacity = '0';
+
+    /*Down two over one left*/
+    if (playerIndex % 7 < 6 && Math.floor(playerIndex / 7) < 5) {
+        drawToIndex(playerMovementProjection8, playerIndex + 15);
+        playerMovementProjection8.style.opacity = '60';
+    }
+    else
+        playerMovementProjection8.style.opacity = '0';
+}
+
 let targetDiffScore = 3;
 
 let gameIsPlayed = false;
