@@ -91,7 +91,7 @@ function Piece(type, index) {
                     this.icon.replaceChild(document.querySelector('#' + this.type).cloneNode(), this.icon.childNodes[0]);
                 }
             }
-            
+
             return true;
         } else if (this.deploymentCounter > 1) {
             this.deploymentCounter--;
@@ -302,7 +302,7 @@ let protopieces = {
         spawnTries: 8,
         generateMoves: (index) => {
             let possibleMoves = []
-            if (Math.abs(playerIndex - index) != 7)  { // Player Knight is not directly above the pawn
+            if (Math.abs(playerIndex - index) != 7)  { // Player Knight is not directly above the pawn. If it was, the pawn would not have any moves
                 if (Math.floor(index / 7) > 0) possibleMoves.push(-7);
                 if (Math.floor(index / 7) < 6) possibleMoves.push(7);
                 if (Math.abs(playerIndex - index) == 6) { // White Knight is diagonally above Pawn

@@ -366,8 +366,11 @@ document.querySelector('.board').addEventListener('click', (e) => {
                 let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
                 if (gameMode == 'knightmare') randomPiece = 'pawn';
                 let allowSpawnLocations = [];
-                for (let i = 0; i < 49; i++)
-                    if (!isOccupied(i)) allowSpawnLocations.push(i);
+                for (let i = 0; i < 49; i++) { 
+                    // The square has to be not occupied. If the random Piece is a pawn, it also has to be in either second row.
+                    if (!isOccupied(i) && ((randomPiece == "pawn" && (Math.floor(i / 7) == 1 || Math.floor(i / 7) == 5)) || randomPiece != "pawn"))
+                        allowSpawnLocations.push(i);
+                }
                 if (allowSpawnLocations.length) {
                     let randomPosition =
                         allowSpawnLocations[
