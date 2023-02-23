@@ -364,7 +364,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
             }
             if (gameMode != 'arcade') {
                 let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
-                if (gameMode == 'knightmare') randomPiece = 'knight';
+                if (gameMode == 'knightmare') randomPiece = 'pawn';
                 let allowSpawnLocations = [];
                 for (let i = 0; i < 49; i++)
                     if (!isOccupied(i)) allowSpawnLocations.push(i);

@@ -68,6 +68,7 @@ function Piece(type, index) {
             // if so, return false
             // else
             // generate possible moves
+            //if (this.type == 'pawn' && Math.abs(playerIndex - this.index) == 7) return false // Player is directly infront of a pawn
             let possibleMoves = protopieces[this.type].generateMoves(this.index);
             possibleMoves = possibleMoves.filter((i) => !isOccupied(i));
             if (!possibleMoves.length) return false; // die
@@ -77,9 +78,20 @@ function Piece(type, index) {
                 // if i can hit player, hit player
             } else {
                 this.index =
-                    possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+                possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
             }
             this.moved = true;
+
+            //Checking for Pawn-Promotion:
+            if (this.type == "pawn") {
+                let currentRow = Math.floor(this.index / 7);
+                let promoting = currentRow == 0 || currentRow == 6;
+                if (promoting) {
+                    this.type = "queen";
+                    this.icon.replaceChild(document.querySelector('#' + this.type).cloneNode(), this.icon.childNodes[0]);
+                }
+            }
+            
             return true;
         } else if (this.deploymentCounter > 1) {
             this.deploymentCounter--;
@@ -285,5 +297,26 @@ let protopieces = {
             return possibleMoves;
         },
     },
+    pawn: {
+        value: 1,
+        spawnTries: 8,
+        generateMoves: (index) => {
+            let possibleMoves = []
+            if (Math.abs(playerIndex - index) != 7)  { // Player Knight is not directly above the pawn
+                if (Math.floor(index / 7) > 0) possibleMoves.push(-7);
+                if (Math.floor(index / 7) < 6) possibleMoves.push(7);
+                if (Math.abs(playerIndex - index) == 6) { // White Knight is diagonally above Pawn
+                    if (index % 7 < 6 && Math.floor(index / 7) > 0) possibleMoves.push(-6);
+                    if (index % 7 > 0 && Math.floor(index / 7) < 6) possibleMoves.push(6);
+                }
+                else if (Math.abs(playerIndex - index) == 8) {
+                    if (index % 7 < 6 && Math.floor(index / 7) < 6) possibleMoves.push(8);
+                    if (index % 7 > 0 && Math.floor(index / 7) > 0) possibleMoves.push(-8);                    
+                }
+            }
+            possibleMoves = possibleMoves.map((i) => i + index);
+            return possibleMoves;
+        }
+    }
 };
 let protoArr = Object.entries(protopieces);
