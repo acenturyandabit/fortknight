@@ -312,16 +312,22 @@ document.querySelector('.board').addEventListener('click', (e) => {
             pieces.map((p) => p.cleanup());
         }
         occupiedSquares = []; // reset so that pieces can take you if you take pieces
+        let piecesStillAlive = pieces.length
         pieces = pieces.filter((p) => {
             let ok = p.checkAlive();
             if (!ok) {
                 totalKills++;
                 killed = true;
                 if (gameMode != 'pacifist') playerScore += protopieces[p.type].value;
+                combo++
                 p.icon.remove();
             }
             return ok;
         });
+
+        if (piecesStillAlive <= pieces.length) {
+            combo = 0;
+        }
 
         if (gameMode != 'arcade') {
             pieces.map((p) => p.move());
