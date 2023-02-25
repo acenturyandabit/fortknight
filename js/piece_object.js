@@ -11,6 +11,7 @@ function Piece(type, index) {
     this.icon.style.position = 'absolute';
     this.icon.style.transform = 'translate(-50%,-50%)';
     this.deploymentCounter = type == 'queen' ? 5 : 3; //PC changed this line 5:3 is original, 3 is time between spawns
+    this.turnCount = 1
 
     if (this.type == "pawn") {
         if (Math.floor(this.index / 7) == 5) {
@@ -80,7 +81,14 @@ function Piece(type, index) {
             // if so, return false
             // else
             // generate possible moves
+            if(this.type == "pawn" && this.moved) { // Pawns: Only move every other turn
+                this.moved = false;
+                return false
+            }
+
             let possibleMoves = protopieces[this.type].generateMoves(this.index);
+            possibleMoves = possibleMoves.filter((i) => !isOccupied(i));
+
             // Pawn edge case since these only move in one direction
             if (this.type == "pawn") {
                 possibleMoves = possibleMoves.filter((i) => this.upDirection ? i < this.index : i > this.index)
@@ -155,7 +163,8 @@ function Piece(type, index) {
     };
     this.cleanup = () => {
         //this.icon.remove();
-        this.moved = this.deploymentCounter != 0;
+        if (this.type != 'pawn' || !this.moved) 
+            this.moved = this.deploymentCounter != 0;
     };
     this.draw = () => {
         turnOrder.innerText = this.deploymentCounter;
@@ -320,7 +329,7 @@ let protopieces = {
     },
     pawn: {
         value: 1,
-        spawnTries: 3,
+        spawnTries: 4,
         generateMoves: (index) => {
             let possibleMoves = []
             // Player Knight is not directly above or below the pawn. If it was, the pawn would not have any moves
