@@ -81,14 +81,9 @@ function Piece(type, index) {
             // if so, return false
             // else
             // generate possible moves
-            if(this.type == "pawn" && this.moved) { // Pawns: Only move every other turn
-                this.moved = false;
-                return false
-            }
-
             let possibleMoves = protopieces[this.type].generateMoves(this.index);
             possibleMoves = possibleMoves.filter((i) => !isOccupied(i));
-
+            
             // Pawn edge case since these only move in one direction
             if (this.type == "pawn") {
                 possibleMoves = possibleMoves.filter((i) => this.upDirection ? i < this.index : i > this.index)
@@ -100,6 +95,10 @@ function Piece(type, index) {
                 this.index = playerIndex;
                 // if i can hit player, hit player
             } else {
+                if(this.type == "pawn" && this.moved) { // Pawns: Only move every other turn
+                    this.moved = false;
+                    return false
+                }
                 this.index =
                 possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
             }
