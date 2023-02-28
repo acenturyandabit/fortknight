@@ -194,6 +194,21 @@ document.querySelector('.board').addEventListener('mousemove', (e) => {
     }
 });
 let nope = {}; // intervals for red squares
+
+function isValidPlayerMove(playerIndex, squareIndex) {
+    const [playerX, playerY] = coordsTo2D(playerIndex);
+    const [targetX, targetY] = coordsTo2D(squareIndex);
+
+    return playerIndex == squareIndex || playerMoveMatrix.some(([dx, dy]) => {
+        const tryX = playerX + dx;
+        const tryY = playerY + dy;
+
+        return (
+            playerCanMove(tryX, tryY) && (tryX == targetX && tryY == targetY)
+        );
+    });
+}
+
 document.querySelector('.board').addEventListener('click', (e) => {
     let squareIndex;
     let path = e.path || e.composedPath();
@@ -226,33 +241,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
     }
 
     //Check if the squareIndex is a valid move relative to the playerIndex
-    if (
-        squareIndex == playerIndex ||
-        (squareIndex - playerIndex == -15 &&
-            playerIndex % 7 > 0 &&
-            Math.floor(playerIndex / 7) > 1) ||
-        (squareIndex - playerIndex == -13 &&
-            playerIndex % 7 < 6 &&
-            Math.floor(playerIndex / 7) > 1) ||
-        (squareIndex - playerIndex == -9 &&
-            playerIndex % 7 > 1 &&
-            Math.floor(playerIndex / 7) > 0) ||
-        (squareIndex - playerIndex == -5 &&
-            playerIndex % 7 < 5 &&
-            Math.floor(playerIndex / 7) > 0) ||
-        (squareIndex - playerIndex == 5 &&
-            playerIndex % 7 > 1 &&
-            Math.floor(playerIndex / 7) < 6) ||
-        (squareIndex - playerIndex == 9 &&
-            playerIndex % 7 < 5 &&
-            Math.floor(playerIndex / 7) < 6) ||
-        (squareIndex - playerIndex == 13 &&
-            playerIndex % 7 > 0 &&
-            Math.floor(playerIndex / 7) < 5) ||
-        (squareIndex - playerIndex == 15 &&
-            playerIndex % 7 < 6 &&
-            Math.floor(playerIndex / 7) < 5)
-    ) {
+    if (isValidPlayerMove(playerIndex, squareIndex)) {
         //its a valid move, execute it
 
         let killed = false;
