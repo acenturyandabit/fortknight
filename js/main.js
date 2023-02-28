@@ -23,32 +23,6 @@ let playerImage = document.querySelector('#wknight').cloneNode();
 playerImage.style.position = 'absolute';
 playerImage.style.transform = 'translate(-50%,-50%)';
 
-//Player Movement Projections-----------------------------------------
-let ProjectMovement = false;
-
-const movementPoints = playerMovementProjectionGenerate();
-
-function playerMovementProjectionGenerate() {
-    const fragment = document.createDocumentFragment();
-    const movementPoints = [];
-
-    for (let i = 0; i < 8; i++) {
-      const movementPoint = document.createElement("img");
-      movementPoint.id = `mp${i + 1}`;
-      movementPoint.className = 'movementProjection';
-      movementPoint.style.position = 'absolute';
-      movementPoint.style.transform = 'translate(-50%,-50%)';
-      movementPoint.src = 'images/MovementProjection.svg';
-
-      movementPoints.push(movementPoint);
-      fragment.appendChild(movementPoint);
-    }
-
-    document.querySelector("#assets").appendChild(fragment);
-
-    return movementPoints;
-}
-
 function drawToIndex(node, index) {
     document.querySelector('.board').appendChild(node);
     let shade = document.querySelector(`.board>:nth-child(${index + 1})`);
@@ -61,24 +35,7 @@ function drawToIndex(node, index) {
 function drawPlayer() {
     document.querySelector('#score').innerText = playerScore;
     drawToIndex(playerImage, playerIndex);
-    if (ProjectMovement == true)
-        drawPlayerPossibleMoves();
-}
-
-function drawPlayerPossibleMoves() {
-    const [playerX, playerY] = coordsTo2D(playerIndex);
-
-    playerMoveMatrix.forEach(([dx, dy], idx) => {
-        const tryX = playerX + dx;
-        const tryY = playerY + dy;
-
-        if(playerCanMove(tryX, tryY)) {
-            drawToIndex(movementPoints[idx], coordsTo1D(tryX, tryY));
-            movementPoints[idx].style.opacity = '60';
-        } else {
-            movementPoints[idx].style.opacity = '0';
-        }
-    });
+    if (PH.getStatus()) PH.drawPossibleMoves();
 }
 
 let targetDiffScore = 3;
@@ -338,17 +295,7 @@ document.querySelector('.board').addEventListener('click', (e) => {
         checkAchievements();
         drawPlayer();
     } else {
-        if (gameIsPlayed) {
-            //flash the attempted square
-            let element = document.querySelector(
-                `.board>div:nth-child(${squareIndex + 1})`
-            );
-            element.style.background = 'red';
-            if (nope[squareIndex]) clearTimeout(nope[squareIndex]);
-            nope[squareIndex] = setTimeout(() => {
-                element.style.background = '';
-            }, 1000);
-        }
+        if (gameIsPlayed) PH.blinkInvalidMove(squareIndex);
     }
 });
 /*using only keydown means if you hold down an option
