@@ -23,13 +23,6 @@ function projectMovement() {
 	else
 	{
 		ProjectMovement = false;
-		playerMovementProjection1.style.opacity = '0';
-		playerMovementProjection2.style.opacity = '0';
-		playerMovementProjection3.style.opacity = '0';
-		playerMovementProjection4.style.opacity = '0';
-		playerMovementProjection5.style.opacity = '0';
-		playerMovementProjection6.style.opacity = '0';
-		playerMovementProjection7.style.opacity = '0';
-		playerMovementProjection8.style.opacity = '0';
+		movementPoints.forEach(point => (point.style.opacity = '0'));
 	}
 }
