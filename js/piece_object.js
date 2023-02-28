@@ -11,6 +11,19 @@ function Piece(type, index) {
     this.icon.style.position = 'absolute';
     this.icon.style.transform = 'translate(-50%,-50%)';
     this.deploymentCounter = type == 'queen' ? 5 : 3; //PC changed this line 5:3 is original, 3 is time between spawns
+    this.turnCount = 1
+
+    if (this.type == "pawn") {
+        if (Math.floor(this.index / 7) == 5) {
+            this.upDirection = true;
+            this.icon.appendChild(document.querySelector('#up_arrow').cloneNode())
+        }
+        else if (Math.floor(this.index / 7) == 1) {
+            this.upDirection = false;
+            this.icon.appendChild(document.querySelector('#down_arrow').cloneNode())
+        }
+    }
+
     this.checkAlive = () => {
         if (playerIndex != this.index) occupiedSquares.push(this.index);
         if(!playerIndex != this.index)
@@ -70,16 +83,37 @@ function Piece(type, index) {
             // generate possible moves
             let possibleMoves = protopieces[this.type].generateMoves(this.index);
             possibleMoves = possibleMoves.filter((i) => !isOccupied(i));
+            
+            // Pawn edge case since these only move in one direction
+            if (this.type == "pawn") {
+                possibleMoves = possibleMoves.filter((i) => this.upDirection ? i < this.index : i > this.index)
+            }
+
             if (!possibleMoves.length) return false; // die
             // check if I can hit player and not drunk
             if (possibleMoves.includes(playerIndex) && gameMode != 'drunk') {
                 this.index = playerIndex;
                 // if i can hit player, hit player
             } else {
+                if(this.type == "pawn" && this.moved) { // Pawns: Only move every other turn
+                    this.moved = false;
+                    return false
+                }
                 this.index =
-                    possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+                possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
             }
             this.moved = true;
+            //Checking for Pawn-Promotion:
+            if (this.type == "pawn") {
+                let currentRow = Math.floor(this.index / 7);
+                let promoting = currentRow == 0 || currentRow == 6;
+                if (promoting) {
+                    this.type = "queen";
+                    this.icon.replaceChild(document.querySelector('#' + this.type).cloneNode(), this.icon.childNodes[0]);
+                    this.icon.removeChild(this.icon.childNodes[2])
+                }
+            }
+
             return true;
         } else if (this.deploymentCounter > 1) {
             this.deploymentCounter--;
@@ -109,6 +143,12 @@ function Piece(type, index) {
             // generate possible moves
             let possibleMoves = protopieces[this.type].generateMoves(this.index);
             possibleMoves = possibleMoves.filter((i) => !isOccupied(i));
+
+            // Pawn edge case since these only move in one direction
+            if (this.type == "pawn") {
+                possibleMoves = possibleMoves.filter((i) => this.upDirection ? i < this.index : i > this.index)
+            }
+
             if (!possibleMoves.length) return false; // die
             // check if I can hit the specified square
             if (possibleMoves.includes(SquareIndex) && gameMode != 'drunk') {
@@ -122,7 +162,8 @@ function Piece(type, index) {
     };
     this.cleanup = () => {
         //this.icon.remove();
-        this.moved = this.deploymentCounter != 0;
+        if (this.type != 'pawn' || !this.moved) 
+            this.moved = this.deploymentCounter != 0;
     };
     this.draw = () => {
         turnOrder.innerText = this.deploymentCounter;
@@ -285,5 +326,25 @@ let protopieces = {
             return possibleMoves;
         },
     },
+    pawn: {
+        value: 1,
+        spawnTries: 4,
+        generateMoves: (index) => {
+            let possibleMoves = []
+            // Player Knight is not directly above or below the pawn. If it was, the pawn would not have any moves
+            if (playerIndex - index != -7) possibleMoves.push(-7);
+            if (playerIndex - index != 7) possibleMoves.push(7);
+
+            // If the difference between White Knight and Pawn is 6 or 8 and the Pwan is not on either side border,
+            // then the White Knight has to be diagonal from the pawn
+            if (playerIndex - index == -6 && (index % 7 != 0 || index % 7 != 6) ) possibleMoves.push(-6);
+            if (playerIndex - index == -6 && (index % 7 != 0 || index % 7 != 6) )possibleMoves.push(6);
+
+            if (playerIndex - index == 8 && (index % 7 != 0 || index % 7 != 6) ) possibleMoves.push(8);
+            if (playerIndex - index == -8 && index % 7 != 0) possibleMoves.push(-8);                    
+            possibleMoves = possibleMoves.map((i) => i + index);
+            return possibleMoves;
+        }
+    }
 };
 let protoArr = Object.entries(protopieces);

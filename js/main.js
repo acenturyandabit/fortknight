@@ -236,6 +236,11 @@ document.querySelector('.board').addEventListener('mousemove', (e) => {
             thePiece.index
         );
         possibleMoves = possibleMoves.filter((i) => !isOccupied(i));
+
+        if (thePiece.type == "pawn") { // Pawn edge case since it only moves in one direction
+            possibleMoves = possibleMoves.filter((i) => thePiece.upDirection ? i < thePiece.index : i > thePiece.index)
+        }
+
         for (let i of possibleMoves) {
             document.querySelector(
                 `.board>div:nth-child(${i + 1})`
@@ -366,8 +371,14 @@ document.querySelector('.board').addEventListener('click', (e) => {
                 let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
                 if (gameMode == 'knightmare') randomPiece = 'knight';
                 let allowSpawnLocations = [];
-                for (let i = 0; i < 49; i++)
-                    if (!isOccupied(i)) allowSpawnLocations.push(i);
+                for (let i = 0; i < 49; i++) { 
+                    if (!isOccupied(i)) {
+                        if ((randomPiece == "pawn" && (Math.floor(i / 7) == 1 || Math.floor(i / 7) == 5))) // Pawns always spawn on the second row on either side
+                            allowSpawnLocations.push(i);
+                        else if (randomPiece != "pawn")
+                            allowSpawnLocations.push(i);
+                    } 
+                }
                 if (allowSpawnLocations.length) {
                     let randomPosition =
                         allowSpawnLocations[
@@ -512,7 +523,12 @@ function arcadeModeExec() {
         let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
         let allowSpawnLocations = [];
         for (let i = 0; i < 49; i++)
-            if (!isOccupied(i)) allowSpawnLocations.push(i);
+            if (!isOccupied(i)) {
+                if ((randomPiece == "pawn" && (Math.floor(i / 7) == 1 || Math.floor(i / 7) == 5))) // Pawns always spawn on the second row on either side
+                    allowSpawnLocations.push(i);
+                else if (randomPiece != "pawn")
+                    allowSpawnLocations.push(i);
+            } 
         if (allowSpawnLocations.length) {
             let randomPosition =
                 allowSpawnLocations[

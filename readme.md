@@ -72,4 +72,4 @@ If you want to be added to the project as a maintainer and help me merge pull re
 ## Build tools
 `./images/compile_imgs.js`: run in this directory to preload svgs into the html file.
 
-credits to wikimedia commons for chess pieces
+credits to wikimedia commons for chess pieces and [SVG Repo](https://www.svgrepo.com/collection/01-arrows/) for the arrows
