@@ -146,6 +146,7 @@ function resetGame() {
     //spawn the knight
     playerIndex = 24;
     playerScore = 0;
+    combo = 0;
     pieces.forEach((i) => {
         i.cleanup();
         i.icon.remove();
