@@ -91,6 +91,27 @@ const achievementList = {
         achievementProgress: 0,
         achievementGoal: 5,
     },
+    "triple_kill": {
+        achievementName: 'Triple Kill',
+        achievementDescrption: 'Kill three pieces in a row.',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 3
+    },
+    "penta_kill": {
+        achievementName: 'Penta Kill',
+        achievementDescrption: 'Kill five pieces in a row.',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 5
+    },
+    "hepta_kill": {
+        achievementName: 'Hepta Kill',
+        achievementDescrption: 'Kill seven pieces in a row.',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 7
+    }
 };
 
 let playerLazyMoves = 0;
@@ -98,6 +119,7 @@ let playerLazyLastSquare = -1;
 let totalKills = 0;
 let playerTotalSteps = 0;
 let playerThreatenedMoves = 0;
+let combo = 0;
 
 function clearAchievementProgressAfterReset() {
     // When the game resets, this function is called
@@ -135,6 +157,11 @@ function checkAchievements() {
     checkAndProgress('100slay', totalKills, 100);
     checkAndProgress('500slay', totalKills, 500);
     checkAndProgress('1000steps', playerTotalSteps, 1000);
+
+    //multi-kill achievementStatus
+    checkAndProgress('triple_kill', combo, 3)
+    checkAndProgress('penta_kill', combo, 5)
+    checkAndProgress('hepta_kill', combo, 7)
 
     //test for is square safe
     if (isSquareSafe(playerIndex, pieces) == false) {
