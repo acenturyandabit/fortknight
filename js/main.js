@@ -98,7 +98,7 @@ function getPlayerNextMoves(playerIndex1) {
 
 function isSquareSafe(move, allPieces) {
     for (p of allPieces) {
-        if (p.canHitSquare(move)) {
+        if (p.canHitSquare(move) && p.deploymentCounter <= 0) {
             return false;
         }
     }
