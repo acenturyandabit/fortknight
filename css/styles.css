@@ -17,6 +17,7 @@ body {
 	position: relative;
 	width: 70vh;
 	height: 70vh;
+	margin-bottom: 20px;
 }
 
 .board > div {
@@ -28,6 +29,13 @@ body {
 
 #wknight {
 	transition: 0.4s all;
+}
+
+.figure {
+	max-height: 29px;
+	max-width: 29px;
+	height: 100%;
+	width: 100%;
 }
 
 .movementProjection{
@@ -138,6 +146,7 @@ input:checked[type="checkbox"]::before{
 
 .body-container {
 	display: flex;
+	margin: 0px 20px;
 }
 
 .sidebar {
@@ -256,7 +265,7 @@ input:checked[type="checkbox"]::before{
 	background-image: url('../images/light-mode.svg');
 }
 
-@media screen and (max-aspect-ratio: 4/3) {
+@media (max-width: 1024px) {
 	.body-container {
 		flex-direction: column;
 		text-align: center;
@@ -264,10 +273,9 @@ input:checked[type="checkbox"]::before{
 	}
 
 	.board {
-		grid-template-rows: repeat(7, 14vw);
-		grid-template-columns: repeat(7, 14vw);
-		width: 98vw;
-		height: 98vw;
+		width: 100%;
+		height: auto !important;
+		justify-content: center;
 	}
 
 	.sidebar > div > p {

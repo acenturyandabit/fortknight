@@ -17,11 +17,41 @@ for (let i = 0; i < 7; i++) {
         board.insertBefore(d, board.children[j + i * 7]);
     }
 }
+
+boardResize();
+
 let playerScore = 0;
 let playerIndex = 24;
 let playerImage = document.querySelector('#wknight').cloneNode();
 playerImage.style.position = 'absolute';
 playerImage.style.transform = 'translate(-50%,-50%)';
+
+function getBoardSquareSize() {
+    return window.getComputedStyle(
+        document.querySelector('.board > div')
+    ).getPropertyValue('height');
+}
+
+function boardResize() {
+    const vw = window.innerWidth;
+
+    if (vw <= 1024) {
+        const squareSize = board.clientWidth / 7;
+
+        board.style.gridTemplateColumns = `repeat(7, ${squareSize}px)`;
+        board.style.gridTemplateRows = `repeat(7, ${squareSize}px)`;
+    } else {
+        board.style.gridTemplateColumns = 'repeat(7, 10vh)';
+        board.style.gridTemplateRows = 'repeat(7, 10vh)';
+    }
+}
+
+function resizePlayer() {
+    const squareSize = getBoardSquareSize();
+
+    playerImage.style.maxWidth = squareSize;
+    playerImage.style.maxHeight = squareSize;
+}
 
 function drawToIndex(node, index) {
     document.querySelector('.board').appendChild(node);
@@ -34,6 +64,7 @@ function drawToIndex(node, index) {
 
 function drawPlayer() {
     document.querySelector('#score').innerText = playerScore;
+    resizePlayer();
     drawToIndex(playerImage, playerIndex);
     if (PH.getStatus()) PH.drawPossibleMoves();
 }
@@ -439,3 +470,14 @@ function arcadeModeExec() {
         setTimeout(arcadeModeExec, 2500);
     }
 }
+
+window.addEventListener('resize', () => {
+    boardResize();
+
+    if(!didGameStart) {
+        resizePlayer();
+    } else {
+        pieces.forEach((p) => p.draw());
+        drawPlayer();
+    }
+});

@@ -4,24 +4,38 @@ function Piece(type, index) {
     this.icon = document.createElement('div');
     this.icon.appendChild(document.querySelector('#' + type).cloneNode());
     let turnOrder = document.createElement('div');
-    turnOrder.style.background = 'white';
+    turnOrder.style.position = 'absolute';
+    turnOrder.style.top = turnOrder.style.left = '2px';
     this.icon.appendChild(turnOrder);
-    this.icon.style.height = 'auto';
-    this.icon.children[0].style.height = '2vh';
     this.icon.style.position = 'absolute';
     this.icon.style.transform = 'translate(-50%,-50%)';
     this.deploymentCounter = type == 'queen' ? 5 : 3; //PC changed this line 5:3 is original, 3 is time between spawns
     this.turnCount = 1
 
     if (this.type == "pawn") {
+        const dirEl = document.createElement('div');
+
+        dirEl.style.position = 'absolute';
+        dirEl.style.top = dirEl.style.right = '2px';
+
         if (Math.floor(this.index / 7) == 5) {
             this.upDirection = true;
-            this.icon.appendChild(document.querySelector('#up_arrow').cloneNode())
-        }
-        else if (Math.floor(this.index / 7) == 1) {
+            dirEl.textContent = '🡡';
+        } else if (Math.floor(this.index / 7) == 1) {
             this.upDirection = false;
-            this.icon.appendChild(document.querySelector('#down_arrow').cloneNode())
+            dirEl.textContent = '🡣';
         }
+
+        this.icon.appendChild(dirEl);
+    }
+
+    this.resize = () => {
+        const fi = this.icon.querySelector('img');
+
+        const squareSize = getBoardSquareSize();
+
+        fi.style.maxWidth = fi.style.maxHeight = squareSize;
+        fi.style.height = fi.style.width = squareSize;
     }
 
     this.checkAlive = () => {
@@ -172,6 +186,8 @@ function Piece(type, index) {
         } else if (this.deploymentCounter == 0) {
             turnOrder.innerText = pieces.indexOf(this) + 1;
         }
+
+        this.resize();
         drawToIndex(this.icon, this.index);
 
         if(gameMode == "loop")
