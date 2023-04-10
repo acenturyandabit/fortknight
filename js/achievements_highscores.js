@@ -116,6 +116,7 @@ const achievementList = {
         achievementName: 'Royal Pariah',
         achievementDescrption: 'Have every single piece on the board.',
         achievementStatus: 'Locked',
+        achievementGoal: 6
     }
 };
 
@@ -169,7 +170,7 @@ function checkAchievements() {
     checkAndProgress('hepta_kill', combo, 7)
 
     // all_pieces achievementStatus
-    checkAndUnlock('royal_pariah', new Set(pieces.map((obj) => obj.type)).size, 6)
+    checkAndProgress('royal_pariah', new Set(pieces.map((obj) => obj.type)).size, 6)
     //test for is square safe
     if (isSquareSafe(playerIndex, pieces) == false) {
         playerThreatenedMoves++;
