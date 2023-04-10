@@ -272,7 +272,7 @@ board.addEventListener('click', (e) => {
                 if (gameMode == 'knightmare') randomPiece = 'knight';
                 let allowSpawnLocations = [];
                 for (let i = 0; i < 49; i++) { 
-                    if (!isOccupied(i)) {
+                    if (!isOccupied(i) && i != playerIndex) {
                         if ((randomPiece == "pawn" && (Math.floor(i / 7) == 1 || Math.floor(i / 7) == 5))) // Pawns always spawn on the second row on either side
                             allowSpawnLocations.push(i);
                         else if (randomPiece != "pawn")
@@ -413,7 +413,7 @@ function arcadeModeExec() {
         let randomPiece = spawnArr[Math.floor(Math.random() * spawnArr.length)];
         let allowSpawnLocations = [];
         for (let i = 0; i < 49; i++)
-            if (!isOccupied(i)) {
+            if (!isOccupied(i) && i != playerIndex) {
                 if ((randomPiece == "pawn" && (Math.floor(i / 7) == 1 || Math.floor(i / 7) == 5))) // Pawns always spawn on the second row on either side
                     allowSpawnLocations.push(i);
                 else if (randomPiece != "pawn")
@@ -427,6 +427,7 @@ function arcadeModeExec() {
             let newPiece = new Piece(randomPiece, randomPosition);
             newPiece.deploymentCounter = 1; //time until new piece spawns
             pieces.push(newPiece);
+            console.log(pieces);
         }
     }
 
