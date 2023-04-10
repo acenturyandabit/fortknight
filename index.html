@@ -22,57 +22,60 @@
 </head>
 
 <body>
-    <header>
-        <img src="images/logo.webp" alt="logo" />
-        <div class="title">
-            <h1>Fortknight</h1>
-            <h2>Chess Battle Royale</h2>
-        </div>
-        <div class="dark-mode">
-            <label class="dark-mode-switch">
-                <input type="checkbox" onclick="switchDarkMode()">
-                <span class="slider"></span>
-            </label>
-        </div>
-    </header>
+    <div class="dark-mode">
+        <label class="dark-mode-switch">
+            <input type="checkbox" onclick="switchDarkMode()">
+            <span class="slider"></span>
+        </label>
+    </div>
 
 
     <div class="body-container">
-        <div class="board">
-            <div class="ach_modal"
-                style="position:absolute; top: 0; bottom: 0;left: 0;right: 0; margin: auto; bottom: 200px; opacity: 1; visibility: hidden; z-index:1000">
-                <div style="text-align: center; display:block; padding: 5px 10px; background: rgba(0,0,0,0.7); color:white"
-                    class="ach_modal_inner">
-                    <h3>Achievement Unlocked!</h3>
-                    <p id="ach_modal_name"><span></span></p>
-                    <h5 id="ach_modal_descr"><span></span></h5>
-                    <button onclick="dismissAchvModal()">Dismiss</button>
-                </div>
-            </div>
+        <div>
 
-            <!-- generate board here -->
-            <div class="boardModal">
-                <div class="loss_modal">
-                    <h1 class="fixed-color" style="color:white">You lost :(</h1>
-                    <p class="fixed-color" style="color:white">Your score: <span class="fixed-color"
-                            style="color:white"></span></p>
+            <header>
+                <img src="images/logo.webp" alt="logo" />
+                <div class="title">
+                    <h1>Fortknight</h1>
+                    <h2>Chess Battle Royale</h2>
                 </div>
-                <button onclick="resetGame();">Begin</button>
+            </header>
+            <div class="board">
+                <div class="ach_modal"
+                    style="position:absolute; top: 0; bottom: 0;left: 0;right: 0; margin: auto; bottom: 200px; opacity: 1; visibility: hidden; z-index:1000">
+                    <div style="text-align: center; display:block; padding: 5px 10px; background: rgba(0,0,0,0.7); color:white"
+                        class="ach_modal_inner">
+                        <h3>Achievement Unlocked!</h3>
+                        <p id="ach_modal_name"><span></span></p>
+                        <h5 id="ach_modal_descr"><span></span></h5>
+                        <button onclick="dismissAchvModal()">Dismiss</button>
+                    </div>
+                </div>
+
+                <!-- generate board here -->
+                <div class="boardModal">
+                    <div class="loss_modal">
+                        <h1 class="fixed-color" style="color:white">You lost :(</h1>
+                        <p class="fixed-color" style="color:white">Your score: <span class="fixed-color"
+                                style="color:white"></span></p>
+                    </div>
+                    <button onclick="resetGame();">Begin</button>
+                </div>
             </div>
-        </div>
-        <div id="assets" style="display:none">
-            <!--insert images here -->
-            <!-- piece-images -->
-            <img src="images/bishop.svg" id="bishop" style="background: white" />
-            <img src="images/king.svg" id="king" style="background: white" />
-            <img src="images/knight.svg" id="knight" style="background: white" />
-            <img src="images/pawn.svg" id="pawn" style="background: white" />
-            <img src="images/queen.svg" id="queen" style="background: white" />
-            <img src="images/rook.svg" id="rook" style="background: white" />
-            <img src="images/wknight.svg" id="wknight" style="background: white" />
-            <img style='background:white' id='up_arrow' src='images/up_arrow.svg'>
-            <img style='background:white' id='down_arrow' src='images/down_arrow.svg'>
-            <!--end insert images -->
+            <div id="assets" style="display:none">
+                <!--insert images here -->
+                <!-- piece-images -->
+                <img src="images/bishop.svg" id="bishop" style="background: white" />
+                <img src="images/king.svg" id="king" style="background: white" />
+                <img src="images/knight.svg" id="knight" style="background: white" />
+                <img src="images/pawn.svg" id="pawn" style="background: white" />
+                <img src="images/queen.svg" id="queen" style="background: white" />
+                <img src="images/rook.svg" id="rook" style="background: white" />
+                <img src="images/wknight.svg" id="wknight" style="background: white" />
+                <img style='background:white' id='up_arrow' src='images/up_arrow.svg'>
+                <img style='background:white' id='down_arrow' src='images/down_arrow.svg'>
+                <!--end insert images -->
+            </div>
         </div>
         <div class="sidebar">
             <div class="selected">
@@ -90,7 +93,8 @@
                     <p>Pieces will move to take your knight if they can; or randomly otherwise</p>
                     <p>Small pieces block the movement of other pieces, but big pieces don't. However, you can land on
                         small pieces and if a big piece can't move, it dies. </p>
-                    <p>Pawns move in direction indicated <b>every two turns</b> and can take on forward diagonals in any turn.</p>
+                    <p>Pawns move in direction indicated <b>every two turns</b> and can take on forward diagonals in any
+                        turn.</p>
 
                     <span id="gmode-help" class="hidden">You must <button class="button"
                             onclick="forfeitGame()">Forfeit</button> in order to change the game mode</span>
@@ -175,8 +179,8 @@
             </div>
             <div class='toggleMovementProjection'>
                 <input type="checkbox" onclick="projectMovement()">
-                <label class="labelMovementProjection"  id="onbtn">ON</label>
-                <label class="labelMovementProjection"  id="offbtn">OFF</label>
+                <label class="labelMovementProjection" id="onbtn">ON</label>
+                <label class="labelMovementProjection" id="offbtn">OFF</label>
                 <label style="font-size: 10px"><br>Toggle Knight's<br>possible moves</label>
             </div>
 

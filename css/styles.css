@@ -181,6 +181,7 @@ input:checked[type="checkbox"]::before{
 	display: flex;
 	flex-direction: row;
 	padding-left: 3vw;
+	padding-top: 30px;
 	width: calc(97vw - 70vh);
 	position: relative;
 }
@@ -208,7 +209,7 @@ input:checked[type="checkbox"]::before{
 .sidebar > div > div {
 	display: none;
 	position: absolute;
-	top: 1em;
+	top: calc(1em + 30px);
 	left: 3vw;
 }
 
