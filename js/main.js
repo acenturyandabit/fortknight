@@ -11,7 +11,6 @@ let board = document.querySelector('.board');
 let boardModal = document.querySelector('.boardModal');
 for (let i = 0; i < 50; i++) {
 	let d = document.createElement('div');
-	console.log(board.innerHTML);
 	board.insertBefore(d, board.children[0]);
 }
 let playerScore = 0;
@@ -173,11 +172,8 @@ board.addEventListener('click', (e) => {
     let squareIndex;
     let path = e.path || e.composedPath();
 
-    //console.log(path);
-
     if (path[0].matches('.board')) return;
     for (let p of path) {
-        //console.log(p);
 
         if (p.matches('.board>img')) {
             if (p == playerImage) squareIndex = playerIndex;
@@ -427,7 +423,6 @@ function arcadeModeExec() {
             let newPiece = new Piece(randomPiece, randomPosition);
             newPiece.deploymentCounter = 1; //time until new piece spawns
             pieces.push(newPiece);
-            console.log(pieces);
         }
     }
 

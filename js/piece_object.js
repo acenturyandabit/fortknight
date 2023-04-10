@@ -130,12 +130,10 @@ function Piece(type, index) {
         if (sqr.style.background=="blue")
         {
             sqr.style.background='';
-            console.log("none blue");
         }
     }
     // Part of is square safe
     this.canHitSquare = (SquareIndex) => {
-        console.log('piece deployment counter', this.deploymentCounter);
         if (this.deploymentCounter <= 1) {
             // check if player is on me
             // if so, return false because square is safe as can continue moving

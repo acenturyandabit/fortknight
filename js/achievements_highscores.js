@@ -286,7 +286,6 @@ function renderHighscores() {
     achSortable.sort(function(ach1, ach2) {
         return ach2.completionPercent - ach1.completionPercent;
     });
-    console.log(achSortable);
 
     document.querySelector('.achv').innerHTML = achSortable
         .map(

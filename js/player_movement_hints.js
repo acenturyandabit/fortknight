@@ -8,7 +8,6 @@ function PlayerHighlighter() {
     }
 
     this.enable = () => {
-        console.log(1);
         if (!this.movementPoints.length) {
              this.generateMovmentProjection();
         }
@@ -37,7 +36,6 @@ function PlayerHighlighter() {
     }
 
     this.drawPossibleMoves = () => {
-        console.log
         const [playerX, playerY] = coordsTo2D(playerIndex);
 
         playerMoveMatrix.forEach(([dx, dy], idx) => {
