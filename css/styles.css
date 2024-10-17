@@ -260,6 +260,7 @@ input:checked[type="checkbox"]::before{
 	position: fixed;
 	top: 5px;
 	right: 5px;
+	z-index: 1000;
 }
 
 .dark-mode-switch {
