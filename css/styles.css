@@ -345,3 +345,7 @@ input:checked[type="checkbox"]::before{
 		width: auto;
 	}
 }
+
+.hidden {
+	display: none;
+}
