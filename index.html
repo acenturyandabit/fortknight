@@ -19,6 +19,9 @@
         gtag('config', 'UA-171629673-2');
     </script>
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- App Logic -->
+    <script src="app/app.js" type="module" defer></script>
 </head>
 
 <body>
@@ -184,8 +187,8 @@
                 <label style="font-size: 10px"><br>Toggle Knight's<br>possible moves</label>
             </div>
 
-            <div class='debugTab'>
-                <p onclick="showDebug()">DEBUG</p>
+            <div class='debugTab hidden'>
+                <p id="show-debug">DEBUG</p>
                 <div>
                     <h2>Debug Informations</h2>
                     <button id="reset-button">ResetLocalStorage</button>
