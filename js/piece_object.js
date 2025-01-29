@@ -162,8 +162,8 @@ function Piece(type, index) {
             }
 
             if (!possibleMoves.length) return false; // die
-            // check if I can hit the specified square
-            if (possibleMoves.includes(SquareIndex) && gameMode != 'drunk') {
+            // check if I can hit the specified square            
+            if (possibleMoves.includes(SquareIndex)) {
                 return true;
             } else {
                 return false;

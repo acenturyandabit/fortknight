@@ -116,7 +116,15 @@ const achievementList = {
         achievementName: 'Royal Pariah',
         achievementDescrption: 'Have every single piece on the board.',
         achievementStatus: 'Locked',
+        achievementProgress: 0,
         achievementGoal: 6
+    },
+    your_lucky_day : {
+        achievementName: 'Lucky Day',
+        achievementDescrption: 'Avoid potentially getting captured 3 times in a row (drunk mode only)',
+        achievementStatus: 'Locked',
+        achievementProgress: 0,
+        achievementGoal: 3
     }
 };
 
@@ -177,7 +185,12 @@ function checkAchievements() {
     } else {
         playerThreatenedMoves = 0;
     }
+    console.log(playerThreatenedMoves);
+    
     checkAndProgress('threatened', playerThreatenedMoves, 5);
+    if (gameMode == 'drunk') {
+        checkAndProgress('your_lucky_day', playerThreatenedMoves, 3);
+    }
     updateAchievements();
 }
 
