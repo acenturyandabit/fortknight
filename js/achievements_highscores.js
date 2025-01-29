@@ -185,7 +185,6 @@ function checkAchievements() {
     } else {
         playerThreatenedMoves = 0;
     }
-    console.log(playerThreatenedMoves);
     
     checkAndProgress('threatened', playerThreatenedMoves, 5);
     if (gameMode == 'drunk') {
