@@ -8,7 +8,7 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                 (i) =>
                 (i.innerHTML = `
                     <p><innerText style = "color: #8CA1C5">+1 point for every turn on the field</p>
-                    <p><innerText style = "color: #467AD5">+1 points for every pawn taken</p>
+                    <p><innerText style = "color: #467AD5">+1 point for every pawn taken</p>
                     <p><innerText style = "color: #0C46A9">+2 points for every king taken</p>
                     <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
                     <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
@@ -21,7 +21,7 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                 (i.innerHTML = `
                     <p><strong><innerText font size = "5" style = "color: red">Pieces will move in order rather than simultaneously.</strong></p>
                     <p><innerText style = "color: #8CA1C5">+1 point for every turn on the field</p>
-                    <p><innerText style = "color: #467AD5">+1 points for every pawn taken</p>
+                    <p><innerText style = "color: #467AD5">+1 point for every pawn taken</p>
                     <p><innerText style = "color: #0C46A9">+2 points for every king taken</p>
                     <p><innerText style = "color: #CF469F">+3 points for every knight, bishop, rook taken</p>
                     <p><innerText style = "color: #30DE0D">+5 points for every queen taken</p>
@@ -33,8 +33,8 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                 (i) =>
                 (i.innerHTML = `
                     <p><strong><innerText  style = "color: red">Only get points for staying alive</strong></p>
-                    <p><innerText style = "color: #467AD5">+0.25 points for every (big)pawn on the board</p>
-                    <p><innerText style = "color: #0C46A9">+0.5 points for every (big)king on the board</p>
+                    <p><innerText style = "color: #467AD5">+0.25 points for every (big) pawn on the board</p>
+                    <p><innerText style = "color: #0C46A9">+0.5 points for every (big) king on the board</p>
                     <p><innerText style = "color: #CF469F">+0.7 points for every (big) knight, bishop, rook on the board</p>
                     <p><innerText style = "color: #30DE0D">+1.25 points for every (big) queen on the board</p>
                     `)
@@ -86,7 +86,6 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
                 );
                 break;
     }
-    checkMode();
 });
 document.querySelector('.sidebar').addEventListener('click', (e) => {
     let path = e.path || e.composedPath();

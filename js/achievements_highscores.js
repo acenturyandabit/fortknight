@@ -120,7 +120,7 @@ const achievementList = {
         achievementGoal: 6
     },
     your_lucky_day : {
-        achievementName: 'Lucky Day',
+        achievementName: 'Your Lucky Day',
         achievementDescrption: 'Avoid potentially getting captured 3 times in a row (drunk mode only)',
         achievementStatus: 'Locked',
         achievementProgress: 0,
