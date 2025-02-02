@@ -39,6 +39,36 @@ function initializeAchievements() {
         }
     }
 }
+
+
+function initializeAchievements() {
+    for (const category in achievementList) {
+        for (const achievement in achievementList[category].achievements) {
+            const achData = achievementList[category].achievements[achievement];
+            if (!highscoreDict.achievementProgress[achievement]) {
+                highscoreDict.achievementProgress[achievement] = achData;
+            }
+            highscoreDict.achievementProgress[achievement].achievementName = achData.achievementName;
+            highscoreDict.achievementProgress[achievement].achievementDescription = achData.achievementDescrption;
+            highscoreDict.achievementProgress[achievement].achievementGoal = achData.achievementGoal;
+        }
+    }
+}
+
+
+let highscoreDict;
+try {
+    highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
+} catch (e) {}
+highscoreDict = highscoreDict || {
+    allScores: [],
+    modeHighest: {},
+    achievementProgress: {}, // Initialize as an empty object
+};
+
+// Call this function to load the achievements
+loadAchievementsFromJson('achievements.json');
+
 let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
 let totalKills = 0;
@@ -241,7 +271,6 @@ localStorage.setItem('fortknightHS', JSON.stringify(highscoreDict));
 renderHighscores();
 }
 
-let highscoreDict;
 try {
 highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
 } catch (e) {}
