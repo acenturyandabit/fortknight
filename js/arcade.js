@@ -1,11 +1,9 @@
-function startMoveTimer() {
-    var timeLeft = 2.5;
-    var moveTimer = setInterval(
+function startMoveTimer() {    
+    let timeLeft = 2.5;
+    const moveTimer = setInterval(
         function() {
-            if (timeLeft <= 0) {
-                clearInterval(moveTimer);
-                document.getElementById("timer-bar").value = 0;
-                timeleft = 2.5;
+            if (timeLeft <= 0) {                
+                return clearInterval(moveTimer); 
             }
             document.getElementById("timer-bar").value = 2.5 - timeLeft;
             timeLeft -= .045;
