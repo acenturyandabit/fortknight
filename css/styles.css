@@ -349,3 +349,92 @@ input:checked[type="checkbox"]::before{
 .hidden {
 	display: none;
 }
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
+}
+
+.tab-button.active {
+    background-color: #666;
+    font-weight: bold;
+}
+
+.tab-button:hover {
+    background-color: #555;
+}
+
+.tab-content {
+    display: none;
+	visibility: hidden;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 5px;
+}
+
+.tab-content:not(.hidden) {
+    display: block;
+	visibility: visible;
+}
+
+.hidden {
+    display: none;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+    z-index: 10; /* Ensure it's above other elements */
+    position: relative;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
+    flex: 1; /* Equal width for buttons */
+    text-align: center;
+    z-index: 20; /* Ensure buttons are clickable */
+}
+
+.tab-button.active {
+    background-color: #666;
+    font-weight: bold;
+}
+
+.tab-button:hover {
+    background-color: #555;
+}
+
+
+.tab-button {
+    position: relative;
+    z-index: 1000;  /* Ensure highest priority */
+}
+.hidden {
+	display: none;
+}
+
+.active {
+	background-color: #467AD5;
+	color: white;
+}
+
+.tab-content {
+	margin-top: 20px;
+}

@@ -88,13 +88,26 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
     }
 });
 document.querySelector('.sidebar').addEventListener('click', (e) => {
-    let path = e.path || e.composedPath();
+    let path = e.composedPath();
     for (let i of path) {
-        if (i.matches && i.matches('.sidebar>div>p') && i.innerText != 'Forfeit') {
-            document
-                .querySelectorAll('.sidebar>div')
-                .forEach((i) => i.classList.remove('selected'));
+        if (i.matches && i.matches('.sidebar > div > p') && i.innerText !== 'Forfeit') {
+            // Remove 'selected' class from all tabs
+            document.querySelectorAll('.sidebar > div').forEach((tab) => tab.classList.remove('selected'));
+            
+            // Add 'selected' class to the clicked tab
             i.parentElement.classList.add('selected');
+
+            // Toggle visibility of associated content
+            // const targetId = 'tab-content' // Converts "High Scores" to "high-scores"
+            // const content = document.getElementById(targetId);
+
+            // if (content) {
+            //     content.style.visibility = (content.style.visibility === 'hidden' || !content.style.visibility) 
+            //         ? 'visible' 
+            //         : 'hidden';
+            //     console.log(`${targetId} visibility: ${content.style.visibility}`);
+            // }
         }
     }
 });
+

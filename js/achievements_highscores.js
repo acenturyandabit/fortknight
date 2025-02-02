@@ -1,133 +1,44 @@
-const achievementList = {
-    lazy: {
-        achievementName: 'Lazy',
-        achievementDescrption: "Don't move for 5 consecutive turns",
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 5,
-    },
-    crowded: {
-        achievementName: 'Crowded',
-        achievementDescrption: 'Have 10 pieces on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    coronation: {
-        achievementName: 'Coronation',
-        achievementDescrption: 'Have 5 kings on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    parapets: {
-        achievementName: 'Parapets',
-        achievementDescrption: 'Have 5 rooks on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    cathedral: {
-        achievementName: 'Cathedral',
-        achievementDescrption: 'Have 5 bishops on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    bar_fight: {
-        achievementName: 'Bar Fight',
-        achievementDescrption: 'Have 5 pawns on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    barracks: {
-        achievementName: 'Barracks',
-        achievementDescrption: 'Have 3 pawns on the board at the same time (non-drunk mode)',
-        achievementStatus: 'Locked',
-    },
-    stables: {
-        achievementName: 'Stables',
-        achievementDescrption: 'Have 5 knights on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    endgame: {
-        achievementName: 'Endgame',
-        achievementDescrption: 'Have 3 queens on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    no_place_to_hide: {
-        achievementName: 'No Place to Hide',
-        achievementDescrption: 'Have 4 queens on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    helltaker: {
-        achievementName: 'Helltaker',
-        achievementDescrption: 'Have 5 queens on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    '10slay': {
-        achievementName: '10 Slayer',
-        achievementDescrption: 'Kill 10 opposing pieces ',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 10,
-    },
-    '100slay': {
-        achievementName: 'Centurion',
-        achievementDescrption: 'Kill 100 opposing pieces',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 100,
-    },
-    '500slay': {
-        achievementName: 'Mountains of Ivory',
-        achievementDescrption: 'Kill 500 opposing pieces',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 500,
-    },
-    '1000steps': {
-        achievementName: 'Journey of 1000 Steps',
-        achievementDescrption: 'Walk a 1000 steps',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 1000,
-    },
-    threatened: {
-        achievementName: 'Living Dangerously',
-        achievementDescrption: 'End your turn on a threatened square 5 times in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 5,
-    },
-    "triple_kill": {
-        achievementName: 'Triple Kill',
-        achievementDescrption: 'Kill three pieces in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 3
-    },
-    "penta_kill": {
-        achievementName: 'Penta Kill',
-        achievementDescrption: 'Kill five pieces in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 5
-    },
-    "hepta_kill": {
-        achievementName: 'Hepta Kill',
-        achievementDescrption: 'Kill seven pieces in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 7
-    },
-    "royal_pariah": {
-        achievementName: 'Royal Pariah',
-        achievementDescrption: 'Have every single piece on the board.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 6
-    },
-    your_lucky_day : {
-        achievementName: 'Your Lucky Day',
-        achievementDescrption: 'Avoid potentially getting captured 3 times in a row (drunk mode only)',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 3
-    }
-};
 
+let achievementList = {}; // Initialize as an empty object
+
+// Function to load achievements from JSON
+function loadAchievementsFromJson(filePath) {
+    fetch(filePath)  // Use fetch API to get the json file
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the JSON response
+        })
+        .then(data => {
+            achievementList = data; // Assign the loaded data to achievementList
+            initializeAchievements(); // Call this function to set up the achievements
+            renderHighscores(); // And render the highscores
+        })
+        .catch(error => {
+            console.error("Error loading achievements:", error);
+            // Handle the error, maybe use default achievements or display a message
+            // For example:
+            // achievementList = { /* default achievements */ };
+            // initializeAchievements();
+            // renderHighscores();
+
+        });
+}
+
+function initializeAchievements() {
+    for (const category in achievementList) {
+        for (const achievement in achievementList[category].achievements) {
+            const achData = achievementList[category].achievements[achievement];
+            if (!highscoreDict.achievementProgress[achievement]) {
+                highscoreDict.achievementProgress[achievement] = achData;
+            }
+            highscoreDict.achievementProgress[achievement].achievementName = achData.achievementName;
+            highscoreDict.achievementProgress[achievement].achievementDescription = achData.achievementDescrption;
+            highscoreDict.achievementProgress[achievement].achievementGoal = achData.achievementGoal;
+        }
+    }
+}
 let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
 let totalKills = 0;
