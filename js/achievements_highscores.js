@@ -313,4 +313,48 @@ if (!highscoreDict.modeHighest[i.value])
   highscoreDict.modeHighest[i.value] = 0;
 }
 
+
+// Add event listeners for the buttons
+document.getElementById('viewByProgress').addEventListener('click', () => {
+    renderAchievements('progress');
+});
+
+document.getElementById('viewByCategory').addEventListener('click', () => {
+    renderAchievements('category');
+});
+
+// Modified renderAchievements function
+function renderAchievements(mode) {
+    const container = document.querySelector('.achievements-list');
+    container.innerHTML = '';
+
+    if (mode === 'progress') {
+        const achievements = Object.values(highscoreDict.achievementProgress);
+        achievements.sort((a, b) => (b.achievementProgress || 0) - (a.achievementProgress || 0));
+        achievements.forEach(ach => {
+            container.innerHTML += `
+                <div>
+                    <strong>${ach.achievementName}</strong>
+                    Status: ${ach.achievementStatus}<br>
+                    Progress: ${ach.achievementProgress || 0}/${ach.achievementGoal || 0}
+                </div>`;
+        });
+    } else if (mode === 'category') {
+        for (const category in achievementList) {
+            container.innerHTML += `<h3>${category}</h3>`;
+            achievementList[category].achievements.forEach(ach => {
+                container.innerHTML += `
+                    <div>
+                        <strong>${ach.achievementName}</strong>: ${ach.achievementDescrption}<br>
+                        Status: ${highscoreDict.achievementProgress[ach.achievementName]?.achievementStatus || 'Locked'}
+                    </div>`;
+            });
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderAchievements('progress');
+});
+
 renderHighscores();

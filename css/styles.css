@@ -438,3 +438,17 @@ input:checked[type="checkbox"]::before{
 .tab-content {
 	margin-top: 20px;
 }
+
+.view-button {
+	padding: 8px 12px;
+	margin: 5px;
+	border: 1px solid #ccc;
+	background-color: #f9f9f9;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+.view-button.active {
+	background-color: #467AD5;
+	color: white;
+}
