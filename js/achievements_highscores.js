@@ -326,11 +326,21 @@ document.getElementById('viewByCategory').addEventListener('click', () => {
 // Modified renderAchievements function
 function renderAchievements(mode) {
     const container = document.querySelector('.achievements-list');
+    const unlockedCounter = document.getElementById('achievements-unlocked');
+    const totalCounter = document.getElementById('achievements-total');
+
     container.innerHTML = '';
+
+    let totalAchievements = 0;
+    let unlockedAchievements = 0;
 
     if (mode === 'progress') {
         const achievements = Object.values(highscoreDict.achievementProgress);
         achievements.sort((a, b) => (b.achievementProgress || 0) - (a.achievementProgress || 0));
+        
+        totalAchievements = achievements.length;
+        unlockedAchievements = achievements.filter(ach => ach.achievementStatus === 'Unlocked').length;
+
         achievements.forEach(ach => {
             container.innerHTML += `
                 <div>
@@ -343,14 +353,21 @@ function renderAchievements(mode) {
         for (const category in achievementList) {
             container.innerHTML += `<h3>${category}</h3>`;
             achievementList[category].achievements.forEach(ach => {
+                totalAchievements++;
+                const status = highscoreDict.achievementProgress[ach.achievementName]?.achievementStatus || 'Locked';
+                if (status === 'Unlocked') unlockedAchievements++;
+
                 container.innerHTML += `
                     <div>
-                        <strong>${ach.achievementName}</strong>: ${ach.achievementDescrption}<br>
-                        Status: ${highscoreDict.achievementProgress[ach.achievementName]?.achievementStatus || 'Locked'}
+                        <strong>${ach.achievementName}</strong>
+                        Status: ${status}
                     </div>`;
             });
         }
     }
+
+    unlockedCounter.textContent = unlockedAchievements;
+    totalCounter.textContent = totalAchievements;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
