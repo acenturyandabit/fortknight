@@ -177,7 +177,6 @@
                     </div>
                     <div class="view-toggle">
                         <button id="viewByProgress">View by Progress</button>
-                        {% comment %} <button id="viewByCategory">View by Category</button> {% endcomment %}
                     </div>
                     
                     <div class="achievements-container">
@@ -216,6 +215,7 @@
         const highScores = document.getElementById('high-scores');
         const achievements = document.getElementById('achievements');
         const instructions = document.querySelector('.sidebar > .selected');
+        
 
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -244,28 +244,7 @@
 
         }
         document.addEventListener('DOMContentLoaded', () => {
-            const viewButtons = document.querySelectorAll('.view-button');
-            const achievementsList = document.getElementById('achievements-list');
-    
-            viewButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    viewButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-    
-                    const viewMode = button.getAttribute('data-view');
-                    toggleAchievementsView(viewMode);
-                });
-            });
-    
-            function toggleAchievementsView(mode) {
-                if (mode === 'category') {
-                    achievementsList.innerHTML = '<p>Achievements sorted by Category will appear here.</p>';
-                } else {
-                    achievementsList.innerHTML = '<p>Achievements sorted by Progress will appear here.</p>';
-                }
-            }
-    
-            toggleAchievementsView('progress');
+            
         });
 
     }</script>

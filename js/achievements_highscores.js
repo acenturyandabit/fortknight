@@ -26,19 +26,6 @@ function loadAchievementsFromJson(filePath) {
         });
 }
 
-function initializeAchievements() {
-    for (const category in achievementList) {
-        for (const achievement in achievementList[category].achievements) {
-            const achData = achievementList[category].achievements[achievement];
-            if (!highscoreDict.achievementProgress[achievement]) {
-                highscoreDict.achievementProgress[achievement] = achData;
-            }
-            highscoreDict.achievementProgress[achievement].achievementName = achData.achievementName;
-            highscoreDict.achievementProgress[achievement].achievementDescription = achData.achievementDescrption;
-            highscoreDict.achievementProgress[achievement].achievementGoal = achData.achievementGoal;
-        }
-    }
-}
 
 
 function initializeAchievements() {
