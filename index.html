@@ -171,17 +171,7 @@
             
                 <div class="tab-content hidden" id="achievements" style="margin-top: 50px;">
                     <h2>Achievements</h2>
-                    <div class="achievement-summary">
-                        Achievements Unlocked: <span id="achievements-unlocked">0</span> /
-                        <span id="achievements-total">0</span>
-                    </div>
-                    <div class="view-toggle">
-                        <button id="viewByProgress">View by Progress</button>
-                    </div>
-                    
-                    <div class="achievements-container">
-                        <div class="achievements-list"></div>
-                    </div>
+                    <div class="achv"></div>
                 </div>
             </div>
             
@@ -215,7 +205,6 @@
         const highScores = document.getElementById('high-scores');
         const achievements = document.getElementById('achievements');
         const instructions = document.querySelector('.sidebar > .selected');
-        
 
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -240,13 +229,7 @@
             achievements.classList.add('hidden');
         });
     });
-
-
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            
-        });
-
     }</script>
     <script src="js/utils.js"></script>
     <script src="js/arcade.js"></script>
