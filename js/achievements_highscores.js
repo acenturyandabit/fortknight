@@ -39,17 +39,6 @@ function initializeAchievements() {
     }
 }
 
-
-let highscoreDict;
-try {
-    highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
-} catch (e) {}
-highscoreDict = highscoreDict || {
-    allScores: [],
-    modeHighest: {},
-    achievementProgress: {}, // Initialize as an empty object
-};
-
 // Call this function to load the achievements
 loadAchievementsFromJson('achievements.json');
 
@@ -260,50 +249,8 @@ localStorage.setItem('fortknightHS', JSON.stringify(highscoreDict));
 renderHighscores();
 }
 
-try {
-highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
-} catch (e) {}
-highscoreDict = highscoreDict || {
-allScores: [
-  /*{gameMode: "mode", score: 1111}*/
-],
-modeHighest: {
-  // auto populated below
-  // "gamemode":score
-},
-achievementProgress: achievementList,
-};
-
-//if anyone has achievements in their cache that are in the old array form, get rid of them
-if (highscoreDict.achievementProgress.constructor.name == 'Array') {
-highscoreDict.achievementProgress = {};
-}
-
-//merge achievements
-for (let i in achievementList) {
-if (!highscoreDict.achievementProgress[i]) {
-  highscoreDict.achievementProgress[i] = achievementList[i];
-}
-//update these two fields in case we want to rename anything.
-highscoreDict.achievementProgress[i].achievementName =
-  achievementList[i].achievementName;
-highscoreDict.achievementProgress[i].achievementDescription =
-  achievementList[i].achievementDescription;
-highscoreDict.achievementProgress[i].achievementGoal =
-  achievementList[i].achievementGoal;
-}
-//i get the biggest one so i'm sure to get the right number
-totalKills = highscoreDict.achievementProgress['500slay'].achievementProgress;
-playerTotalSteps =
-highscoreDict.achievementProgress['1000steps'].achievementProgress;
-
-for (let i of Array.from(document.querySelectorAll("input[name='diff']"))) {
-if (!highscoreDict.modeHighest[i.value])
-  highscoreDict.modeHighest[i.value] = 0;
-}
 
 
-// Add event listeners for the buttons
 document.getElementById('viewByProgress').addEventListener('click', () => {
     renderAchievements('progress');
 });
@@ -312,7 +259,6 @@ document.getElementById('viewByCategory').addEventListener('click', () => {
     renderAchievements('category');
 });
 
-// Modified renderAchievements function
 function renderAchievements(mode) {
     const container = document.querySelector('.achievements-list');
     const unlockedCounter = document.getElementById('achievements-unlocked');
