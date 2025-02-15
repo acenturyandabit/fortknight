@@ -1,23 +1,20 @@
 
-let achievementList = {}; // Initialize as an empty object
-
-// Function to load achievements from JSON
+let achievementList = {}; 
 function loadAchievementsFromJson(filePath) {
     fetch(filePath)  
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.json(); // Parse the JSON response
+            return response.json(); 
         })
         .then(data => {
-            achievementList = data; // Assign the loaded data to achievementList
-            initializeAchievements(); // Call this function to set up the achievements
-            renderHighscores(); // And render the highscores
+            achievementList = data; 
+            initializeAchievements(); 
+            renderHighscores(); 
         })
         .catch(error => {
             console.error("Error loading achievements:", error);
-            // Handle the error, maybe use default achievements or display a message
         });
 }
 
