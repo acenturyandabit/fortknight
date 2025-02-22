@@ -9,9 +9,10 @@ function loadAchievementsFromJson(filePath) {
             return response.json(); 
         })
         .then(data => {
-            achievementList = data; 
+
+            achievementList = data;
             initializeAchievements(); 
-            renderHighscores(); 
+            renderHighscores();
         })
         .catch(error => {
             console.error("Error loading achievements:", error);
@@ -37,7 +38,7 @@ function initializeAchievements() {
 }
 
 // Call this function to load the achievements
-loadAchievementsFromJson('achievements.json');
+loadAchievementsFromJson('achievement.json');
 
 let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
@@ -245,7 +246,6 @@ function updateAchievements() {
 localStorage.setItem('fortknightHS', JSON.stringify(highscoreDict));
 renderHighscores();
 }
-
 
 
 document.getElementById('viewByProgress').addEventListener('click', () => {
