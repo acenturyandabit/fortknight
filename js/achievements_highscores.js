@@ -1,40 +1,26 @@
 
-let achievementList = {}; // Initialize as an empty object
-
-// Function to load achievements from JSON
+let achievementList = {}; 
 function loadAchievementsFromJson(filePath) {
-    fetch(filePath)  // Use fetch API to get the json file
+    fetch(filePath)  
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.json(); // Parse the JSON response
+            return response.json(); 
         })
         .then(data => {
+
             achievementList = data;
             initializeAchievements(); 
             renderHighscores();
         })
         .catch(error => {
             console.error("Error loading achievements:", error);
-
-
         });
 }
 
-function initializeAchievements() {
-    for (const category in achievementList) {
-        for (const achievement in achievementList[category].achievements) {
-            const achData = achievementList[category].achievements[achievement];
-            if (!highscoreDict.achievementProgress[achievement]) {
-                highscoreDict.achievementProgress[achievement] = achData;
-            }
-            highscoreDict.achievementProgress[achievement].achievementName = achData.achievementName;
-            highscoreDict.achievementProgress[achievement].achievementDescription = achData.achievementDescrption;
-            highscoreDict.achievementProgress[achievement].achievementGoal = achData.achievementGoal;
-        }
-    }
-}
+// Call this function to load the achievements
+loadAchievementsFromJson('achievement.json');
 
 
 function initializeAchievements() {
@@ -50,17 +36,6 @@ function initializeAchievements() {
         }
     }
 }
-
-
-let highscoreDict;
-try {
-    highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
-} catch (e) {}
-highscoreDict = highscoreDict || {
-    allScores: [],
-    modeHighest: {},
-    achievementProgress: {}, // Initialize as an empty object
-};
 
 // Call this function to load the achievements
 loadAchievementsFromJson('achievement.json');
@@ -237,20 +212,25 @@ function renderHighscores() {
     });
 
     document.querySelector('.achv').innerHTML = achSortable
-        .map(
-            (i) =>
-            `<p><b>${i.achName}</b><br>` +
-            `${i.achievementDescrption}<br>` +
-            `${i.achievementStatus}<br>` +
-            `${
+  .map(
+    (i) =>
+      `<p><b>${i.achName}</b><br>` +
+      `${i.achievementDescrption}<br>` +
+      `${i.achievementStatus} ` +
+      `${
+        i.completionPercent >= 1 || i.achievementStatus === "Completed"
+          ? "✅" // Checkmark if completed
+          : ""
+      }<br>` +
+      `${
         i.achievementProgress !== undefined
-          ? `<div class="progressbar"><div style = "width: ${
+          ? `<div class="progressbar"><div style="width: ${
               (i.completionPercent >= 1 ? 1 : i.completionPercent) * 100
-            }%"> ` + `</div></div></p>`
-          : ''
+            }%"></div></div></p>`
+          : ""
       }`
   )
-  .join('');
+  .join("");
 }
 
 function updateHighscores(playerscore, gamemode) {
@@ -268,7 +248,6 @@ renderHighscores();
 }
 
 
-// Add event listeners for the buttons
 document.getElementById('viewByProgress').addEventListener('click', () => {
     renderAchievements('progress');
 });
@@ -277,11 +256,15 @@ document.getElementById('viewByCategory').addEventListener('click', () => {
     renderAchievements('category');
 });
 
-// Modified renderAchievements function
 function renderAchievements(mode) {
     const container = document.querySelector('.achievements-list');
     const unlockedCounter = document.getElementById('achievements-unlocked');
     const totalCounter = document.getElementById('achievements-total');
+
+    if (!container || !unlockedCounter || !totalCounter) {
+        console.error('Required DOM elements not found!');
+        return;
+    }
 
     container.innerHTML = '';
 
@@ -289,41 +272,56 @@ function renderAchievements(mode) {
     let unlockedAchievements = 0;
 
     if (mode === 'progress') {
+        if (!highscoreDict?.achievementProgress) {
+            console.error('highscoreDict.achievementProgress is undefined!');
+            return;
+        }
+
         const achievements = Object.values(highscoreDict.achievementProgress);
         achievements.sort((a, b) => (b.achievementProgress || 0) - (a.achievementProgress || 0));
-        
+
         totalAchievements = achievements.length;
         unlockedAchievements = achievements.filter(ach => ach.achievementStatus === 'Unlocked').length;
 
         achievements.forEach(ach => {
-            container.innerHTML += `
-                <div>
-                    <strong>${ach.achievementName}</strong>
-                    Status: ${ach.achievementStatus}<br>
-                    Progress: ${ach.achievementProgress || 0}/${ach.achievementGoal || 0}
-                </div>`;
-        });
-    } else if (mode === 'category') {
-        for (const category in achievementList) {
-            container.innerHTML += `<h3>${category}</h3>`;
-            achievementList[category].achievements.forEach(ach => {
-                totalAchievements++;
-                const status = highscoreDict.achievementProgress[ach.achievementName]?.achievementStatus || 'Locked';
-                if (status === 'Unlocked') unlockedAchievements++;
+            const achievementDiv = document.createElement('div');
+            achievementDiv.classList.add('achievement');
 
-                container.innerHTML += `
-                    <div>
-                        <strong>${ach.achievementName}</strong>
-                        Status: ${status}
-                    </div>`;
-            });
-        }
+            const title = document.createElement('strong');
+            title.textContent = ach.achievementName;
+
+            const status = document.createElement('span');
+            status.textContent = ach.achievementStatus;
+            status.classList.add('status', ach.achievementStatus.toLowerCase());
+
+            achievementDiv.appendChild(title);
+            achievementDiv.appendChild(status);
+
+            // Only show progress if achievementProgress and achievementGoal exist
+            if (ach.achievementProgress !== undefined && ach.achievementGoal !== undefined) {
+                const progressBar = document.createElement('div');
+                progressBar.classList.add('progress-bar');
+
+                const progress = document.createElement('div');
+                progress.classList.add('progress');
+                progress.style.width = `${((ach.achievementProgress || 0) / (ach.achievementGoal || 1)) * 100}%`;
+
+                progressBar.appendChild(progress);
+
+                const progressText = document.createElement('small');
+                progressText.textContent = `Progress: ${ach.achievementProgress || 0}/${ach.achievementGoal || 0}`;
+
+                achievementDiv.appendChild(progressBar);
+                achievementDiv.appendChild(progressText);
+            }
+
+            container.appendChild(achievementDiv);
+        });
     }
 
     unlockedCounter.textContent = unlockedAchievements;
     totalCounter.textContent = totalAchievements;
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     renderAchievements('progress');
 });
