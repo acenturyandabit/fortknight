@@ -11,17 +11,13 @@ function loadAchievementsFromJson(filePath) {
             return response.json(); // Parse the JSON response
         })
         .then(data => {
-            achievementList = data; // Assign the loaded data to achievementList
-            initializeAchievements(); // Call this function to set up the achievements
-            renderHighscores(); // And render the highscores
+            achievementList = data;
+            initializeAchievements(); 
+            renderHighscores();
         })
         .catch(error => {
             console.error("Error loading achievements:", error);
-            // Handle the error, maybe use default achievements or display a message
-            // For example:
-            // achievementList = { /* default achievements */ };
-            // initializeAchievements();
-            // renderHighscores();
+
 
         });
 }
@@ -67,7 +63,7 @@ highscoreDict = highscoreDict || {
 };
 
 // Call this function to load the achievements
-loadAchievementsFromJson('achievements.json');
+loadAchievementsFromJson('achievement.json');
 
 let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
@@ -269,48 +265,6 @@ renderHighscores();
 function updateAchievements() {
 localStorage.setItem('fortknightHS', JSON.stringify(highscoreDict));
 renderHighscores();
-}
-
-try {
-highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
-} catch (e) {}
-highscoreDict = highscoreDict || {
-allScores: [
-  /*{gameMode: "mode", score: 1111}*/
-],
-modeHighest: {
-  // auto populated below
-  // "gamemode":score
-},
-achievementProgress: achievementList,
-};
-
-//if anyone has achievements in their cache that are in the old array form, get rid of them
-if (highscoreDict.achievementProgress.constructor.name == 'Array') {
-highscoreDict.achievementProgress = {};
-}
-
-//merge achievements
-for (let i in achievementList) {
-if (!highscoreDict.achievementProgress[i]) {
-  highscoreDict.achievementProgress[i] = achievementList[i];
-}
-//update these two fields in case we want to rename anything.
-highscoreDict.achievementProgress[i].achievementName =
-  achievementList[i].achievementName;
-highscoreDict.achievementProgress[i].achievementDescription =
-  achievementList[i].achievementDescription;
-highscoreDict.achievementProgress[i].achievementGoal =
-  achievementList[i].achievementGoal;
-}
-//i get the biggest one so i'm sure to get the right number
-totalKills = highscoreDict.achievementProgress['500slay'].achievementProgress;
-playerTotalSteps =
-highscoreDict.achievementProgress['1000steps'].achievementProgress;
-
-for (let i of Array.from(document.querySelectorAll("input[name='diff']"))) {
-if (!highscoreDict.modeHighest[i.value])
-  highscoreDict.modeHighest[i.value] = 0;
 }
 
 
