@@ -88,13 +88,13 @@ document.querySelector('.gmode').addEventListener('input', (e) => {
     }
 });
 document.querySelector('.sidebar').addEventListener('click', (e) => {
-    let path = e.path || e.composedPath();
+    let path = e.composedPath();
     for (let i of path) {
-        if (i.matches && i.matches('.sidebar>div>p') && i.innerText != 'Forfeit') {
-            document
-                .querySelectorAll('.sidebar>div')
-                .forEach((i) => i.classList.remove('selected'));
+        if (i.matches && i.matches('.sidebar > div > p') && i.innerText !== 'Forfeit') {
+            document.querySelectorAll('.sidebar > div').forEach((tab) => tab.classList.remove('selected'));
             i.parentElement.classList.add('selected');
+
         }
     }
 });
+

@@ -34,7 +34,7 @@
 
 
     <div class="body-container">
-        <div>
+        <div class="selected">
 
             <header>
                 <img src="images/logo.webp" alt="logo" />
@@ -48,7 +48,7 @@
                     style="position:absolute; top: 0; bottom: 0;left: 0;right: 0; margin: auto; bottom: 200px; opacity: 1; visibility: hidden; z-index:1000">
                     <div style="text-align: center; display:block; padding: 5px 10px; background: rgba(0,0,0,0.7); color:white"
                         class="ach_modal_inner">
-                        <h3>Achievement Unlocked!</h3>
+                        <link href="/architement.html">Achievement Unlocked!</link>
                         <p id="ach_modal_name"><span></span></p>
                         <h5 id="ach_modal_descr"><span></span></h5>
                         <button onclick="dismissAchvModal()">Dismiss</button>
@@ -154,32 +154,43 @@
                     <p>yes, i know the chessboard only has 7 squares, not 8, but i wanted a centre square</p>
                 </div>
             </div>
-            <div>
-                <p>Scores and achievements</p>
-                <div>
-                    <h2>High scores</h2>
-                    <div class="allhscores">
-                        <!--
-
-
-                        -->
-                    </div>
-                    <h2>High scores, by game mode</h2>
-                    <div class="ghscores">
-                        <!--
-
-
-                        -->
-                    </div>
+            <div id="tab-content" >
+                <p>Scores and Achievements</p>
+                <div class="tabs" id="tab-button" style="margin-top: 20px;">
+                    <button class="tab-button active" data-target="high-scores">High Scores</button>
+                    <button class="tab-button" data-target="achievements">Achievements</button>
+                </div>
+        
+                <div id="high-scores" style="margin-top: 50px;" >
+                    <h2>High Scores</h2>
+                    <div class="allhscores"></div>
+            
+                    <h2>High Scores by Game Mode</h2>
+                    <div class="ghscores"></div>
+                </div>F
+            
+                <div class="tab-content hidden" id="achievements" style="margin-top: 50px;">
                     <h2>Achievements</h2>
-                    <div class="achv">
+                    <div class="achv" style="visibility: hidden;height:0px">
                         <!--
 
 
                         -->
+                    </div>
+                    <div class="achievement-summary">
+                        Achievements Unlocked: <span id="achievements-unlocked">0</span> /
+                        <span id="achievements-total">0</span>
+                    </div>
+                    <div class="view-toggle">
+                        <button id="viewByProgress">View by Progress</button>
+                    </div>
+                    
+                    <div class="achievements-container">
+                        <div class="achievements-list"></div>
                     </div>
                 </div>
             </div>
+            
             <div class='toggleMovementProjection'>
                 <input type="checkbox" onclick="projectMovement()">
                 <label class="labelMovementProjection" id="onbtn">ON</label>
@@ -203,6 +214,66 @@
         <h1> Move Timer: </h1>
         <progress value="0" max="2.5" id="timer-bar"></progress>
     </div>
+    <script>{
+        {
+            document.addEventListener('DOMContentLoaded', () => {
+        const tabButtons = document.querySelectorAll('.tabs button');
+        const highScores = document.getElementById('high-scores');
+        const achievements = document.getElementById('achievements');
+        const instructions = document.querySelector('.sidebar > .selected');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const target = button.getAttribute('data-target');
+
+                // Hide both sections initially
+                highScores.classList.add('hidden');
+                achievements.classList.add('hidden');
+
+                // Show the selected section
+                if (target === 'high-scores') {
+                    highScores.classList.remove('hidden');
+                } else if (target === 'achievements') {
+                    achievements.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Hide both sections when in Instructions
+        instructions.addEventListener('click', () => {
+            highScores.classList.add('hidden');
+            achievements.classList.add('hidden');
+        });
+    });
+
+
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewButtons = document.querySelectorAll('.view-button');
+            const achievementsList = document.getElementById('achievements-list');
+    
+            viewButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    viewButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+    
+                    const viewMode = button.getAttribute('data-view');
+                    toggleAchievementsView(viewMode);
+                });
+            });
+    
+            function toggleAchievementsView(mode) {
+                if (mode === 'category') {
+                    achievementsList.innerHTML = '<p>Achievements sorted by Category will appear here.</p>';
+                } else {
+                    achievementsList.innerHTML = '<p>Achievements sorted by Progress will appear here.</p>';
+                }
+            }
+    
+            toggleAchievementsView('progress');
+        });
+
+    }</script>
     <script src="js/utils.js"></script>
     <script src="js/arcade.js"></script>
     <script src="js/piece_object.js"></script>

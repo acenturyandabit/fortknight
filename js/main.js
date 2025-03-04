@@ -481,3 +481,13 @@ window.addEventListener('resize', () => {
         drawPlayer();
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            console.log(`Navigating to: ${link.href}`);
+            
+        });
+    });
+});

@@ -1,132 +1,44 @@
-const achievementList = {
-    lazy: {
-        achievementName: 'Lazy',
-        achievementDescrption: "Don't move for 5 consecutive turns",
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 5,
-    },
-    crowded: {
-        achievementName: 'Crowded',
-        achievementDescrption: 'Have 10 pieces on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    coronation: {
-        achievementName: 'Coronation',
-        achievementDescrption: 'Have 5 kings on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    parapets: {
-        achievementName: 'Parapets',
-        achievementDescrption: 'Have 5 rooks on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    cathedral: {
-        achievementName: 'Cathedral',
-        achievementDescrption: 'Have 5 bishops on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    bar_fight: {
-        achievementName: 'Bar Fight',
-        achievementDescrption: 'Have 5 pawns on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    barracks: {
-        achievementName: 'Barracks',
-        achievementDescrption: 'Have 3 pawns on the board at the same time (non-drunk mode)',
-        achievementStatus: 'Locked',
-    },
-    stables: {
-        achievementName: 'Stables',
-        achievementDescrption: 'Have 5 knights on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    endgame: {
-        achievementName: 'Endgame',
-        achievementDescrption: 'Have 3 queens on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    no_place_to_hide: {
-        achievementName: 'No Place to Hide',
-        achievementDescrption: 'Have 4 queens on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    helltaker: {
-        achievementName: 'Helltaker',
-        achievementDescrption: 'Have 5 queens on the board at the same time',
-        achievementStatus: 'Locked',
-    },
-    '10slay': {
-        achievementName: '10 Slayer',
-        achievementDescrption: 'Kill 10 opposing pieces ',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 10,
-    },
-    '100slay': {
-        achievementName: 'Centurion',
-        achievementDescrption: 'Kill 100 opposing pieces',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 100,
-    },
-    '500slay': {
-        achievementName: 'Mountains of Ivory',
-        achievementDescrption: 'Kill 500 opposing pieces',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 500,
-    },
-    '1000steps': {
-        achievementName: 'Journey of 1000 Steps',
-        achievementDescrption: 'Walk a 1000 steps',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 1000,
-    },
-    threatened: {
-        achievementName: 'Living Dangerously',
-        achievementDescrption: 'End your turn on a threatened square 5 times in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 5,
-    },
-    "triple_kill": {
-        achievementName: 'Triple Kill',
-        achievementDescrption: 'Kill three pieces in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 3
-    },
-    "penta_kill": {
-        achievementName: 'Penta Kill',
-        achievementDescrption: 'Kill five pieces in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 5
-    },
-    "hepta_kill": {
-        achievementName: 'Hepta Kill',
-        achievementDescrption: 'Kill seven pieces in a row.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 7
-    },
-    "royal_pariah": {
-        achievementName: 'Royal Pariah',
-        achievementDescrption: 'Have every single piece on the board.',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 6
-    },
-    your_lucky_day : {
-        achievementName: 'Your Lucky Day',
-        achievementDescrption: 'Avoid potentially getting captured 3 times in a row (drunk mode only)',
-        achievementStatus: 'Locked',
-        achievementProgress: 0,
-        achievementGoal: 3
+
+let achievementList = {}; 
+function loadAchievementsFromJson(filePath) {
+    fetch(filePath)  
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); 
+        })
+        .then(data => {
+
+            achievementList = data;
+            initializeAchievements(); 
+            renderHighscores();
+        })
+        .catch(error => {
+            console.error("Error loading achievements:", error);
+        });
+}
+
+// Call this function to load the achievements
+loadAchievementsFromJson('achievement.json');
+
+
+function initializeAchievements() {
+    for (const category in achievementList) {
+        for (const achievement in achievementList[category].achievements) {
+            const achData = achievementList[category].achievements[achievement];
+            if (!highscoreDict.achievementProgress[achievement]) {
+                highscoreDict.achievementProgress[achievement] = achData;
+            }
+            highscoreDict.achievementProgress[achievement].achievementName = achData.achievementName;
+            highscoreDict.achievementProgress[achievement].achievementDescription = achData.achievementDescrption;
+            highscoreDict.achievementProgress[achievement].achievementGoal = achData.achievementGoal;
+        }
     }
-};
+}
+
+// Call this function to load the achievements
+loadAchievementsFromJson('achievement.json');
 
 let playerLazyMoves = 0;
 let playerLazyLastSquare = -1;
@@ -300,20 +212,25 @@ function renderHighscores() {
     });
 
     document.querySelector('.achv').innerHTML = achSortable
-        .map(
-            (i) =>
-            `<p><b>${i.achName}</b><br>` +
-            `${i.achievementDescrption}<br>` +
-            `${i.achievementStatus}<br>` +
-            `${
+  .map(
+    (i) =>
+      `<p><b>${i.achName}</b><br>` +
+      `${i.achievementDescrption}<br>` +
+      `${i.achievementStatus} ` +
+      `${
+        i.completionPercent >= 1 || i.achievementStatus === "Completed"
+          ? "✅" // Checkmark if completed
+          : ""
+      }<br>` +
+      `${
         i.achievementProgress !== undefined
-          ? `<div class="progressbar"><div style = "width: ${
+          ? `<div class="progressbar"><div style="width: ${
               (i.completionPercent >= 1 ? 1 : i.completionPercent) * 100
-            }%"> ` + `</div></div></p>`
-          : ''
+            }%"></div></div></p>`
+          : ""
       }`
   )
-  .join('');
+  .join("");
 }
 
 function updateHighscores(playerscore, gamemode) {
@@ -330,47 +247,83 @@ localStorage.setItem('fortknightHS', JSON.stringify(highscoreDict));
 renderHighscores();
 }
 
-let highscoreDict;
-try {
-highscoreDict = JSON.parse(localStorage.getItem('fortknightHS'));
-} catch (e) {}
-highscoreDict = highscoreDict || {
-allScores: [
-  /*{gameMode: "mode", score: 1111}*/
-],
-modeHighest: {
-  // auto populated below
-  // "gamemode":score
-},
-achievementProgress: achievementList,
-};
 
-//if anyone has achievements in their cache that are in the old array form, get rid of them
-if (highscoreDict.achievementProgress.constructor.name == 'Array') {
-highscoreDict.achievementProgress = {};
-}
+document.getElementById('viewByProgress').addEventListener('click', () => {
+    renderAchievements('progress');
+});
 
-//merge achievements
-for (let i in achievementList) {
-if (!highscoreDict.achievementProgress[i]) {
-  highscoreDict.achievementProgress[i] = achievementList[i];
-}
-//update these two fields in case we want to rename anything.
-highscoreDict.achievementProgress[i].achievementName =
-  achievementList[i].achievementName;
-highscoreDict.achievementProgress[i].achievementDescription =
-  achievementList[i].achievementDescription;
-highscoreDict.achievementProgress[i].achievementGoal =
-  achievementList[i].achievementGoal;
-}
-//i get the biggest one so i'm sure to get the right number
-totalKills = highscoreDict.achievementProgress['500slay'].achievementProgress;
-playerTotalSteps =
-highscoreDict.achievementProgress['1000steps'].achievementProgress;
+document.getElementById('viewByCategory').addEventListener('click', () => {
+    renderAchievements('category');
+});
 
-for (let i of Array.from(document.querySelectorAll("input[name='diff']"))) {
-if (!highscoreDict.modeHighest[i.value])
-  highscoreDict.modeHighest[i.value] = 0;
+function renderAchievements(mode) {
+    const container = document.querySelector('.achievements-list');
+    const unlockedCounter = document.getElementById('achievements-unlocked');
+    const totalCounter = document.getElementById('achievements-total');
+
+    if (!container || !unlockedCounter || !totalCounter) {
+        console.error('Required DOM elements not found!');
+        return;
+    }
+
+    container.innerHTML = '';
+
+    let totalAchievements = 0;
+    let unlockedAchievements = 0;
+
+    if (mode === 'progress') {
+        if (!highscoreDict?.achievementProgress) {
+            console.error('highscoreDict.achievementProgress is undefined!');
+            return;
+        }
+
+        const achievements = Object.values(highscoreDict.achievementProgress);
+        achievements.sort((a, b) => (b.achievementProgress || 0) - (a.achievementProgress || 0));
+
+        totalAchievements = achievements.length;
+        unlockedAchievements = achievements.filter(ach => ach.achievementStatus === 'Unlocked').length;
+
+        achievements.forEach(ach => {
+            const achievementDiv = document.createElement('div');
+            achievementDiv.classList.add('achievement');
+
+            const title = document.createElement('strong');
+            title.textContent = ach.achievementName;
+
+            const status = document.createElement('span');
+            status.textContent = ach.achievementStatus;
+            status.classList.add('status', ach.achievementStatus.toLowerCase());
+
+            achievementDiv.appendChild(title);
+            achievementDiv.appendChild(status);
+
+            // Only show progress if achievementProgress and achievementGoal exist
+            if (ach.achievementProgress !== undefined && ach.achievementGoal !== undefined) {
+                const progressBar = document.createElement('div');
+                progressBar.classList.add('progress-bar');
+
+                const progress = document.createElement('div');
+                progress.classList.add('progress');
+                progress.style.width = `${((ach.achievementProgress || 0) / (ach.achievementGoal || 1)) * 100}%`;
+
+                progressBar.appendChild(progress);
+
+                const progressText = document.createElement('small');
+                progressText.textContent = `Progress: ${ach.achievementProgress || 0}/${ach.achievementGoal || 0}`;
+
+                achievementDiv.appendChild(progressBar);
+                achievementDiv.appendChild(progressText);
+            }
+
+            container.appendChild(achievementDiv);
+        });
+    }
+
+    unlockedCounter.textContent = unlockedAchievements;
+    totalCounter.textContent = totalAchievements;
 }
+document.addEventListener('DOMContentLoaded', () => {
+    renderAchievements('progress');
+});
 
 renderHighscores();
